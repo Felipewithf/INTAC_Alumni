@@ -106,7 +106,7 @@ const resolvers = {
       });
       return await alumni.save();
     },
-    createSchool: async (_, { name, URL, logo, country }) => {
+    createSchool: async (_, { name, url, logo, country }) => {
       const school = new School({ name, URL, logo, country });
       return await school.save();
     },

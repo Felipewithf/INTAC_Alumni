@@ -35,7 +35,7 @@ type User {
   type School {
     id: ID!
     name: String!
-    URL: String!
+    url: String!
     logo: String!
     country: String!
   }
@@ -74,7 +74,7 @@ type User {
   type Mutation {
     createUser(email: String!, schoolId: ID!, years: [Int!]!, register: Boolean!, designationRole: String, websiteRole: String): User!
     createAlumni(firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput!]!, studentExhibitions: [StudentExhibitionRefInput!]!, socialMedia: [SocialMediaRefInput!]!): Alumni!
-    createSchool(name: String!, URL: String!, logo: String!, country: String!): School!
+    createSchool(name: String!, url: String!, logo: String!, country: String!): School!
     createSocialMedia(platform: String!, logo: String!): SocialMedia!
     createStudentExhibition(name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!): StudentExhibition!
   }
