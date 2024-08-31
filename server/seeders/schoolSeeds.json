@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Intac Academy",
+    "url": "https://www.intacacademy.edu",
+    "logo": "intac_logo.png",
+    "country": "Canada"
+  },
+  {
+    "name": "Artisan University",
+    "url": "https://www.artisanuniversity.edu",
+    "logo": "artisan_logo.png",
+    "country": "USA"
+  }
+]

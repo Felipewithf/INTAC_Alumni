@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Winter Art Expo",
+    "location": "Toronto",
+    "country": "Canada",
+    "poster": "winter_art_expo.png",
+    "startDate": "2024-01-15",
+    "endDate": "2024-01-30"
+  },
+  {
+    "name": "Spring Sculpture Show",
+    "location": "New York",
+    "country": "USA",
+    "poster": "spring_sculpture_show.png",
+    "startDate": "2024-05-10",
+    "endDate": "2024-05-20"
+  }
+]
