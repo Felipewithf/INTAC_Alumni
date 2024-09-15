@@ -18,6 +18,7 @@ type User {
     websiteLinks: [WebsiteLink]
     studentExhibitions: [StudentExhibitionRef]
     socialMedia: [SocialMedia]
+    user: User!
   }
   
   type WebsiteLink {
@@ -73,25 +74,25 @@ type User {
   # Mutations
   type Mutation {
     createUser(email: String!, schoolId: ID!, years: [Int!]!, register: Boolean!, designationRole: String, websiteRole: String): User!
-    createAlumni(firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput!]!, studentExhibitions: [StudentExhibitionRefInput!]!, socialMedia: [SocialMediaRefInput!]!): Alumni!
+    createAlumni(firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], studentExhibitions: [StudentExhibitionRefInput], socialMedia: [SocialMediaRefInput], user: ID!): Alumni!
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
     createSocialMedia(platform: String!, logo: String!): SocialMedia!
     createStudentExhibition(name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!): StudentExhibition!
   }
   
   input WebsiteLinkInput {
-    urlLink: String!
-    description: String!
+    urlLink: String
+    description: String
   }
   
   input StudentExhibitionRefInput {
-    exhibitionId: ID!
-    references: [String!]!
+    exhibitionId: ID
+    references: [String]
   }
 
   input SocialMediaRefInput {
-    platformId: ID!
-    url: String!
+    platformId: ID
+    url: String
   }
 
 `;

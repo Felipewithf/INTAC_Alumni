@@ -66,12 +66,14 @@ const resolvers = {
     createAlumni: async (
       _,
       {
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         bio,
+        public,
         websiteLinks,
         studentExhibitions,
         socialMedia,
+        user,
       }
     ) => {
       const exhibitionRefs = await Promise.all(
@@ -97,17 +99,19 @@ const resolvers = {
       );
 
       const alumni = new Alumni({
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         bio,
+        public,
         websiteLinks,
         studentExhibitions: exhibitionRefs,
         socialMedia: socialMediaRefs,
+        user,
       });
       return await alumni.save();
     },
     createSchool: async (_, { name, url, logo, country }) => {
-      const school = new School({ name, URL, logo, country });
+      const school = new School({ name, url, logo, country });
       return await school.save();
     },
     createSocialMedia: async (_, { platform, logo }) => {
@@ -161,6 +165,10 @@ const resolvers = {
           };
         })
       );
+    },
+    user: async (alumni) => {
+      const user = await User.findById(alumni.user);
+      return user;
     },
   },
 };
