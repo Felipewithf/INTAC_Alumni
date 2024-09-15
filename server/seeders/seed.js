@@ -49,7 +49,7 @@ db.once("open", async () => {
         years: [2010, 2014],
         register: true,
         designationRole: "Faculty",
-        websiteRole: "Admin",
+        isAdmin: true,
       },
       {
         email: "jane.smith@example.com",
@@ -57,7 +57,7 @@ db.once("open", async () => {
         years: [2012, 2016],
         register: true,
         designationRole: "Student",
-        websiteRole: "User",
+        isAdmin: false,
       },
       {
         email: "alex.jones@example.com",
@@ -65,7 +65,7 @@ db.once("open", async () => {
         years: [2011, 2015],
         register: true,
         designationRole: "Faculty",
-        websiteRole: "User",
+        isAdmin: true,
       },
     ]);
     const userIds = userDocs.map((user) => user._id);

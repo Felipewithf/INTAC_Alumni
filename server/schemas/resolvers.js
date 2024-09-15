@@ -50,7 +50,7 @@ const resolvers = {
   Mutation: {
     createUser: async (
       _,
-      { email, schoolId, years, register, designationRole, websiteRole }
+      { email, schoolId, years, register, designationRole, isAdmin }
     ) => {
       const school = await School.findById(schoolId);
       const user = new User({
@@ -59,7 +59,7 @@ const resolvers = {
         years,
         register,
         designationRole,
-        websiteRole,
+        isAdmin,
       });
       return await user.save();
     },

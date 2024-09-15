@@ -20,8 +20,9 @@ const userSchema = new Schema({
   designationRole: {
     type: String,
   },
-  websiteRole: {
-    type: String,
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
 });
 

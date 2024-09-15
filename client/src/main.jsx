@@ -3,7 +3,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import UserAdmin from './pages/UserAdmin.jsx'
 import Default from './pages/Default.jsx'
+import Directory from './pages/Directory.jsx'
 import App from './App.jsx'
+
 import './index.css'
 
 
@@ -15,11 +17,15 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <UserAdmin />,
+        element: <Directory />,
       },
       {
         path: '/default',
         element: <Default />,
+      },
+      {
+        path: '/admin',
+        element: <UserAdmin />,
       },
     ],
   },

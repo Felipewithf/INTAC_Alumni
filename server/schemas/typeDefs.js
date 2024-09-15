@@ -6,7 +6,7 @@ type User {
     years: [Int!]!
     register: Boolean!
     designationRole: String
-    websiteRole: String
+    isAdmin: Boolean!
   }
   
   type Alumni {
@@ -73,7 +73,7 @@ type User {
   
   # Mutations
   type Mutation {
-    createUser(email: String!, schoolId: ID!, years: [Int!]!, register: Boolean!, designationRole: String, websiteRole: String): User!
+    createUser(email: String!, schoolId: ID!, years: [Int!]!, register: Boolean!, designationRole: String, isAdmin: Boolean!): User!
     createAlumni(firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], studentExhibitions: [StudentExhibitionRefInput], socialMedia: [SocialMediaRefInput], user: ID!): Alumni!
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
     createSocialMedia(platform: String!, logo: String!): SocialMedia!

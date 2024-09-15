@@ -13,7 +13,7 @@ export const GET_USERS = gql`
       years
       register
       designationRole
-      websiteRole
+      isAdmin
     }
   }
 `;
@@ -31,7 +31,7 @@ export const GET_USER = gql`
       years
       register
       designationRole
-      websiteRole
+      isAdmin
     }
   }
 `;
@@ -40,32 +40,35 @@ export const GET_USER = gql`
 export const GET_ALUMNI = gql`
   query GetAlumni {
     alumni {
-      id
       firstName
-      lastName
       bio
       public
+      lastName
+      id
       websiteLinks {
-        id
-        urlLink
         description
+        urlLink
       }
       studentExhibitions {
-        id
         exhibition {
-          id
           name
         }
         references
       }
       socialMedia {
-        id
         platform
         url
+        logo
       }
       user {
-        id
         email
+        school {
+          name
+          logo
+        }
+        years
+        designationRole
+        register
       }
     }
   }
@@ -77,31 +80,34 @@ export const GET_ALUMNUS = gql`
     alumnus(id: $id) {
       id
       firstName
-      lastName
       bio
       public
+      lastName
+      id
       websiteLinks {
-        id
-        urlLink
         description
+        urlLink
       }
       studentExhibitions {
-        id
         exhibition {
-          id
           name
-          location
         }
         references
       }
       socialMedia {
-        id
         platform
         url
+        logo
       }
       user {
-        id
         email
+        school {
+          name
+          logo
+        }
+        years
+        designationRole
+        register
       }
     }
   }
