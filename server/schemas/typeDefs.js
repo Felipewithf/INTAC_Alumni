@@ -3,7 +3,7 @@ type User {
     id: ID!
     email: String!
     school: School!
-    years: [Int!]!
+    years: [Int]
     register: Boolean!
     designationRole: String
     isAdmin: Boolean!
@@ -57,6 +57,11 @@ type User {
     startDate: String!
     endDate: String!
   }
+
+  type Auth {
+    token: ID!
+    user: User!
+  }
   
 
   type Query {
@@ -73,7 +78,12 @@ type User {
   
   # Mutations
   type Mutation {
-    createUser(email: String!, schoolId: ID!, years: [Int!]!, register: Boolean!, designationRole: String, isAdmin: Boolean!): User!
+    # Mutation for sending a magic link to the email
+  sendMagicLink(email: String!): String!
+  # Mutation for verifying the magic link and logging in the user
+  verifyMagicLink(token: String!): Auth
+
+    createUser(email: String!, schoolId: ID!, years: [Int], register: Boolean!, designationRole: String, isAdmin: Boolean!): User!
     createAlumni(firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], studentExhibitions: [StudentExhibitionRefInput], socialMedia: [SocialMediaRefInput], user: ID!): Alumni!
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
     createSocialMedia(platform: String!, logo: String!): SocialMedia!
