@@ -10,7 +10,7 @@ const schoolsSeeds = require("./schoolSeeds.json");
 const socialMedias = require("./socialMediaSeeds.json");
 const studentExhibitions = require("./studentExhibitionsSeeds.json");
 
-const cleanDB = require("./cleanDB");
+// const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
   try {
