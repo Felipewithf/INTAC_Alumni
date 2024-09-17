@@ -67,6 +67,14 @@ db.once("open", async () => {
         designationRole: "Faculty",
         isAdmin: true,
       },
+      {
+        email: "svny2art@gmail.com",
+        school: schoolIds[0],
+        years: [2011, 2015],
+        register: true,
+        designationRole: "Student",
+        isAdmin: true,
+      },
     ]);
     const userIds = userDocs.map((user) => user._id);
     console.log("------ User Data seeded! -------");
