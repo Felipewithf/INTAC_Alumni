@@ -7,7 +7,7 @@ const MagicLogin = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState('loading');
 
-  const backURL = import.meta.env.VITE_BACKEND_URL;
+  const backURL = import.meta.env.VITE_BACKEND_URL || 'https://intac-alumni-b3205cea9520.herokuapp.com/';
   console.log(backURL);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const MagicLogin = () => {
     if (token) {
       // Send the token to your backend for verification
       axios
-        .get(`${backURL}/magic-login-v?token=${token}`)
+        .get(`${backURL}magic-login-v?token=${token}`)
         .then((response) => {
           const { token: jwtToken } = response.data;
 
