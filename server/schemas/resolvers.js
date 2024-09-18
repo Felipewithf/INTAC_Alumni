@@ -6,16 +6,16 @@ const {
   StudentExhibition,
 } = require("../models");
 const sendMagicLinkEmail = require("../utils/sendEmail");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const resolvers = {
   Query: {
-    // users: async (_, __, context) => {
-    //   if (!context.user) {
-    //     throw new Error("You must be logged in!");
-    //   }
-    //   return await User.find({});
-    // },
+    getLoggedInUser: async (_, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You must be logged in!");
+      }
+      return User.findById(context.user.id);
+    },
     users: async () => {
       return await User.find().populate("school");
     },
@@ -67,26 +67,33 @@ const resolvers = {
       await user.save();
 
       const magicLink = `${process.env.DOMAIN}/magic-login?token=${token}`;
-     // Send the magic link email
-     
-     await sendMagicLinkEmail(email, magicLink);
+      // Send the magic link email
+
+      await sendMagicLinkEmail(email, magicLink);
 
       return "Magic link sent!";
     },
     verifyMagicLink: async (_, { token }) => {
-      const user = await User.findOne({ magicToken: token, tokenExpiresAt: { $gte: Date.now() } });
+      const user = await User.findOne({
+        magicToken: token,
+        tokenExpiresAt: { $gte: Date.now() },
+      });
 
       if (!user) {
         throw new Error("Invalid or expired token");
       }
 
-      user.magicToken = null;  // Clear the token after successful login
+      user.magicToken = null; // Clear the token after successful login
       user.tokenExpiresAt = null;
       await user.save();
 
-      const authToken = jwt.sign({ id: user._id, email: user.email, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
-        expiresIn: "2h",
-      });
+      const authToken = jwt.sign(
+        { id: user._id, email: user.email, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "2h",
+        }
+      );
 
       return {
         token: authToken,

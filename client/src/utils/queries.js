@@ -18,6 +18,26 @@ export const GET_USERS = gql`
   }
 `;
 
+// Fetch all whitelist email addresses
+export const GET_WHITELIST = gql`
+  query GetWhitelist {
+    users {
+      email
+    }
+  }
+`;
+
+// Fetch the verified user
+export const GET_LOGGED_IN_USER = gql`
+  query GetLoggedInUser {
+    getLoggedInUser {
+      id
+      email
+      isAdmin
+    }
+  }
+`;
+
 // Fetch a single user by ID
 export const GET_USER = gql`
   query GetUser($id: ID!) {

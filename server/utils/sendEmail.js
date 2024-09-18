@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 const sendMagicLinkEmail = async (email, magicLink) => {
   try {
     const mailOptions = {
-      from: '"Your App Name" <your-email@example.com>', // sender address
+      from: '"Intac Connect" <your-email@example.com>', // sender address
       to: email, // recipient's email
       subject: "Your Magic Link", // Subject line
       text: `Click the following link to log in: ${magicLink}`, // plain text body

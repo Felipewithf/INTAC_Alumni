@@ -67,6 +67,7 @@ type User {
   type Query {
     users: [User!]!
     user(id: ID!): User
+    getLoggedInUser: User
     alumni: [Alumni!]!
     alumnus(id: ID!): Alumni
     schools: [School!]!

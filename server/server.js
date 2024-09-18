@@ -1,9 +1,10 @@
 const express = require("express");
+const cors = require("cors");
 const { ApolloServer } = require("@apollo/server");
+const { User } = require("./models");
 const { expressMiddleware } = require("@apollo/server/express4");
 const path = require("path");
-const jwt = require("jsonwebtoken"); // Import JWT
-// const { authMiddleware } = require('./utils/auth');
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const { typeDefs, resolvers } = require("./schemas");
@@ -11,6 +12,42 @@ const db = require("./config/connection");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
+app.use(cors());
+
+app.get("/magic-login", async (req, res) => {
+  const { token } = req.query;
+
+  try {
+    // Logic to verify the magic token and issue JWT
+    const user = await User.findOne({
+      magicToken: token,
+      tokenExpiresAt: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    // Generate JWT token
+    const jwtToken = jwt.sign(
+      { id: user._id, email: user.email, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    // Clear magic token and return JWT
+    user.magicToken = null;
+    user.tokenExpiresAt = null;
+    await user.save();
+
+    return res.json({ token: jwtToken });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "An error occurred" });
+  }
+});
 
 const context = async ({ req }) => {
   // Get the token from the Authorization header (Bearer <token>)
@@ -59,7 +96,6 @@ const startApolloServer = async () => {
     app.listen(PORT, () => {
       const email = process.env.EMAIL_USER;
       console.log(email);
-
 
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
