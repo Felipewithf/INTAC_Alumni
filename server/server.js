@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
 
-app.get("/magic-login", async (req, res) => {
+app.get("/magic-login-v", async (req, res) => {
   const { token } = req.query;
 
   try {

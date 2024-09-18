@@ -18,7 +18,7 @@ const MagicLogin = () => {
     if (token) {
       // Send the token to your backend for verification
       axios
-        .get(`${backURL}/magic-login?token=${token}`)
+        .get(`${backURL}/magic-login-v?token=${token}`)
         .then((response) => {
           const { token: jwtToken } = response.data;
 
