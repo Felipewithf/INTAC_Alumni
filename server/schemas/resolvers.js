@@ -66,7 +66,7 @@ const resolvers = {
       const token = user.generateMagicToken();
       await user.save();
 
-      const magicLink = `${process.env.DOMAIN}/magic-login?token=${token}`;
+      const magicLink = `${process.env.DOMAIN}magic-login?token=${token}`;
       // Send the magic link email
 
       await sendMagicLinkEmail(email, magicLink);
