@@ -7,33 +7,42 @@ const Header = () => {
     Auth.logout();
   };
   return (
-    <header className="" style={{ background: 'black' }}>
+    <header className="">
       <div>
+        logo
+      </div>
+      <div id='centerLinks'>
         <div>
           <Link to="/">
-            <h1 className=" text-white m-0">Directory</h1>
+            Community          
+            </Link>
+        </div>
+        <div>
+          <Link to="/">
+            Announcements
           </Link>
+        </div>
         </div>
         <div>
           {Auth.loggedIn() ? (
             <>
-              <Link className="btn btn-lg btn-info m-2" to="/me">
+              <Link className="" to="/me">
                 {/* Run the getProfile() method to get access to the unencrypted token value in order to retrieve the user's username  */}
-                {Auth.getProfile().authenticatedPerson.username}'s profile
+                {/* {Auth.getProfile().authenticatedPerson.username}'s profile */}
               </Link>
-              <button className="btn btn-lg btn-light m-2" onClick={logout}>
+              <div className="" onClick={logout}>
                 Logout
-              </button>
+              </div>
             </>
           ) : (
             <>
-              <Link className="btn btn-lg btn-outline m-2" to="/login">
+              <Link className="" to="/login">
                 Login
               </Link>
             </>
           )}
         </div>
-      </div>
+     
     </header>
   );
 };

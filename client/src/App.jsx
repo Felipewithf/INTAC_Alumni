@@ -3,7 +3,7 @@ import './App.css'
 import { ApolloClient, InMemoryCache, ApolloProvider,createHttpLink, } from '@apollo/client';
 import { Outlet } from 'react-router-dom';
 import { setContext } from '@apollo/client/link/context';
-
+import Header from './components/Header';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -35,11 +35,12 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div className="flex-column justify-flex-start min-100-vh">
+      
+        <Header />
         <div className="container">
           <Outlet />
         </div>
-      </div>
+      
     </ApolloProvider>
   );
 }

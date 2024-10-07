@@ -22,9 +22,123 @@ const UserAdmin = () => {
   const users = data?.users || [];
   const loggedInUser = userData?.getLoggedInUser || null;
 
+  console.log(data);
   return (
     <div>
-      <h3>User Admin - Complete list of users</h3>
+      <div className="constructionBanner">
+        <h3>Admin Dashboard</h3>
+      </div>
+      {users.length > 0 ? (
+      <>
+      <h2>ADMINS</h2>
+
+      <table class="user-table" id='adminUserTable'>
+        
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Designation</th>
+            <th>Year(s)</th>
+            <th>Community Role</th>
+            <th>School</th>
+            <th>Register</th>
+          </tr>
+        </thead>
+        <tbody>
+        {users.map((user) => (
+          user.isAdmin && (
+          <tr className={user.email === loggedInUser.email? "highlightUser":"" } key={user.id}>
+            <td>{user.email}</td>
+            <td>
+            <select defaultValue={user.designationRole}> 
+                  <option value="Alumni">Alumni</option>
+                  <option value="Collaborator">Collaborator</option>
+                  <option value="Faculty">Faculty</option>
+             </select>
+            </td>
+            <td>
+              <input type="text" value={user.years.join(', ')} />
+            </td>
+            <td>
+            <select defaultValue={user.isAdmin? "Admin": "User"}>
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+            </select>
+            </td>
+            <td>
+            <select defaultValue={user.school.name}>
+                <option value="Intac Academy">Intac Academy</option>
+                <option value="Artisan University">Artisan University</option>
+                <option value="CAMH">CAMH</option>
+            </select>
+            </td>
+            <td>
+            
+            </td>
+          </tr>
+          )
+          ))}
+
+          </tbody>
+          </table>
+
+        <h2>USERS</h2>
+
+        <table class="user-table" id='usersTable'>
+        
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Designation</th>
+            <th>Year(s)</th>
+            <th>Community Role</th>
+            <th>School</th>
+            <th>Register</th>
+          </tr>
+        </thead>
+        <tbody>
+        {users.map((user) => (
+          !user.isAdmin && (
+          <tr key={user.id}>
+            <td>{user.email}</td>
+            <td>
+            <select defaultValue={user.designationRole}>
+                  <option value="Alumni">Alumni</option>
+                  <option value="Collaborator">Collaborator</option>
+                  <option value="Faculty">Faculty</option>
+             </select>
+            </td>
+            <td>
+              <input type="text" value={user.years.join(', ')} />
+            </td>
+            <td>
+            <select defaultValue={user.isAdmin? "Admin": "User"}>
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+            </select>
+            </td>
+            <td>
+            <select defaultValue={user.school.name}>
+                <option value="Intac Academy">Intac Academy</option>
+                <option value="Artisan University">Artisan University</option>
+                <option value="CAMH">CAMH</option>
+            </select>
+            </td>
+            <td>
+              <div className={`register-circle ${user.register ? 'check' : ''}`}></div>
+            </td>
+          </tr>
+          )
+          ))}
+
+          </tbody>
+          </table>
+
+          </>
+      ) : (
+        <p>No users found.</p>
+      )}
+
       
       {loggedInUser && (
         <div>
@@ -33,20 +147,6 @@ const UserAdmin = () => {
         </div>
       )}
 
-      {users.length > 0 ? (
-        <div>
-          <h2>Users List:</h2>
-          <ul>
-            {users.map((user) => (
-              <li key={user.id}>
-                {user.email} - {user.school?.name || 'No school info'}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>No users found.</p>
-      )}
     </div>
   );
    
