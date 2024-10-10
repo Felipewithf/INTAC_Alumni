@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import UserAdmin from './pages/UserAdmin.jsx'
 import Default from './pages/Default.jsx'
-import Directory from './pages/Directory.jsx'
+import Community from './pages/Community.jsx'
 import LoginUser from './pages/LoginUser.jsx'
 import PrivateRoute from './components/PrivateRoute/index.jsx'
 import MagicLogin from './pages/MagicLogin.jsx'
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Directory />,
+        element: <Community />,
       },
       {
         path: '/default',

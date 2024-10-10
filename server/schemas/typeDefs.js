@@ -89,6 +89,8 @@ type User {
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
     createSocialMedia(platform: String!, logo: String!): SocialMedia!
     createStudentExhibition(name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!): StudentExhibition!
+
+    updateUser(id: ID!, email: String, schoolId: ID, years: [Int], register: Boolean, designationRole: String, isAdmin: Boolean): User!
   }
   
   input WebsiteLinkInput {

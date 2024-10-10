@@ -184,8 +184,37 @@ const resolvers = {
       });
       return await exhibition.save();
     },
+    updateUser: async (
+      _,
+      { id, email, schoolId, years, register, designationRole, isAdmin }
+    ) => {
+      try {
+        // Find the user by id
+        const user = await User.findById(id);
+
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Update the user's fields if they are provided
+        user.email = email;
+        user.school = schoolId;
+        user.years = years;
+        user.register = register;
+        user.designationRole = designationRole;
+        user.isAdmin = isAdmin;
+
+        // Save the updated user
+        await user.save();
+
+        return user;
+      } catch (error) {
+        throw new Error("Failed to update user: " + error.message);
+      }
+    },
   },
 
+  // Additional async model requests
   User: {
     school: async (user) => {
       return await School.findById(user.school);

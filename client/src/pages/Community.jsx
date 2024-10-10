@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { GET_ALUMNI } from '../utils/queries';
 
 
-const Directory = () => {
+const Community = () => {
 
 
   const { loading, error, data } = useQuery(GET_ALUMNI);
@@ -36,4 +36,4 @@ const Directory = () => {
    
 };
 
-export default Directory;
+export default Community;

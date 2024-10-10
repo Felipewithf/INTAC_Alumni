@@ -33,7 +33,7 @@ app.get("/magic-login-v", async (req, res) => {
       { id: user._id, email: user.email, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
       {
-        expiresIn: "2h",
+        expiresIn: "1y",
       }
     );
 
