@@ -61,9 +61,9 @@ export const GET_ALUMNI = gql`
   query GetAlumni {
     alumni {
       firstName
+      lastName
       bio
       public
-      lastName
       id
       websiteLinks {
         description
@@ -72,6 +72,7 @@ export const GET_ALUMNI = gql`
       studentExhibitions {
         exhibition {
           name
+          poster
         }
         references
       }
@@ -81,14 +82,13 @@ export const GET_ALUMNI = gql`
         logo
       }
       user {
-        email
         school {
           name
           logo
         }
         years
         designationRole
-        register
+        id
       }
     }
   }
