@@ -1,4 +1,4 @@
-export const designationRoles = ["Alumni", "Collaborator", "Faculty"];
+export const designationRoles = ["Alum", "Collaborator", "Faculty"];
 
 export const intacYears = [2011, 2012, 2016, 2017, 2018, 2019, 2022, 2024];
 

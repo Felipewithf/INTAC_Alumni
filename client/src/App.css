@@ -101,6 +101,10 @@ header #centerLinks {
 
 /* -------------- COMMUNITY PAGE -------------- */
 
+#community {
+  padding-top: 50px;
+}
+
 #community h1 {
   text-align: start;
 }
@@ -150,7 +154,7 @@ header #centerLinks {
   padding: 10px 25px 10px 10px;
   flex-direction: column;
   justify-content: space-between;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 #community .cardHolder .alumniCard .name {
@@ -184,7 +188,7 @@ header #centerLinks {
   font-size: 0.8rem;
 }
 
-#community .cardHolder .alumniCard .footer .left{
+#community .cardHolder .alumniCard .footer .left {
   text-align: start;
 }
 /* #community .cardHolder .alumniCard .footer .years{
@@ -193,6 +197,104 @@ header #centerLinks {
   text-overflow: ellipsis;
   width: 110px;
 } */
+
+.modal-alumni-content {
+  background: white;
+  padding: 40px;
+  border-radius: 0px;
+  width: 600px;
+  max-width: 80%;
+  height: 80%;
+  border: 3px solid black;
+  position: relative;
+}
+
+.modal-alumni-content .info-holder {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  min-height: 40%;
+  padding-top: 20px;
+}
+
+.modal-alumni-content .info-holder .name {
+  font-family: "balboa";
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.modal-alumni-content .info-holder .socials {
+  padding-top: 50px;
+  display: flex;
+  gap: 10px;
+}
+
+.modal-alumni-content .info-holder .socials img {
+  width: 20px;
+}
+
+.modal-alumni-content .info-holder .about {
+  font-family: "balboa";
+  margin-top: 20px;
+  font-weight: 200;
+  font-size: 1rem;
+  line-height: 1.1rem;
+  width: 50%;
+}
+
+.modal-alumni-content .info-holder .about .personalLinks {
+  margin-top: 20px;
+  font-size: 1rem;
+  line-height: 0.6rem;
+}
+
+.modal-alumni-content h3.pastExTitle {
+  text-align: start;
+}
+
+.modal-alumni-content .exhibition-holder {
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: hidden; /* Enable horizontal scroll */
+  overflow-y: auto; /* Disable vertical scroll */
+  width: 100%;
+  height: fit-content;
+}
+
+.modal-alumni-content .exhibition-holder .exhibition-card {
+  font-family: "balboa";
+  font-weight: 400;
+  text-align: left;
+  margin: 0 20px 20px 0;
+  /* border: 1px solid black; */
+  width: 150px;
+  min-height: 250px;
+  font-size: 0.8rem;
+  /* flex: 0 0 auto; */
+}
+
+.modal-alumni-content .exhibition-holder .exhibition-card img {
+  width: 100%;
+}
+
+.modal-alumni-content .exhibition-holder .exhibition-card .referenceHolder {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-alumni-content .school {
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  gap: 10px;
+  font-family: "balboa";
+  opacity: 0.35;
+  font-weight: 200;
+  text-align: left;
+  font-size: 1rem;
+}
+
 /* -------------- ADMIN DASHBOARD PAGE -------------- */
 
 @keyframes gradientAnimation {

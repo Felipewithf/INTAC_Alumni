@@ -3,17 +3,32 @@ import { useQuery } from "@apollo/client";
 import { GET_ALUMNI } from "../utils/queries";
 import { intacYears, schoolColors, truncate } from "../utils/staticSettings";
 
+import AlumniModal from "../components/modals/detailedAlumni";
+
 const Community = () => {
   const { loading, error, data } = useQuery(GET_ALUMNI);
 
   const [filterValue, setFilterValue] = useState(2019);
   const [activeYear, setActiveYear] = useState(2019);
+  const [selectedAlumnus, setSelectedAlumnus] = useState("");
+
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const alumni = data?.alumni || [];
 
   const filteredAlumni = alumni.filter((person) =>
     filterValue ? person.user.years.includes(filterValue) : true
   );
+
+  // Function to toggle modal visibility
+  const showModal = (alumnus) => {
+    setSelectedAlumnus(alumnus);
+    setModalVisible(true);
+  };
+
+  const hideModal = () => {
+    setModalVisible(false);
+  };
 
   const handleYearClick = (year) => {
     setFilterValue(year);
@@ -58,6 +73,7 @@ const Community = () => {
               className="alumniCard"
               style={{ borderColor: schoolColors(alumnus.user.school.name) }}
               key={alumnus.id}
+              onClick={() => showModal(alumnus)}
             >
               <div className="name">
                 <div className="truncate">{alumnus.firstName}</div>
@@ -82,6 +98,18 @@ const Community = () => {
           ))}
         </div>
       </div>
+      {isModalVisible && (
+        <AlumniModal
+          onClose={hideModal}
+          firstName={selectedAlumnus.firstName}
+          lastName={selectedAlumnus.lastName}
+          bio={selectedAlumnus.bio}
+          socials={selectedAlumnus.socialMedia}
+          personalLinks={selectedAlumnus.websiteLinks}
+          studentExhibitions={selectedAlumnus.studentExhibitions}
+          user={selectedAlumnus.user}
+        />
+      )}
     </>
   );
 };
