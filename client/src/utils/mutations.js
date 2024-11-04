@@ -100,8 +100,3 @@ export const CREATE_ALUM = gql`
     }
   }
 `;
-
-
-export const UPDATE_ALUM = gql`
-
-`;
