@@ -1,12 +1,12 @@
 const { Schema, model } = require("mongoose");
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 const userSchema = new Schema({
   email: {
     type: String,
     required: true,
     unique: true,
-    match: [/.+@.+\..+/, 'Must match an email address!'],
+    match: [/.+@.+\..+/, "Must match an email address!"],
   },
   school: {
     type: Schema.Types.ObjectId,
@@ -35,7 +35,7 @@ const userSchema = new Schema({
 });
 
 userSchema.methods.generateMagicToken = function () {
-  this.magicToken = crypto.randomBytes(20).toString('hex');
+  this.magicToken = crypto.randomBytes(20).toString("hex");
   this.tokenExpiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
   return this.magicToken;
 };

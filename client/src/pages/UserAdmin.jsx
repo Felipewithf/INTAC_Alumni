@@ -13,7 +13,6 @@ const UserAdmin = () => {
   const [yearInput, setYearInput] = useState(); 
   const [yearIsChanged, setYearIsChanged] = useState(false);
   const [userIdYearChanged, setUserIdYearChanged ] = useState();
-  let storeOldValue;
 
   const { loading, error, data } = useQuery(GET_USERS);
   const { loading: loadingSchools, error: errorSchool, data: schoolData } = useQuery(GET_SCHOOLS);
@@ -41,13 +40,6 @@ const UserAdmin = () => {
   const schools = (schoolData && schoolData.schools) ? schoolData.schools : [];
   const users = data?.users || [];
   const loggedInUser = userData?.getLoggedInUser || null;
-
-  // useEffect(()=>{
-  //   console.log(`school id loaded on useState: ${ selectedSchoolId}`);
-  //   console.log(`year loaded on useState: ${ yearInput}`);
-  //   console.log(`Designation loaded on useState: ${ designationInput}`);
-  //   console.log(`Email loaded on useState: ${ emailInput}`);
-  // }, [selectedSchoolId, yearInput,designationInput,emailInput]);
 
 
   // Function to toggle modal visibility

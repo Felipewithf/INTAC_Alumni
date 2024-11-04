@@ -1,24 +1,29 @@
 const db = require("../config/connection");
 const {
   User,
-  StudentExhibition,
-  SocialMedia,
+  AlumProfile,
   School,
-  Alumni,
+  SocialMediaPlatform,
+  SocialMediaLink,
+  Exhibition,
+  ExhibitionReference,
 } = require("../models");
 const schoolsSeeds = require("./schoolSeeds.json");
-const socialMedias = require("./socialMediaSeeds.json");
-const studentExhibitions = require("./studentExhibitionsSeeds.json");
+const socialMediaSeeds = require("./socialMediaSeeds.json");
+const exhibitionSeeds = require("./exhibitionsSeeds.json");
 
 // const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
   try {
+    // Clear existing data
     await User.deleteMany({});
-    await Alumni.deleteMany({});
+    await AlumProfile.deleteMany({});
     await School.deleteMany({});
-    await SocialMedia.deleteMany({});
-    await StudentExhibition.deleteMany({});
+    await SocialMediaPlatform.deleteMany({});
+    await Exhibition.deleteMany({});
+    await SocialMediaLink.deleteMany({});
+    await ExhibitionReference.deleteMany({});
 
     // Insert Schools
     const schoolsDocs = await School.insertMany(schoolsSeeds);
@@ -27,19 +32,14 @@ db.once("open", async () => {
     console.log("------  School seeded! -------");
 
     // Insert Social Media
-    const socialMediaDocs = await SocialMedia.insertMany(socialMedias);
+    const socialMediaDocs = await SocialMediaPlatform.insertMany(socialMediaSeeds);
+    const socialMediaPlatformIds = socialMediaDocs.map((socialMedia) => socialMedia._id);
+    console.log("------  Social Media Platform seeded! -------");
 
-    const socialMediaIds = socialMediaDocs.map(
-      (socialMedia) => socialMedia._id
-    );
-    console.log("------  Social Media seeded! -------");
-
-    // Insert Student Exhibitions
-    const exhibitionDocs = await StudentExhibition.insertMany(
-      studentExhibitions
-    );
+    // InsertExhibitions
+    const exhibitionDocs = await Exhibition.insertMany(exhibitionSeeds);
     const exhibitionIds = exhibitionDocs.map((exhibition) => exhibition._id);
-    console.log("------ Student Exhibitions seeded! -------");
+    console.log("------ Exhibitions seeded! -------");
 
     // Insert Users
     const userDocs = await User.insertMany([
@@ -79,8 +79,25 @@ db.once("open", async () => {
     const userIds = userDocs.map((user) => user._id);
     console.log("------ User Data seeded! -------");
 
-    // Insert Alumni
-    await Alumni.insertMany([
+    //Insert Social Media Links
+    const socialLinksDocs = await SocialMediaLink.insertMany([
+      {
+        socialMediaPlatform: socialMediaPlatformIds[0],
+        urlLink: "https://www.linkedin.com/in/johndoe",
+      },
+      {
+        socialMediaPlatform: socialMediaPlatformIds[1],
+        urlLink: "https://twitter.com/janesculpt",
+      },
+      {
+        socialMediaPlatform: socialMediaPlatformIds[0],
+        urlLink: "https://www.linkedIn.com/alexjones",
+      },
+    ]);
+    const socialMediaLinksIds = socialLinksDocs.map((link) => link._id);
+    console.log("------ Social Media Links seeded! -------");
+
+    const alumDocs = await AlumProfile.insertMany([
       {
         firstName: "John",
         lastName: "Doe",
@@ -88,27 +105,10 @@ db.once("open", async () => {
         public: true,
         websiteLinks: [
           { urlLink: "https://www.johndoeart.com", description: "Portfolio" },
-          {
-            urlLink: "https://www.instagram.com/johndoe",
-            description: "Instagram",
-          },
+          { urlLink: "https://www.instagram.com/johndoe", description: "The blog" },
         ],
-        studentExhibitions: [
-          {
-            exhibition: exhibitionIds[0],
-            references: [
-              "https://www.example.com/review1",
-              "https://www.example.com/review2",
-            ],
-          },
-        ],
-        socialMedia: [
-          {
-            platform: socialMediaIds[0],
-            url: "https://www.linkedin.com/in/johndoe",
-          },
-          { platform: socialMediaIds[1], url: "" },
-        ],
+        exhibitions: [exhibitionIds[0]],
+        socialMedia: [socialMediaLinksIds[2]],
         user: userIds[0],
       },
       {
@@ -117,31 +117,49 @@ db.once("open", async () => {
         bio: "Sculptor with a focus on contemporary pieces.",
         public: true,
         websiteLinks: [
-          {
-            urlLink: "https://www.janesmithsculpture.com",
-            description: "Portfolio",
-          },
+          { urlLink: "https://www.janesmithsculpture.com", description: "Portfolio" },
         ],
-        studentExhibitions: [
-          {
-            exhibition: exhibitionIds[1],
-            references: ["https://www.example.com/review3"],
-          },
-        ],
-        socialMedia: [
-          {
-            platform: socialMediaIds[0],
-            url: "https://www.linkedin.com/in/janesmith",
-          },
-          {
-            platform: socialMediaIds[1],
-            url: "https://twitter.com/janesculpt",
-          },
-        ],
+        exhibitions: [exhibitionIds[0], exhibitionIds[1]],
+        socialMedia: [socialMediaLinksIds[0], socialMediaLinksIds[1]],
         user: userIds[1],
       },
     ]);
-    console.log("------ Alumni Data seeded! -------");
+    const alumIds = alumDocs.map((a) => a._id);
+    console.log("------ AlumProfiles seeded! -------");
+
+    //Insert Exhibition References Links
+    const exhibitionReferenceLinkDocs = await ExhibitionReference.insertMany([
+      {
+        exhibition: exhibitionIds[0],
+        alumProfile: alumIds[0],
+        referenceLink: "https://www.somethingcool.com/",
+      },
+      {
+        exhibition: exhibitionIds[1],
+        alumProfile: alumIds[1],
+        referenceLink: "https://www.watermeloool.com/",
+      },
+      {
+        exhibition: exhibitionIds[1],
+        alumProfile: alumIds[0],
+        referenceLink: "https://www.strawberry.com/",
+      },
+    ]);
+    const exhibitionReferenceLinksIds = exhibitionReferenceLinkDocs.map(
+      (refLink) => refLink._id
+    );
+    console.log("------ Exhibition References Links seeded! -------");
+
+    // Update each AlumProfile to include references to the ExhibitionReferences
+    for (const ref of exhibitionReferenceLinkDocs) {
+      await AlumProfile.findByIdAndUpdate(
+        ref.alumProfile,
+        {
+          $push: { exhibitionsReferences: ref._id },
+        },
+        { new: true } // Return the updated document
+      );
+    }
   } catch (err) {
     console.error(err);
     process.exit(1);

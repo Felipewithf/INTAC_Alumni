@@ -1,57 +1,100 @@
 const {
   User,
-  Alumni,
+  AlumProfile,
   School,
-  SocialMedia,
-  StudentExhibition,
+  Exhibition,
+  SocialMediaLink,
+  SocialMediaPlatform,
+  ExhibitionReference,
 } = require("../models");
 const sendMagicLinkEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 
 const resolvers = {
   Query: {
+    getUsers: async () => {
+      return await User.find().populate("school");
+    },
+    getUserById: async (_, { id }) => {
+      return await User.findById(id).populate("school");
+    },
     getLoggedInUser: async (_, args, context) => {
       if (!context.user) {
         throw new AuthenticationError("You must be logged in!");
       }
       return User.findById(context.user.id);
     },
-    users: async () => {
-      return await User.find().populate("school");
-    },
-    user: async (_, { id }) => {
-      return await User.findById(id).populate("school");
-    },
-    alumni: async () => {
-      return await Alumni.find()
-        .populate({
-          path: "studentExhibitions.exhibition",
-          model: "StudentExhibition",
-        })
-        .populate("socialMedia");
-    },
-    alumnus: async (_, { id }) => {
-      return await Alumni.findById(id)
-        .populate({
-          path: "studentExhibitions.exhibition",
-          model: "StudentExhibition",
-        })
-        .populate("socialMedia");
-    },
-    schools: async () => {
+    getSchools: async () => {
       return await School.find();
     },
-    school: async (_, { id }) => {
+    getSchoolById: async (_, { id }) => {
       return await School.findById(id);
     },
-    socialMedias: async () => {
-      return await SocialMedia.find();
+    getAlumProfiles: async () => {
+      return await AlumProfile.find()
+        .populate("user")
+        .populate("exhibitions")
+        .populate({
+          path: "exhibitionsReferences",
+          populate: {
+            path: "exhibition",
+            model: "Exhibition",
+          },
+        })
+        .populate({
+          path: "socialMedia",
+          populate: {
+            path: "socialMediaPlatform", // Specify the field to populate within `socialMedia`
+            model: "SocialMediaPlatform", // Ensure the model name matches the one registered in Mongoose
+          },
+        });
     },
-    studentExhibitions: async () => {
-      return await StudentExhibition.find();
+    getAlumProfileById: async (_, { id }) => {
+      return await AlumProfile.findById(id)
+        .populate("user")
+        .populate("exhibitions")
+        .populate({
+          path: "exhibitionsReferences",
+          populate: {
+            path: "exhibition",
+            model: "Exhibition",
+          },
+        })
+        .populate({
+          path: "socialMedia",
+          populate: {
+            path: "socialMediaPlatform", // Specify the field to populate within `socialMedia`
+            model: "SocialMediaPlatform", // Ensure the model name matches the one registered in Mongoose
+          },
+        });
     },
-    studentExhibition: async (_, { id }) => {
-      return await StudentExhibition.findById(id);
+    getExhibitions: async () => {
+      return await Exhibition.find();
+    },
+    getExhibitionById: async (_, { id }) => {
+      return await Exhibition.findById(id);
+    },
+    getSocialMediaPlatforms: async () => {
+      return await SocialMediaPlatform.find();
+    },
+    getSocialMediaPlatformById: async (_, { id }) => {
+      return await SocialMediaPlatform.findById(id);
+    },
+    getSocialMediaLinks: async () => {
+      return await SocialMediaLink.find().populate("socialMediaPlatform");
+    },
+    getSocialMediaLinkById: async (_, { id }) => {
+      return await SocialMediaLink.findById(id).populate("socialMediaPlatform");
+    },
+    getExhibitionReferences: async () => {
+      return await ExhibitionReference.find()
+        .populate("alumProfile")
+        .populate("exhibition");
+    },
+    getExhibitionReferenceById: async (_, { id }) => {
+      return await ExhibitionReference.findById(id)
+        .populate("alumProfile")
+        .populate("exhibition");
     },
   },
 
@@ -100,6 +143,7 @@ const resolvers = {
         user,
       };
     },
+    // ------- create *******
     createUser: async (
       _,
       { email, schoolId, years, register, designationRole, isAdmin }
@@ -115,7 +159,8 @@ const resolvers = {
       });
       return await user.save();
     },
-    createAlumni: async (
+    // Create AlumProfile
+    createAlumProfile: async (
       _,
       {
         firstName,
@@ -123,67 +168,114 @@ const resolvers = {
         bio,
         public,
         websiteLinks,
-        studentExhibitions,
+        exhibitions,
         socialMedia,
-        user,
+        exhibitionsReferences,
+        userId,
       }
     ) => {
-      const exhibitionRefs = await Promise.all(
-        studentExhibitions.map(async (exhibitionRef) => {
-          const exhibition = await StudentExhibition.findById(
-            exhibitionRef.exhibitionId
-          );
-          return {
-            exhibition: exhibition._id,
-            references: exhibitionRef.references,
-          };
-        })
-      );
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-      const socialMediaRefs = await Promise.all(
-        socialMedia.map(async (sm) => {
-          const platform = await SocialMedia.findById(sm.platformId);
-          return {
-            platform: platform._id,
-            url: sm.url,
-          };
-        })
-      );
+        const newAlumProfile = new AlumProfile({
+          firstName,
+          lastName,
+          bio,
+          public,
+          websiteLinks,
+          exhibitions,
+          socialMedia,
+          exhibitionsReferences,
+          user: userId,
+        });
 
-      const alumni = new Alumni({
-        firstName,
-        lastName,
-        bio,
-        public,
-        websiteLinks,
-        studentExhibitions: exhibitionRefs,
-        socialMedia: socialMediaRefs,
-        user,
-      });
-      return await alumni.save();
+        await newAlumProfile.save();
+        return newAlumProfile;
+      } catch (error) {
+        throw new Error(`Error creating AlumProfile: ${error.message}`);
+      }
     },
+    // Create School
     createSchool: async (_, { name, url, logo, country }) => {
       const school = new School({ name, url, logo, country });
       return await school.save();
     },
-    createSocialMedia: async (_, { platform, logo }) => {
-      const socialMedia = new SocialMedia({ platform, logo });
-      return await socialMedia.save();
-    },
-    createStudentExhibition: async (
+    // Create Exhibition
+    createExhibition: async (
       _,
-      { name, location, country, poster, startDate, endDate }
+      { name, location, country, poster, startDate, endDate, alumniExhibition }
     ) => {
-      const exhibition = new StudentExhibition({
-        name,
-        location,
-        country,
-        poster,
-        startDate,
-        endDate,
-      });
-      return await exhibition.save();
+      try {
+        const newExhibition = new Exhibition({
+          name,
+          location,
+          country,
+          poster,
+          startDate,
+          endDate,
+          alumniExhibition,
+        });
+
+        await newExhibition.save();
+        return newExhibition;
+      } catch (error) {
+        throw new Error(`Error creating Exhibition: ${error.message}`);
+      }
     },
+    // Create SocialMediaLink
+    createSocialMediaLink: async (_, { socialMediaPlatformId, urlLink }) => {
+      try {
+        const socialMediaPlatform = await SocialMediaPlatform.findById(
+          socialMediaPlatformId
+        );
+        if (!socialMediaPlatform) {
+          throw new Error("SocialMediaPlatform not found");
+        }
+
+        const newSocialMediaLink = new SocialMediaLink({
+          socialMediaPlatform: socialMediaPlatformId,
+          urlLink,
+        });
+
+        await newSocialMediaLink.save();
+        return newSocialMediaLink;
+      } catch (error) {
+        throw new Error(`Error creating SocialMediaLink: ${error.message}`);
+      }
+    },
+    // Create ExhibitionReference
+    createExhibitionReference: async (
+      _,
+      { exhibitionId, alumProfileId, referenceLink }
+    ) => {
+      try {
+        const exhibition = await Exhibition.findById(exhibitionId);
+        const alumProfile = await AlumProfile.findById(alumProfileId);
+
+        if (!exhibition) {
+          throw new Error("Exhibition not found");
+        }
+        if (!alumProfile) {
+          throw new Error("AlumProfile not found");
+        }
+
+        const newExhibitionReference = new ExhibitionReference({
+          exhibition: exhibitionId,
+          alumProfile: alumProfileId,
+          referenceLink,
+        });
+
+        await newExhibitionReference.save();
+        return newExhibitionReference;
+      } catch (error) {
+        throw new Error(`Error creating ExhibitionReference: ${error.message}`);
+      }
+    },
+
+    // ------ update ********
     updateUser: async (
       _,
       { id, email, schoolId, years, register, designationRole, isAdmin }
@@ -212,46 +304,113 @@ const resolvers = {
         throw new Error("Failed to update user: " + error.message);
       }
     },
+    // Update AlumProfile
+    updateAlumProfile: async (
+      _,
+      {
+        id,
+        firstName,
+        lastName,
+        bio,
+        public,
+        websiteLinks,
+        exhibitions,
+        socialMedia,
+        exhibitionsReferences,
+      }
+    ) => {
+      try {
+        const alumProfile = await AlumProfile.findById(id);
+        if (!alumProfile) {
+          throw new Error("AlumProfile not found");
+        }
+
+        // Replace website links entirely
+        if (websiteLinks) {
+          alumProfile.websiteLinks = websiteLinks;
+        }
+
+        // Replace exhibitions if provided
+        if (exhibitions) {
+          alumProfile.exhibitions = exhibitions;
+        }
+
+        // Replace social media if provided
+        if (socialMedia) {
+          alumProfile.socialMedia = socialMedia;
+        }
+
+        // Update or add new exhibition references
+        if (exhibitionsReferences) {
+          exhibitionsReferences.forEach((ref) => {
+            if (ref.id) {
+              // Update existing reference
+              const existingRefIndex = alumProfile.exhibitionsReferences.findIndex(
+                (er) => er._id.toString() === ref.id
+              );
+              if (existingRefIndex > -1) {
+                alumProfile.exhibitionsReferences[existingRefIndex] = {
+                  ...alumProfile.exhibitionsReferences[existingRefIndex],
+                  ...ref,
+                };
+              }
+            } else {
+              // Create new reference
+              alumProfile.exhibitionsReferences.push(ref);
+            }
+          });
+        }
+
+        // Update other fields if provided
+        if (firstName) alumProfile.firstName = firstName;
+        if (lastName) alumProfile.lastName = lastName;
+        if (bio) alumProfile.bio = bio;
+        if (public !== undefined) alumProfile.public = public;
+
+        await alumProfile.save();
+        return alumProfile;
+      } catch (error) {
+        throw new Error(`Error updating AlumProfile: ${error.message}`);
+      }
+    },
   },
 
   // Additional async model requests
-  User: {
-    school: async (user) => {
-      return await School.findById(user.school);
-    },
-  },
+  // User: {
+  //   school: async (user) => {
+  //     return await School.findById(user.school);
+  //   },
+  // },
 
-  Alumni: {
-    studentExhibitions: async (alumni) => {
-      return await Promise.all(
-        alumni.studentExhibitions.map(async (exhibitionRef) => {
-          const exhibition = await StudentExhibition.findById(
-            exhibitionRef.exhibition
-          );
-          return {
-            exhibition,
-            references: exhibitionRef.references,
-          };
-        })
-      );
-    },
-    socialMedia: async (alumni) => {
-      return await Promise.all(
-        alumni.socialMedia.map(async (smRef) => {
-          const socialMedia = await SocialMedia.findById(smRef.platform);
-          return {
-            platform: socialMedia.platform,
-            logo: socialMedia.logo,
-            url: smRef.url,
-          };
-        })
-      );
-    },
-    user: async (alumni) => {
-      const user = await User.findById(alumni.user);
-      return user;
-    },
-  },
+  // Alumni: {
+  //   studentExhibitions: async (alumni) => {
+  //     return await Promise.all(
+  //       alumni.studentExhibitions.map(async (exhibitionRef) => {
+  //         const exhibition = await StudentExhibition.findById(exhibitionRef.exhibition);
+  //         return {
+  //           exhibition,
+  //           references: exhibitionRef.references,
+  //         };
+  //       })
+  //     );
+  //   },
+  //   socialMedia: async (alumni) => {
+  //     return await Promise.all(
+  //       alumni.socialMedia.map(async (smRef) => {
+  //         const socialMedia = await SocialMedia.findById(smRef.platform);
+  //         return {
+  //           platform: socialMedia.platform,
+  //           logo: socialMedia.logo,
+  //           url: smRef.url,
+  //         };
+  //       })
+  //     );
+  //   },
+  //   user: async (alumni) => {
+  //     const user = await User.findById(alumni.user);
+  //     return user;
+  //   },
+  // },
 };
 
 module.exports = resolvers;

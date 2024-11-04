@@ -68,10 +68,11 @@ export const GET_ALUMNI = gql`
       websiteLinks {
         description
         urlLink
+        id
       }
       studentExhibitions {
         exhibition {
-          name
+          id
           poster
         }
         references
@@ -82,13 +83,14 @@ export const GET_ALUMNI = gql`
         logo
       }
       user {
+        id
+        isAdmin
+        register
         school {
           name
           logo
         }
         years
-        designationRole
-        id
       }
     }
   }
@@ -128,6 +130,45 @@ export const GET_ALUMNUS = gql`
         years
         designationRole
         register
+      }
+    }
+  }
+`;
+
+export const GET_ALUMNUS_BY_ID = gql`
+  query GetAlumnusById($userId: ID!) {
+    alumni(where: { user: { id: $userId } }) {
+      firstName
+      lastName
+      bio
+      public
+      id
+      websiteLinks {
+        description
+        urlLink
+        id
+      }
+      studentExhibitions {
+        exhibition {
+          id
+          poster
+        }
+        references
+      }
+      socialMedia {
+        platform
+        url
+        logo
+      }
+      user {
+        id
+        isAdmin
+        register
+        school {
+          name
+          logo
+        }
+        years
       }
     }
   }

@@ -85,6 +85,11 @@ header #centerLinks {
   width: 50%;
 }
 
+header .alumInitials {
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
 .separatingLine {
   background-color: black;
   width: 100%;
@@ -542,4 +547,151 @@ textarea {
   width: 90%;
   resize: none;
   opacity: 0.5;
+}
+
+/* -------------- ALUM PAGE -------------- */
+
+.alumPage {
+  margin-top: 50px;
+}
+
+.alumPage .topNavigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.alumPage .topNavigation .rightGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.alumPage button {
+  border: 1px solid black;
+  background-color: white;
+  padding: 2px 10px;
+  margin: 0 2px;
+  font-family: "balboa";
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.alumPage button:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.alumData {
+  padding-top: 60px;
+  display: flex;
+  font-family: "balboa";
+  font-weight: 400;
+}
+
+.alumData .personal {
+  width: 50%;
+  text-align: left;
+  padding-right: 45px;
+}
+
+.alumData .personal .name {
+  font-family: "balboa-condensed";
+  font-weight: 700;
+  font-size: 3.8rem;
+  margin: 0;
+  padding: 0;
+  line-height: 3.9rem;
+  text-align: start;
+  height: 150px;
+}
+
+.alumData .personal .bio,
+.alumData .personal .permission {
+  width: 80%;
+
+  font-size: 1.3rem;
+  line-height: 1.4rem;
+}
+
+.alumData .personal .permission {
+  padding-top: 10px;
+}
+
+.alumData .personal .socials .socialItem,
+.alumData .personal .links .linkItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.alumData .personal .socials .socialItem:hover,
+.alumData .personal .links .linkItem:hover {
+  background-color: #ececec;
+}
+
+.alumData .personal .socials .socialItem .socialInfo,
+.alumData .personal .links .linkItem .linkInfo {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+.alumData .personal .socials .socialItem .socialInfo a,
+.alumData .personal .links .linkItem .linkInfo a {
+  font-style: italic;
+}
+
+.alumData .personal .socials .socialItem .socialInfo img {
+  height: 25px;
+}
+
+.alumData .deleteIcon {
+  background-image: url("delete.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: #ececec;
+  /* display: none; */
+}
+
+.alumData .deleteIcon:hover {
+  background-color: #ececec;
+  rotate: -10deg;
+}
+
+.alumData .exhibitions {
+  width: 50%;
+  text-align: left;
+  padding-left: 45px;
+}
+
+.alumData .exhibitions .exhibitionItem{
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.alumData .exhibitions .exhibitionItem img{
+  width: 200px;
+}
+
+.alumData .exhibitions .exhibitionItem .references{
+  width: 100%;
+  padding-left: 20px;
+}
+
+.alumData .exhibitions .exhibitionItem .referenceItem, 
+.alumData .exhibitions .exhibitionItem .referenceInfo{
+  display: flex;
+  align-items: center;
+  gap:10px;
+}
+
+.alumData .exhibitions .exhibitionItem .referenceItem{
+  justify-content: space-between;
 }

@@ -1,10 +1,10 @@
 [
   {
-    "platform": "LinkedIn",
-    "logo": "linkedin_logo.png"
+    "name": "LinkedIn",
+    "logo": "i_in.svg"
   },
   {
-    "platform": "Twitter",
-    "logo": "twitter_logo.png"
+    "name": "X",
+    "logo": "i_x.svg"
   }
 ]

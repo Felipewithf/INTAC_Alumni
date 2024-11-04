@@ -37,8 +37,24 @@ export const ADD_USER = gql`
 `;
 
 export const UPDATE_USER = gql`
-mutation UpdateUser($updateUserId: ID!, $email: String, $schoolId: ID, $years: [Int], $register: Boolean, $designationRole: String, $isAdmin: Boolean) {
-    updateUser(id: $updateUserId, email: $email, schoolId: $schoolId, years: $years, register: $register, designationRole: $designationRole, isAdmin: $isAdmin) {
+  mutation UpdateUser(
+    $updateUserId: ID!
+    $email: String
+    $schoolId: ID
+    $years: [Int]
+    $register: Boolean
+    $designationRole: String
+    $isAdmin: Boolean
+  ) {
+    updateUser(
+      id: $updateUserId
+      email: $email
+      schoolId: $schoolId
+      years: $years
+      register: $register
+      designationRole: $designationRole
+      isAdmin: $isAdmin
+    ) {
       id
       email
       school {
@@ -50,4 +66,42 @@ mutation UpdateUser($updateUserId: ID!, $email: String, $schoolId: ID, $years: [
       isAdmin
     }
   }
+`;
+
+export const CREATE_ALUM = gql`
+  mutation CreateAlumni(
+    $firstName: String!
+    $lastName: String!
+    $bio: String!
+    $public: Boolean!
+    $user: ID!
+    $websiteLinks: [WebsiteLinkInput]
+    $studentExhibitions: [StudentExhibitionRefInput]
+    $socialMedia: [SocialMediaRefInput]
+  ) {
+    createAlumni(
+      firstName: $firstName
+      lastName: $lastName
+      bio: $bio
+      public: $public
+      user: $user
+      websiteLinks: $websiteLinks
+      studentExhibitions: $studentExhibitions
+      socialMedia: $socialMedia
+    ) {
+      bio
+      firstName
+      id
+      lastName
+      public
+      user {
+        id
+      }
+    }
+  }
+`;
+
+
+export const UPDATE_ALUM = gql`
+
 `;

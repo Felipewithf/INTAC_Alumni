@@ -1,10 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/client";
-
-import { designationRoles } from "../../utils/staticSettings";
-
-// import designation names from one place that will not change (utils?)
-
 const AlumniModal = ({
   onClose,
   firstName,

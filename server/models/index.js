@@ -1,7 +1,17 @@
-const Alumni = require("./Alumni");
+const AlumProfile = require("./AlumProfile");
 const School = require("./School");
-const SocialMedia = require("./socialMedia");
-const StudentExhibition = require("./studentExhibition");
+const SocialMediaPlatform = require("./SocialMediaPlatform");
+const SocialMediaLink = require("./SocialMediaLink");
+const ExhibitionReference = require("./ExhibitionReference");
+const Exhibition = require("./Exhibition");
 const User = require("./User");
 
-module.exports = { User, StudentExhibition, SocialMedia, School, Alumni };
+module.exports = {
+  User,
+  Exhibition,
+  ExhibitionReference,
+  SocialMediaPlatform,
+  SocialMediaLink,
+  School,
+  AlumProfile,
+};

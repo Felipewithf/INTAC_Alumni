@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { ApolloServer } = require("@apollo/server");
@@ -5,7 +6,6 @@ const { User } = require("./models");
 const { expressMiddleware } = require("@apollo/server/express4");
 const path = require("path");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
@@ -95,6 +95,7 @@ const startApolloServer = async () => {
   db.once("open", () => {
     app.listen(PORT, () => {
       const email = process.env.EMAIL_USER;
+      console.log("--- email ---");
       console.log(email);
 
       console.log(`API server running on port ${PORT}!`);

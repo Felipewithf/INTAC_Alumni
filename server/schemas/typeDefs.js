@@ -8,31 +8,7 @@ type User {
     designationRole: String
     isAdmin: Boolean!
   }
-  
-  type Alumni {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    bio: String!
-    public: Boolean!
-    websiteLinks: [WebsiteLink]
-    studentExhibitions: [StudentExhibitionRef]
-    socialMedia: [SocialMedia]
-    user: User!
-  }
-  
-  type WebsiteLink {
-    id: ID!
-    urlLink: String
-    description: String
-  }
-  
-  type StudentExhibitionRef {
-    id: ID!
-    exhibition: StudentExhibition!
-    references: [String]
-  }
-  
+
   type School {
     id: ID!
     name: String!
@@ -41,21 +17,53 @@ type User {
     country: String!
   }
   
-  type SocialMedia {
+  type AlumProfile {
     id: ID!
-    platform: String
-    logo: String
-    url: String
+    firstName: String!
+    lastName: String!
+    bio: String!
+    public: Boolean!
+    websiteLinks: [WebsiteLink]
+    exhibitions: [Exhibition]
+    socialMedia: [SocialMediaLink]
+    exhibitionsReferences: [ExhibitionReference]
+    user: User!
   }
   
-  type StudentExhibition {
+   type WebsiteLink {
+    urlLink: String
+    description: String
+  }
+
+  type ExhibitionReference {
+    id: ID!
+    exhibition: Exhibition
+    alumProfile: AlumProfile
+    referenceLink: String!
+  }
+  
+  
+  type SocialMediaLink {
+    id: ID!
+    socialMediaPlatform: SocialMediaPlatform
+    urlLink: String!
+  }
+  
+  type SocialMediaPlatform {
+    id: ID!
+    name: String!
+    logo: String
+  }
+  
+  type Exhibition {
     id: ID!
     name: String!
     location: String!
     country: String!
-    poster: String
+    poster: String!
     startDate: String!
     endDate: String!
+    alumniExhibition: Boolean!
   }
 
   type Auth {
@@ -63,18 +71,22 @@ type User {
     user: User!
   }
   
-
   type Query {
-    users: [User!]!
-    user(id: ID!): User
+    getUsers: [User!]!
+    getUserById(id: ID!): User
     getLoggedInUser: User
-    alumni: [Alumni!]!
-    alumnus(id: ID!): Alumni
-    schools: [School!]!
-    school(id: ID!): School
-    socialMedias: [SocialMedia!]!
-    studentExhibitions: [StudentExhibition!]!
-    studentExhibition(id: ID!): StudentExhibition
+    getSchools: [School!]!
+    getSchoolById(id: ID!): School
+    getAlumProfiles: [AlumProfile!]!
+    getAlumProfileById(id: ID!): AlumProfile
+    getExhibitions: [Exhibition!]!
+    getExhibitionById(id: ID!): Exhibition
+    getSocialMediaPlatforms: [SocialMediaPlatform!]!
+    getSocialMediaPlatformById(id: ID!): SocialMediaPlatform
+    getSocialMediaLinks: [SocialMediaLink!]!
+    getSocialMediaLinkById(id: ID!): SocialMediaLink
+    getExhibitionReferences: [ExhibitionReference!]!
+    getExhibitionReferenceById(id: ID!): ExhibitionReference
   }
   
   # Mutations
@@ -85,27 +97,70 @@ type User {
   verifyMagicLink(token: String!): Auth
 
     createUser(email: String!, schoolId: ID!, years: [Int], register: Boolean!, designationRole: String, isAdmin: Boolean!): User!
-    createAlumni(firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], studentExhibitions: [StudentExhibitionRefInput], socialMedia: [SocialMediaRefInput], user: ID!): Alumni!
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
-    createSocialMedia(platform: String!, logo: String!): SocialMedia!
-    createStudentExhibition(name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!): StudentExhibition!
+
+    createAlumProfile(
+      firstName: String!,
+      lastName: String!,
+      bio: String!,
+      public: Boolean!,
+      websiteLinks: [WebsiteLinkInput],
+      exhibitions: [ID!],
+      socialMedia: [ID!],
+      exhibitionsReferences: [CreateExhibitionReferenceInput],
+      userId: ID!
+    ): AlumProfile!
+
 
     updateUser(id: ID!, email: String, schoolId: ID, years: [Int], register: Boolean, designationRole: String, isAdmin: Boolean): User!
-  }
-  
-  input WebsiteLinkInput {
-    urlLink: String
-    description: String
-  }
-  
-  input StudentExhibitionRefInput {
-    exhibitionId: ID
-    references: [String]
+    updateAlumProfile(
+      id: ID!,
+      firstName: String,
+      lastName: String,
+      bio: String,
+      public: Boolean,
+      websiteLinks: [WebsiteLinkInput],
+      exhibitions: [ID!],
+      socialMedia: [ID!],
+      exhibitionsReferences: [UpdateExhibitionReferenceInput]
+    ): AlumProfile!
+    
+    createExhibition(
+      name: String!,
+      location: String!,
+      country: String!,
+      poster: String,
+      startDate: String!,
+      endDate: String!,
+      alumniExhibition: Boolean!
+    ): Exhibition!
+
+    createSocialMediaLink(
+      socialMediaPlatformId: ID!,
+      urlLink: String!
+    ): SocialMediaLink!
+
+    createExhibitionReference(
+      exhibitionId: ID!,
+      alumProfileId: ID!,
+      referenceLink: String
+    ): ExhibitionReference!
   }
 
-  input SocialMediaRefInput {
-    platformId: ID
-    url: String
+  input WebsiteLinkInput {
+    urlLink: String!
+    description: String!
+  }
+
+  input CreateExhibitionReferenceInput {
+    exhibitionId: ID!
+    referenceLink: String
+  }
+
+  input UpdateExhibitionReferenceInput {
+    id: ID!
+    exhibitionId: ID
+    referenceLink: String
   }
 
 `;
