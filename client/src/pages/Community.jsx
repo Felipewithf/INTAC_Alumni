@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_ALUMNI } from "../utils/queries";
+import { GET_ALUMPROFILES } from "../utils/queries";
 import { intacYears, schoolColors, truncate } from "../utils/staticSettings";
 
 import AlumniModal from "../components/modals/detailedAlumni";
 
 const Community = () => {
-  const { loading, error, data } = useQuery(GET_ALUMNI);
+  const { loading, error, data } = useQuery(GET_ALUMPROFILES);
 
   const [filterValue, setFilterValue] = useState(2019);
   const [activeYear, setActiveYear] = useState(2019);
@@ -14,7 +14,7 @@ const Community = () => {
 
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const alumni = data?.alumni || [];
+  const alumni = data?.getAlumProfiles || [];
 
   const filteredAlumni = alumni.filter((person) =>
     filterValue ? person.user.years.includes(filterValue) : true
@@ -101,12 +101,14 @@ const Community = () => {
       {isModalVisible && (
         <AlumniModal
           onClose={hideModal}
+          alumProfileID={selectedAlumnus.id}
           firstName={selectedAlumnus.firstName}
           lastName={selectedAlumnus.lastName}
           bio={selectedAlumnus.bio}
           socials={selectedAlumnus.socialMedia}
           personalLinks={selectedAlumnus.websiteLinks}
-          studentExhibitions={selectedAlumnus.studentExhibitions}
+          exhibitions={selectedAlumnus.exhibitions}
+          exhibitionsReferences={selectedAlumnus.exhibitionsReferences}
           user={selectedAlumnus.user}
         />
       )}

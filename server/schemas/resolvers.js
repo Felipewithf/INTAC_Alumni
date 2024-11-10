@@ -32,7 +32,13 @@ const resolvers = {
     },
     getAlumProfiles: async () => {
       return await AlumProfile.find()
-        .populate("user")
+        .populate({
+          path: "user",
+          populate: {
+            path: "school",
+            model: "School",
+          },
+        })
         .populate("exhibitions")
         .populate({
           path: "exhibitionsReferences",
@@ -98,319 +104,396 @@ const resolvers = {
     },
   },
 
-  // Mutation: {
-  //   sendMagicLink: async (_, { email }) => {
-  //     const user = await User.findOne({ email });
+  Mutation: {
+    sendMagicLink: async (_, { email }) => {
+      const user = await User.findOne({ email });
 
-  //     if (!user) {
-  //       throw new Error("User not found");
-  //     }
+      if (!user) {
+        throw new Error("User not found");
+      }
 
-  //     const token = user.generateMagicToken();
-  //     await user.save();
+      const token = user.generateMagicToken();
+      await user.save();
 
-  //     const magicLink = `${process.env.DOMAIN}magic-login?token=${token}`;
-  //     // Send the magic link email
+      const magicLink = `${process.env.DOMAIN}magic-login?token=${token}`;
+      // Send the magic link email
 
-  //     await sendMagicLinkEmail(email, magicLink);
+      await sendMagicLinkEmail(email, magicLink);
 
-  //     return "Magic link sent!";
-  //   },
-  //   verifyMagicLink: async (_, { token }) => {
-  //     const user = await User.findOne({
-  //       magicToken: token,
-  //       tokenExpiresAt: { $gte: Date.now() },
-  //     });
+      return "Magic link sent!";
+    },
+    verifyMagicLink: async (_, { token }) => {
+      const user = await User.findOne({
+        magicToken: token,
+        tokenExpiresAt: { $gte: Date.now() },
+      });
 
-  //     if (!user) {
-  //       throw new Error("Invalid or expired token");
-  //     }
+      if (!user) {
+        throw new Error("Invalid or expired token");
+      }
 
-  //     user.magicToken = null; // Clear the token after successful login
-  //     user.tokenExpiresAt = null;
-  //     await user.save();
+      user.magicToken = null; // Clear the token after successful login
+      user.tokenExpiresAt = null;
+      await user.save();
 
-  //     const authToken = jwt.sign(
-  //       { id: user._id, email: user.email, isAdmin: user.isAdmin },
-  //       process.env.JWT_SECRET,
-  //       {
-  //         expiresIn: "2h",
-  //       }
-  //     );
+      const authToken = jwt.sign(
+        { id: user._id, email: user.email, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "2h",
+        }
+      );
 
-  //     return {
-  //       token: authToken,
-  //       user,
-  //     };
-  //   },
-  //   // ------- create *******
-  //   createUser: async (
-  //     _,
-  //     { email, schoolId, years, register, designationRole, isAdmin }
-  //   ) => {
-  //     const school = await School.findById(schoolId);
-  //     const user = new User({
-  //       email,
-  //       school,
-  //       years,
-  //       register,
-  //       designationRole,
-  //       isAdmin,
-  //     });
-  //     return await user.save();
-  //   },
-  //   // Create AlumProfile
-  //   createAlumProfile: async (
-  //     _,
-  //     {
-  //       firstName,
-  //       lastName,
-  //       bio,
-  //       public,
-  //       websiteLinks,
-  //       exhibitions,
-  //       socialMedia,
-  //       exhibitionsReferences,
-  //       userId,
-  //     }
-  //   ) => {
-  //     try {
-  //       const user = await User.findById(userId);
-  //       if (!user) {
-  //         throw new Error("User not found");
-  //       }
+      return {
+        token: authToken,
+        user,
+      };
+    },
 
-  //       const newAlumProfile = new AlumProfile({
-  //         firstName,
-  //         lastName,
-  //         bio,
-  //         public,
-  //         websiteLinks,
-  //         exhibitions,
-  //         socialMedia,
-  //         exhibitionsReferences,
-  //         user: userId,
-  //       });
+    // ******* ******* *******
+    // ------- create -------
+    // ******* ******* *******
 
-  //       await newAlumProfile.save();
-  //       return newAlumProfile;
-  //     } catch (error) {
-  //       throw new Error(`Error creating AlumProfile: ${error.message}`);
-  //     }
-  //   },
-  //   // Create School
-  //   createSchool: async (_, { name, url, logo, country }) => {
-  //     const school = new School({ name, url, logo, country });
-  //     return await school.save();
-  //   },
-  //   // Create Exhibition
-  //   createExhibition: async (
-  //     _,
-  //     { name, location, country, poster, startDate, endDate, alumniExhibition }
-  //   ) => {
-  //     try {
-  //       const newExhibition = new Exhibition({
-  //         name,
-  //         location,
-  //         country,
-  //         poster,
-  //         startDate,
-  //         endDate,
-  //         alumniExhibition,
-  //       });
+    createUser: async (
+      _,
+      { email, schoolId, years, register, designationRole, isAdmin }
+    ) => {
+      const school = await School.findById(schoolId);
+      const user = new User({
+        email,
+        school,
+        years,
+        register,
+        designationRole,
+        isAdmin,
+      });
+      return await user.save();
+    },
+    // Create School
+    createSchool: async (_, { name, url, logo, country }) => {
+      const school = new School({ name, url, logo, country });
+      return await school.save();
+    },
+    // Create AlumProfile
+    createAlumProfile: async (
+      _,
+      {
+        firstName,
+        lastName,
+        bio,
+        public,
+        websiteLinks,
+        exhibitions,
+        socialMedia,
+        exhibitionsReferences,
+        userId,
+      }
+    ) => {
+      try {
+        const user = await User.findById(userId);
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-  //       await newExhibition.save();
-  //       return newExhibition;
-  //     } catch (error) {
-  //       throw new Error(`Error creating Exhibition: ${error.message}`);
-  //     }
-  //   },
-  //   // Create SocialMediaLink
-  //   createSocialMediaLink: async (_, { socialMediaPlatformId, urlLink }) => {
-  //     try {
-  //       const socialMediaPlatform = await SocialMediaPlatform.findById(
-  //         socialMediaPlatformId
-  //       );
-  //       if (!socialMediaPlatform) {
-  //         throw new Error("SocialMediaPlatform not found");
-  //       }
+        const newAlumProfile = new AlumProfile({
+          firstName,
+          lastName,
+          bio,
+          public,
+          websiteLinks,
+          exhibitions,
+          socialMedia,
+          exhibitionsReferences,
+          user: userId,
+        });
 
-  //       const newSocialMediaLink = new SocialMediaLink({
-  //         socialMediaPlatform: socialMediaPlatformId,
-  //         urlLink,
-  //       });
+        await newAlumProfile.save();
+        return newAlumProfile.populate("user");
+      } catch (error) {
+        throw new Error(`Error creating AlumProfile: ${error.message}`);
+      }
+    },
+    // Create Exhibition
+    createExhibition: async (
+      _,
+      { name, location, country, poster, startDate, endDate, alumniExhibition }
+    ) => {
+      try {
+        const newExhibition = new Exhibition({
+          name,
+          location,
+          country,
+          poster,
+          startDate,
+          endDate,
+          alumniExhibition,
+        });
 
-  //       await newSocialMediaLink.save();
-  //       return newSocialMediaLink;
-  //     } catch (error) {
-  //       throw new Error(`Error creating SocialMediaLink: ${error.message}`);
-  //     }
-  //   },
-  //   // Create ExhibitionReference
-  //   createExhibitionReference: async (
-  //     _,
-  //     { exhibitionId, alumProfileId, referenceLink }
-  //   ) => {
-  //     try {
-  //       const exhibition = await Exhibition.findById(exhibitionId);
-  //       const alumProfile = await AlumProfile.findById(alumProfileId);
+        await newExhibition.save();
+        return newExhibition;
+      } catch (error) {
+        throw new Error(`Error creating Exhibition: ${error.message}`);
+      }
+    },
+    // Create SocialMediaLink
+    createSocialMediaLink: async (_, { socialMediaPlatformId, urlLink }) => {
+      try {
+        const socialMediaPlatform = await SocialMediaPlatform.findById(
+          socialMediaPlatformId
+        );
+        if (!socialMediaPlatform) {
+          throw new Error("SocialMediaPlatform not found");
+        }
 
-  //       if (!exhibition) {
-  //         throw new Error("Exhibition not found");
-  //       }
-  //       if (!alumProfile) {
-  //         throw new Error("AlumProfile not found");
-  //       }
+        const newSocialMediaLink = new SocialMediaLink({
+          socialMediaPlatform: socialMediaPlatformId,
+          urlLink,
+        });
 
-  //       const newExhibitionReference = new ExhibitionReference({
-  //         exhibition: exhibitionId,
-  //         alumProfile: alumProfileId,
-  //         referenceLink,
-  //       });
+        await newSocialMediaLink.save();
+        return newSocialMediaLink.populate("socialMediaPlatform");
+      } catch (error) {
+        throw new Error(`Error creating SocialMediaLink: ${error.message}`);
+      }
+    },
+    // Create ExhibitionReference
+    createExhibitionReference: async (
+      _,
+      { exhibitionId, alumProfileId, referenceLink }
+    ) => {
+      try {
+        const exhibition = await Exhibition.findById(exhibitionId);
+        const alumProfile = await AlumProfile.findById(alumProfileId);
 
-  //       await newExhibitionReference.save();
-  //       return newExhibitionReference;
-  //     } catch (error) {
-  //       throw new Error(`Error creating ExhibitionReference: ${error.message}`);
-  //     }
-  //   },
+        if (!exhibition) {
+          throw new Error("Exhibition not found");
+        }
+        if (!alumProfile) {
+          throw new Error("AlumProfile not found");
+        }
 
-  //   // ------ update ********
-  //   updateUser: async (
-  //     _,
-  //     { id, email, schoolId, years, register, designationRole, isAdmin }
-  //   ) => {
-  //     try {
-  //       // Find the user by id
-  //       const user = await User.findById(id);
+        const newExhibitionReference = new ExhibitionReference({
+          exhibition: exhibitionId,
+          alumProfile: alumProfileId,
+          referenceLink,
+        });
 
-  //       if (!user) {
-  //         throw new Error("User not found");
-  //       }
+        await newExhibitionReference.save();
+        return (await newExhibitionReference.populate("exhibition")).populate(
+          "alumProfile"
+        );
+      } catch (error) {
+        throw new Error(`Error creating ExhibitionReference: ${error.message}`);
+      }
+    },
 
-  //       // Update the user's fields if they are provided
-  //       user.email = email;
-  //       user.school = schoolId;
-  //       user.years = years;
-  //       user.register = register;
-  //       user.designationRole = designationRole;
-  //       user.isAdmin = isAdmin;
+    // ******* ******* *******
+    // ------- Update -------
+    // ******* ******* *******
+    updateUser: async (
+      _,
+      { id, email, schoolId, years, register, designationRole, isAdmin }
+    ) => {
+      try {
+        // Find the user by id
+        const user = await User.findById(id);
 
-  //       // Save the updated user
-  //       await user.save();
+        if (!user) {
+          throw new Error("User not found");
+        }
 
-  //       return user;
-  //     } catch (error) {
-  //       throw new Error("Failed to update user: " + error.message);
-  //     }
-  //   },
-  //   // Update AlumProfile
-  //   updateAlumProfile: async (
-  //     _,
-  //     {
-  //       id,
-  //       firstName,
-  //       lastName,
-  //       bio,
-  //       public,
-  //       websiteLinks,
-  //       exhibitions,
-  //       socialMedia,
-  //       exhibitionsReferences,
-  //     }
-  //   ) => {
-  //     try {
-  //       const alumProfile = await AlumProfile.findById(id);
-  //       if (!alumProfile) {
-  //         throw new Error("AlumProfile not found");
-  //       }
+        // Make sure all the fields that are provided !
+        user.email = email;
+        user.school = schoolId;
+        user.years = years;
+        user.register = register;
+        user.designationRole = designationRole;
+        user.isAdmin = isAdmin;
 
-  //       // Replace website links entirely
-  //       if (websiteLinks) {
-  //         alumProfile.websiteLinks = websiteLinks;
-  //       }
+        // Save the updated user
+        await user.save();
 
-  //       // Replace exhibitions if provided
-  //       if (exhibitions) {
-  //         alumProfile.exhibitions = exhibitions;
-  //       }
+        return user.populate("school");
+      } catch (error) {
+        throw new Error("Failed to update user: " + error.message);
+      }
+    },
+    // Update AlumProfile
+    updateAlumProfile: async (
+      _,
+      {
+        id,
+        firstName,
+        lastName,
+        bio,
+        public,
+        websiteLinks,
+        exhibitions,
+        socialMedia,
+        exhibitionsReferences,
+      }
+    ) => {
+      try {
+        const alumProfileToUpdate = await AlumProfile.findById(id);
+        if (!alumProfileToUpdate) {
+          throw new Error("AlumProfile not found");
+        }
 
-  //       // Replace social media if provided
-  //       if (socialMedia) {
-  //         alumProfile.socialMedia = socialMedia;
-  //       }
+        // Make sure all the fields are provided and they will overide existing ones
+        alumProfileToUpdate.firstName = firstName;
+        alumProfileToUpdate.lastName = lastName;
+        alumProfileToUpdate.bio = bio;
+        alumProfileToUpdate.public = public;
 
-  //       // Update or add new exhibition references
-  //       if (exhibitionsReferences) {
-  //         exhibitionsReferences.forEach((ref) => {
-  //           if (ref.id) {
-  //             // Update existing reference
-  //             const existingRefIndex = alumProfile.exhibitionsReferences.findIndex(
-  //               (er) => er._id.toString() === ref.id
-  //             );
-  //             if (existingRefIndex > -1) {
-  //               alumProfile.exhibitionsReferences[existingRefIndex] = {
-  //                 ...alumProfile.exhibitionsReferences[existingRefIndex],
-  //                 ...ref,
-  //               };
-  //             }
-  //           } else {
-  //             // Create new reference
-  //             alumProfile.exhibitionsReferences.push(ref);
-  //           }
-  //         });
-  //       }
+        alumProfileToUpdate.websiteLinks = websiteLinks;
+        alumProfileToUpdate.exhibitions = exhibitions;
+        alumProfileToUpdate.socialMedia = socialMedia;
+        alumProfileToUpdate.exhibitionsReferences = exhibitionsReferences;
 
-  //       // Update other fields if provided
-  //       if (firstName) alumProfile.firstName = firstName;
-  //       if (lastName) alumProfile.lastName = lastName;
-  //       if (bio) alumProfile.bio = bio;
-  //       if (public !== undefined) alumProfile.public = public;
+        // Save and populate references in the updated profile
+        await alumProfileToUpdate.save();
+        const alumProfileUpdated = await AlumProfile.findById(id)
+          .populate("user")
+          .populate("exhibitionsReferences")
+          .populate("socialMedia")
+          .populate("exhibitions");
 
-  //       await alumProfile.save();
-  //       return alumProfile;
-  //     } catch (error) {
-  //       throw new Error(`Error updating AlumProfile: ${error.message}`);
-  //     }
-  //   },
-  // },
+        return alumProfileUpdated;
+      } catch (error) {
+        throw new Error(`Error updating AlumProfile: ${error.message}`);
+      }
+    },
+    // Update SocialMediaLink
+    updateSocialMediaLink: async (_, { id, urlLink }) => {
+      try {
+        const updatedLink = await SocialMediaLink.findByIdAndUpdate(
+          id,
+          {
+            ...(urlLink && { urlLink }),
+          },
+          { new: true }
+        ).populate("socialMediaPlatform");
 
-  // Additional async model requests
-  // User: {
-  //   school: async (user) => {
-  //     return await School.findById(user.school);
-  //   },
-  // },
+        if (!updatedLink) {
+          throw new Error("SocialMediaLink not found");
+        }
 
-  // Alumni: {
-  //   studentExhibitions: async (alumni) => {
-  //     return await Promise.all(
-  //       alumni.studentExhibitions.map(async (exhibitionRef) => {
-  //         const exhibition = await StudentExhibition.findById(exhibitionRef.exhibition);
-  //         return {
-  //           exhibition,
-  //           references: exhibitionRef.references,
-  //         };
-  //       })
-  //     );
-  //   },
-  //   socialMedia: async (alumni) => {
-  //     return await Promise.all(
-  //       alumni.socialMedia.map(async (smRef) => {
-  //         const socialMedia = await SocialMedia.findById(smRef.platform);
-  //         return {
-  //           platform: socialMedia.platform,
-  //           logo: socialMedia.logo,
-  //           url: smRef.url,
-  //         };
-  //       })
-  //     );
-  //   },
-  //   user: async (alumni) => {
-  //     const user = await User.findById(alumni.user);
-  //     return user;
-  //   },
-  // },
+        return updatedLink;
+      } catch (error) {
+        throw new Error(`Error updating SocialMediaLink: ${error.message}`);
+      }
+    },
+    // Update ExhibitionReference
+    updateExhibitionReference: async (_, { id, referenceLink }) => {
+      try {
+        const updatedReference = await ExhibitionReference.findByIdAndUpdate(
+          id,
+          {
+            ...(referenceLink && { referenceLink }),
+          },
+          { new: true }
+        )
+          .populate("exhibition")
+          .populate("alumProfile");
+
+        if (!updatedReference) {
+          throw new Error("ExhibitionReference not found");
+        }
+
+        return updatedReference;
+      } catch (error) {
+        throw new Error(`Error updating ExhibitionReference: ${error.message}`);
+      }
+    },
+
+    // ******* ******* *******
+    // ------- Delete -------
+    // ******* ******* *******
+
+    // Delete SocialMediaLink
+    deleteSocialMediaLink: async (_, { id }) => {
+      try {
+        // Find and delete the social media link
+        const deleted = await SocialMediaLink.findByIdAndDelete(id);
+
+        if (!deleted) {
+          throw new Error("SocialMediaLink not found");
+        }
+
+        // Update all AlumProfiles that contain this social media link ID
+        await AlumProfile.updateMany(
+          { socialMedia: id }, // Find profiles that have this social media link ID
+          { $pull: { socialMedia: id } } // Remove the ID from the socialMedia array
+        );
+
+        return !!deleted;
+      } catch (error) {
+        throw new Error(
+          `Failed to delete SocialMediaLink and update AlumProfile: ${error.message}`
+        );
+      }
+    },
+
+    // Delete ExhibitionReference
+    deleteExhibitionReference: async (_, { id }) => {
+      try {
+        // Find and delete the exhibition reference
+        const deleted = await ExhibitionReference.findByIdAndDelete(id);
+
+        if (!deleted) {
+          throw new Error("ExhibitionReference not found");
+        }
+
+        // Update all AlumProfiles that contain this exhibition reference ID
+        await AlumProfile.updateMany(
+          { exhibitionsReferences: id }, // Find profiles that have this exhibition reference ID
+          { $pull: { exhibitionsReferences: id } } // Remove the ID from the exhibitionsReferences array
+        );
+
+        return !!deleted;
+      } catch (error) {
+        throw new Error(
+          `Failed to delete ExhibitionReference and update AlumProfile: ${error.message}`
+        );
+      }
+    },
+
+    // Additional async model requests
+    // User: {
+    //   school: async (user) => {
+    //     return await School.findById(user.school);
+    //   },
+    // },
+
+    // Alumni: {
+    //   studentExhibitions: async (alumni) => {
+    //     return await Promise.all(
+    //       alumni.studentExhibitions.map(async (exhibitionRef) => {
+    //         const exhibition = await StudentExhibition.findById(exhibitionRef.exhibition);
+    //         return {
+    //           exhibition,
+    //           references: exhibitionRef.references,
+    //         };
+    //       })
+    //     );
+    //   },
+    //   socialMedia: async (alumni) => {
+    //     return await Promise.all(
+    //       alumni.socialMedia.map(async (smRef) => {
+    //         const socialMedia = await SocialMedia.findById(smRef.platform);
+    //         return {
+    //           platform: socialMedia.platform,
+    //           logo: socialMedia.logo,
+    //           url: smRef.url,
+    //         };
+    //       })
+    //     );
+    //   },
+    //   user: async (alumni) => {
+    //     const user = await User.findById(alumni.user);
+    //     return user;
+    //   },
+  },
 };
 
 module.exports = resolvers;

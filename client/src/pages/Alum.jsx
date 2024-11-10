@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_LOGGED_IN_USER, GET_ALUMNUS_BY_ID } from "../utils/queries";
+import { GET_LOGGED_IN_USER, GET_ALUMPROFILE_BY_ID } from "../utils/queries";
 
 const Alum = () => {
   const navigate = useNavigate();

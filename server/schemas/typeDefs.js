@@ -91,60 +91,30 @@ type User {
   
   # Mutations
   type Mutation {
+    # Mutations: Auth
     # Mutation for sending a magic link to the email
-  sendMagicLink(email: String!): String!
-  # Mutation for verifying the magic link and logging in the user
-  verifyMagicLink(token: String!): Auth
+    sendMagicLink(email: String!): String!
+    # Mutation for verifying the magic link and logging in the user
+    verifyMagicLink(token: String!): Auth
 
+    # Mutations: Create
     createUser(email: String!, schoolId: ID!, years: [Int], register: Boolean!, designationRole: String, isAdmin: Boolean!): User!
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
+    createAlumProfile( firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], exhibitions: [ID!], socialMedia: [ID!], exhibitionsReferences: [CreateExhibitionReferenceInput], userId: ID!): AlumProfile!
+    createExhibition( name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!, alumniExhibition: Boolean! ): Exhibition!
+    createSocialMediaLink( socialMediaPlatformId: ID!, urlLink: String! ): SocialMediaLink!
+    createExhibitionReference( exhibitionId: ID!, alumProfileId: ID!, referenceLink: String ): ExhibitionReference!
 
-    createAlumProfile(
-      firstName: String!,
-      lastName: String!,
-      bio: String!,
-      public: Boolean!,
-      websiteLinks: [WebsiteLinkInput],
-      exhibitions: [ID!],
-      socialMedia: [ID!],
-      exhibitionsReferences: [CreateExhibitionReferenceInput],
-      userId: ID!
-    ): AlumProfile!
-
-
+    # Mutations: Update
     updateUser(id: ID!, email: String, schoolId: ID, years: [Int], register: Boolean, designationRole: String, isAdmin: Boolean): User!
-    updateAlumProfile(
-      id: ID!,
-      firstName: String,
-      lastName: String,
-      bio: String,
-      public: Boolean,
-      websiteLinks: [WebsiteLinkInput],
-      exhibitions: [ID!],
-      socialMedia: [ID!],
-      exhibitionsReferences: [UpdateExhibitionReferenceInput]
-    ): AlumProfile!
-    
-    createExhibition(
-      name: String!,
-      location: String!,
-      country: String!,
-      poster: String,
-      startDate: String!,
-      endDate: String!,
-      alumniExhibition: Boolean!
-    ): Exhibition!
+    updateAlumProfile( id: ID!, firstName: String, lastName: String, bio: String, public: Boolean, websiteLinks: [WebsiteLinkInput], exhibitions: [ID!], socialMedia: [ID!], exhibitionsReferences: [ID!] ): AlumProfile!
+    updateSocialMediaLink(id: ID!, urlLink: String): SocialMediaLink!
+    updateExhibitionReference(id: ID!, referenceLink: String): ExhibitionReference!
 
-    createSocialMediaLink(
-      socialMediaPlatformId: ID!,
-      urlLink: String!
-    ): SocialMediaLink!
+    # Mutations: Delete
+    deleteSocialMediaLink(id: ID!): Boolean!
+    deleteExhibitionReference(id: ID!): Boolean!
 
-    createExhibitionReference(
-      exhibitionId: ID!,
-      alumProfileId: ID!,
-      referenceLink: String
-    ): ExhibitionReference!
   }
 
   input WebsiteLinkInput {
@@ -154,12 +124,6 @@ type User {
 
   input CreateExhibitionReferenceInput {
     exhibitionId: ID!
-    referenceLink: String
-  }
-
-  input UpdateExhibitionReferenceInput {
-    id: ID!
-    exhibitionId: ID
     referenceLink: String
   }
 

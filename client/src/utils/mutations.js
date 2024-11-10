@@ -6,8 +6,8 @@ export const SEND_MAGIC_LINK = gql`
   }
 `;
 
-export const ADD_USER = gql`
-  mutation Mutation(
+export const CREATE_USER = gql`
+  mutation CreateUser(
     $email: String!
     $schoolId: ID!
     $register: Boolean!
@@ -23,15 +23,73 @@ export const ADD_USER = gql`
       years: $years
       designationRole: $designationRole
     ) {
-      designationRole
-      email
       id
-      isAdmin
-      register
+      email
       school {
         name
       }
       years
+      register
+      designationRole
+      isAdmin
+    }
+  }
+`;
+
+export const CREATE_ALUMPROFILE = gql`
+  mutation CreateAlumProfile(
+    $firstName: String!
+    $lastName: String!
+    $bio: String!
+    $public: Boolean!
+    $websiteLinks: [WebsiteLinkInput]
+    $exhibitions: [ID!]
+    $socialMedia: [ID!]
+    $exhibitionsReferences: [CreateExhibitionReferenceInput]
+    $userId: ID!
+  ) {
+    createAlumProfile(
+      firstName: $firstName
+      lastName: $lastName
+      bio: $bio
+      public: $public
+      websiteLinks: $websiteLinks
+      exhibitions: $exhibitions
+      socialMedia: $socialMedia
+      exhibitionsReferences: $exhibitionsReferences
+      userId: $userId
+    ) {
+      id
+      firstName
+      lastName
+      bio
+      public
+      websiteLinks {
+        urlLink
+        description
+      }
+      exhibitions {
+        name
+      }
+      socialMedia {
+        urlLink
+        id
+        socialMediaPlatform {
+          name
+          logo
+        }
+      }
+      exhibitionsReferences {
+        referenceLink
+        exhibition {
+          id
+          name
+        }
+      }
+      user {
+        id
+        email
+      }
     }
   }
 `;
@@ -39,63 +97,30 @@ export const ADD_USER = gql`
 export const UPDATE_USER = gql`
   mutation UpdateUser(
     $updateUserId: ID!
+    $register: Boolean
+    $isAdmin: Boolean
     $email: String
     $schoolId: ID
     $years: [Int]
-    $register: Boolean
     $designationRole: String
-    $isAdmin: Boolean
   ) {
     updateUser(
       id: $updateUserId
+      register: $register
+      isAdmin: $isAdmin
       email: $email
       schoolId: $schoolId
       years: $years
-      register: $register
       designationRole: $designationRole
-      isAdmin: $isAdmin
     ) {
       id
       email
-      school {
-        name
-      }
       years
       register
       designationRole
       isAdmin
-    }
-  }
-`;
-
-export const CREATE_ALUM = gql`
-  mutation CreateAlumni(
-    $firstName: String!
-    $lastName: String!
-    $bio: String!
-    $public: Boolean!
-    $user: ID!
-    $websiteLinks: [WebsiteLinkInput]
-    $studentExhibitions: [StudentExhibitionRefInput]
-    $socialMedia: [SocialMediaRefInput]
-  ) {
-    createAlumni(
-      firstName: $firstName
-      lastName: $lastName
-      bio: $bio
-      public: $public
-      user: $user
-      websiteLinks: $websiteLinks
-      studentExhibitions: $studentExhibitions
-      socialMedia: $socialMedia
-    ) {
-      bio
-      firstName
-      id
-      lastName
-      public
-      user {
-        id
+      school {
+        name
       }
     }
   }
