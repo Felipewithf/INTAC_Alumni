@@ -20,8 +20,8 @@ const Header = () => {
       <div>
         {Auth.loggedIn() ? (
           <>
-            <Link className="alumInitials" to="/me">
-            Fs
+            <Link className="alumInitials" to="/alum">
+              Fs
               {/* Run the getProfile() method to get access to the unencrypted token value in order to retrieve the user's username  */}
               {/* {Auth.getProfile().authenticatedPerson.username}'s profile */}
             </Link>

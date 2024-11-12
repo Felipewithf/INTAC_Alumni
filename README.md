@@ -4,4 +4,6 @@
 
 - then update all mutations on client side and test
 - When user logs in, but is not register send them to a new page to register
-- 
+- Add Website links, Add exhibitions, add References
+- Delete Social Media, Delete References, Delete websiteLinks
+- Update the names, bio and if profile is privateor public

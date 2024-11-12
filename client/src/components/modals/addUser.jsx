@@ -20,6 +20,8 @@ const AddUserModal = ({ onClose }) => {
   const [designationInput, setDesignationInput] = useState(designationRoles[0]);
   const [selectedSchoolId, setSelectedSchoolId] = useState("");
 
+  const [success, setSuccess] = useState(false); // Success state for showing message
+
   // When school data is loaded, set the selectedSchoolId to the first school's ID
   useEffect(() => {
     if (schoolData && schoolData.getSchools && schoolData.getSchools.length > 0) {
@@ -66,9 +68,10 @@ const AddUserModal = ({ onClose }) => {
           },
         });
       }
-      alert("Users added successfully");
-      //onClose();
-      window.location.reload();
+      setSuccess(true); // Set success state to true
+      setTimeout(() => {
+        window.location.reload(); // Reload the page to display new data
+      }, 2000); // Wait 2 seconds before reloading
     } catch (error) {
       console.error("Error adding users:", error);
     }
@@ -128,8 +131,11 @@ const AddUserModal = ({ onClose }) => {
                 onChange={(e) => setEmailInput(e.target.value)}
               ></textarea>
             </div>
-
-            <button type="submit">ADD USER(S)</button>
+            {success ? (
+              <p>Successfully added!</p> // Display success message
+            ) : (
+              <button type="submit">ADD USER(S)</button>
+            )}
           </form>
         </div>
       </div>

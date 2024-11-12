@@ -45,9 +45,9 @@ const AlumniModal = ({
               <div className="personalLinks">
                 {personalLinks &&
                   personalLinks.length > 0 &&
-                  personalLinks.map((l) => (
+                  personalLinks.map((l, index) => (
                     <a
-                      key={l.id}
+                      key={index}
                       href={l.urlLink}
                       target="_blank"
                       rel="noopener noreferrer"

@@ -143,6 +143,48 @@ export const GET_ALUMPROFILE_BY_ID = gql`
   }
 `;
 
+// Fetch a single alumProfile by USERID
+export const GET_ALUMPROFILE_BY_USER_ID = gql`
+  query GetAlumProfileByUserId($getAlumProfileByUserIdId: ID!) {
+    getAlumProfileByUserId(id: $getAlumProfileByUserIdId) {
+      id
+      firstName
+      lastName
+      bio
+      public
+      websiteLinks {
+        urlLink
+        description
+      }
+      exhibitions {
+        name
+        poster
+        id
+        alumniExhibition
+      }
+      socialMedia {
+        id
+        urlLink
+        socialMediaPlatform {
+          name
+          logo
+        }
+      }
+      user {
+        id
+        email
+      }
+      exhibitionsReferences {
+        id
+        exhibition {
+          id
+        }
+        referenceLink
+      }
+    }
+  }
+`;
+
 // Fetch all schools
 export const GET_SCHOOLS = gql`
   query GetSchools {

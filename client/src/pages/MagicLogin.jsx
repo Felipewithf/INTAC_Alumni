@@ -1,17 +1,19 @@
-import { useEffect,useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 const MagicLogin = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [status, setStatus] = useState('loading');
+  const [status, setStatus] = useState("loading");
 
-  const backURL = import.meta.env.VITE_BACKEND_URL || 'https://intac-alumni-b3205cea9520.herokuapp.com/';
+  const backURL =
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://intac-alumni-b3205cea9520.herokuapp.com/";
   console.log(backURL);
 
   useEffect(() => {
-    const token = searchParams.get('token');
+    const token = searchParams.get("token");
     console.log("retrieve token from url");
     console.log(token);
 
@@ -23,23 +25,23 @@ const MagicLogin = () => {
           const { token: jwtToken } = response.data;
 
           // Store the JWT token in localStorage (or cookie)
-          localStorage.setItem('id_token', jwtToken);
+          localStorage.setItem("id_token", jwtToken);
 
           // Redirect to another page
-          setStatus('success');
-          navigate('/admin');
+          setStatus("success");
+          navigate("/alum");
         })
         .catch((error) => {
-          console.error('Error verifying magic link', error);
-          setStatus('error');
+          console.error("Error verifying magic link", error);
+          setStatus("error");
         });
     }
   }, [searchParams, navigate]);
 
   return (
     <div>
-        {status === 'loading' && <p>Verifying your magic link...</p>}
-        {status === 'error' && <p>Invalid or expired magic link. Please try again.</p>}
+      {status === "loading" && <p>Verifying your magic link...</p>}
+      {status === "error" && <p>Invalid or expired magic link. Please try again.</p>}
     </div>
   );
 };

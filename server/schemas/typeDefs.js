@@ -79,6 +79,7 @@ type User {
     getSchoolById(id: ID!): School
     getAlumProfiles: [AlumProfile!]!
     getAlumProfileById(id: ID!): AlumProfile
+    getAlumProfileByUserId(id: ID!): AlumProfile
     getExhibitions: [Exhibition!]!
     getExhibitionById(id: ID!): Exhibition
     getSocialMediaPlatforms: [SocialMediaPlatform!]!
@@ -102,7 +103,7 @@ type User {
     createSchool(name: String!, url: String!, logo: String!, country: String!): School!
     createAlumProfile( firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], exhibitions: [ID!], socialMedia: [ID!], exhibitionsReferences: [CreateExhibitionReferenceInput], userId: ID!): AlumProfile!
     createExhibition( name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!, alumniExhibition: Boolean! ): Exhibition!
-    createSocialMediaLink( socialMediaPlatformId: ID!, urlLink: String! ): SocialMediaLink!
+    createSocialMediaLink( socialMediaPlatformId: ID!, urlLink: String!, alumProfileId: ID! ): SocialMediaLink!
     createExhibitionReference( exhibitionId: ID!, alumProfileId: ID!, referenceLink: String ): ExhibitionReference!
 
     # Mutations: Update

@@ -94,6 +94,27 @@ export const CREATE_ALUMPROFILE = gql`
   }
 `;
 
+export const CREATE_SOCIAL_MEDIA_LINK = gql`
+  mutation CreateSocialMediaLink(
+    $socialMediaPlatformId: ID!
+    $urlLink: String!
+    $alumProfileId: ID!
+  ) {
+    createSocialMediaLink(
+      socialMediaPlatformId: $socialMediaPlatformId
+      urlLink: $urlLink
+      alumProfileId: $alumProfileId
+    ) {
+      id
+      socialMediaPlatform {
+        name
+        logo
+      }
+      urlLink
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation UpdateUser(
     $updateUserId: ID!

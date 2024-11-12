@@ -331,8 +331,7 @@ const UserAdmin = () => {
 
         {loggedInUser && (
           <div>
-            <h1>Welcome, {loggedInUser.email}</h1>
-            <p>Your ID: {loggedInUser.id}</p>
+            <h2>Welcome, {loggedInUser.email}</h2>
           </div>
         )}
       </div>

@@ -74,6 +74,25 @@ const resolvers = {
           },
         });
     },
+    getAlumProfileByUserId: async (_, { id }) => {
+      return await AlumProfile.findOne({ user: id })
+        .populate("user")
+        .populate("exhibitions")
+        .populate({
+          path: "exhibitionsReferences",
+          populate: {
+            path: "exhibition",
+            model: "Exhibition",
+          },
+        })
+        .populate({
+          path: "socialMedia",
+          populate: {
+            path: "socialMediaPlatform", // Specify the field to populate within `socialMedia`
+            model: "SocialMediaPlatform", // Ensure the model name matches the one registered in Mongoose
+          },
+        });
+    },
     getExhibitions: async () => {
       return await Exhibition.find();
     },
@@ -236,7 +255,10 @@ const resolvers = {
       }
     },
     // Create SocialMediaLink
-    createSocialMediaLink: async (_, { socialMediaPlatformId, urlLink }) => {
+    createSocialMediaLink: async (
+      _,
+      { socialMediaPlatformId, urlLink, alumProfileId }
+    ) => {
       try {
         const socialMediaPlatform = await SocialMediaPlatform.findById(
           socialMediaPlatformId
@@ -250,8 +272,21 @@ const resolvers = {
           urlLink,
         });
 
-        await newSocialMediaLink.save();
-        return newSocialMediaLink.populate("socialMediaPlatform");
+        const savedLink = await newSocialMediaLink.save();
+
+        // Find the AlumProfile by ID and add the new social media link to its socialMedia array
+        const updatedAlumProfile = await AlumProfile.findByIdAndUpdate(
+          alumProfileId,
+          { $push: { socialMedia: savedLink._id } }, // Push the new link ID into the socialMedia array
+          { new: true } // Return the updated document
+        );
+
+        if (!updatedAlumProfile) {
+          throw new Error("AlumProfile not found");
+        }
+
+        // Populate the socialMediaPlatform field before returning
+        return savedLink.populate("socialMediaPlatform");
       } catch (error) {
         throw new Error(`Error creating SocialMediaLink: ${error.message}`);
       }

@@ -3,10 +3,25 @@ import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_LOGGED_IN_USER, GET_ALUMPROFILE_BY_ID } from "../utils/queries";
+import { GET_LOGGED_IN_USER, GET_ALUMPROFILE_BY_USER_ID } from "../utils/queries";
+
+import AddSocialMediaLink from "../components/modals/addSocialMediaLink";
 
 const Alum = () => {
   const navigate = useNavigate();
+  const { loading, error, data: userData } = useQuery(GET_LOGGED_IN_USER);
+
+  // State to control modal visibility
+  const [isModal_Socials_Visible, setModal_Socials_Visible] = useState(false);
+
+  // Function to toggle modal visibility
+  const showModal = () => {
+    setModal_Socials_Visible(true);
+  };
+
+  const hideModal = () => {
+    setModal_Socials_Visible(false);
+  };
 
   const handleLogout = (event) => {
     event.preventDefault();
@@ -16,98 +31,155 @@ const Alum = () => {
   const handleAdminDashboard = () => {
     navigate("/admin");
   };
+
+  if (loading) return <p>Loading user data...</p>;
+  if (error) return <p>Error fetching user data: {error.message}</p>;
+
   return (
-    <>
+    <div>
       <div className="alumPage">
         <div className="topNavigation">
           <button>Edit</button>
           <div className="rightGroup">
-            <button onClick={handleAdminDashboard}>Admin Dashboard</button>
+            {userData.getLoggedInUser.isAdmin && (
+              <button onClick={handleAdminDashboard}>Admin Dashboard</button>
+            )}
             <button onClick={handleLogout}>Logout</button>
           </div>
         </div>
-        <div className="alumData">
-          <div className="personal">
-            <div className="name">
-              <div></div>
-              <div>Sarmiento</div>
-            </div>
-            <p className="bio">
-              I am a multifaceted professional based in Toronto with a passion for design,
-              technology, and innovation. With a Master's in Inclusive Design, focused on
-              using design to transform lives through digital and physical experiences. I
-              have an extensive experience in the startup ecosystem, scaling teams, and
-              managing product design, branding, and marketing efforts.
+        {userData?.getLoggedInUser?.id && (
+          <AlumProfile userId={userData.getLoggedInUser.id} showModal={showModal} />
+        )}
+      </div>
+      {isModal_Socials_Visible && (
+        <AddSocialMediaLink userId={userData.getLoggedInUser.id} onClose={hideModal} />
+      )}
+    </div>
+  );
+};
+
+const AlumProfile = ({ userId, showModal }) => {
+  const { loading, error, data } = useQuery(GET_ALUMPROFILE_BY_USER_ID, {
+    variables: { getAlumProfileByUserIdId: userId },
+    skip: !userId, // Don't run the query until we have a userId
+  });
+
+  if (loading) return <p>Loading alum profile...</p>;
+  if (error) return <p>Error fetching alum profile: {error.message}</p>;
+  console.log(data);
+
+  return (
+    <>
+      <div className="alumData">
+        <div className="personal">
+          <div className="name">
+            <div>{data.getAlumProfileByUserId.firstName}</div>
+            <div>{data.getAlumProfileByUserId.lastName}</div>
+          </div>
+          <p className="bio">{data.getAlumProfileByUserId.bio}</p>
+          <div className="permission">
+            <p>
+              Your profile is:{" "}
+              {data.getAlumProfileByUserId.public ? (
+                <strong>Public</strong>
+              ) : (
+                <strong>Private</strong>
+              )}
             </p>
-            <div className="permission">
-              <p>
-                Your profile is: <strong>Public</strong>
-              </p>
-            </div>
-            <div className="separatingLine"></div>
-            <div className="links">
-              <div className="linkItem">
-                <div className="linkInfo">
-                  <p>Portfolio:</p>
-                  <a href="https://felipewithf.com">
-                    <p>https://felipewithf.com</p>
-                  </a>
-                </div>
-                <button className="deleteIcon"></button>
-              </div>
-              <br></br>
-              <button>+ Add Links</button>
-              <div className="separatingLine"></div>
-            </div>
-            <div className="socials">
-              <div className="socialItem">
-                <div className="socialInfo">
-                  <img src="socials/i_in.svg"></img>
-                  <p>Instagram:</p>
-                  <a href="https://university.alchemy.com/hackathons/shapecraft">
-                    <p>https://university.alchemy.com/hackathons/shapecraft</p>
-                  </a>
-                </div>
-
-                <button className="deleteIcon"></button>
-              </div>
-              <div className="socialItem">
-                <div className="socialInfo">
-                  <img src="socials/i_dribble.svg"></img>
-                  <p>Dribble:</p>
-                  <a href="https://university.alchemy.com/hackathons/shapecraft">
-                    <p>https://university.alchemy.com/hackathons/shapecraft</p>
-                  </a>
-                </div>
-
-                <button className="deleteIcon"></button>
-              </div>
-              <br></br>
-              <button>+ Add Socials</button>
-              <div className="separatingLine"></div>
-            </div>
           </div>
-          <div className="exhibitions">
-            <h3>Exhibitions & References</h3>
-            <div className="separatingLine"></div>
-            <div className="exhibitionItem">
-              <img src="studentExhibition/winter_art_expo.png" alt=""></img>
-              <div className="references">
-                <div className="referenceItem">
-                  <div className="referenceInfo">
-                    <p>[1]</p>
-                    <a href="https:/google.com/testintesting">
-                      https:/google.com/testintesting
-                    </a>
+          <div className="separatingLine"></div>
+          <h4>Links</h4>
+          <p>
+            Add any type of links you want to link to your profile like website,
+            portfolios, awards, galleries, companies, etc.
+          </p>
+          <div className="links">
+            {data.getAlumProfileByUserId.websiteLinks.length > 0 &&
+              data.getAlumProfileByUserId.websiteLinks.map((link, index) => {
+                return (
+                  <div className="linkItem" key={index}>
+                    <div className="linkInfo">
+                      <p>{link.description}:</p>
+                      <a href={link.urlLink}>
+                        <p>{link.urlLink}</p>
+                      </a>
+                    </div>
+                    <button className="deleteIcon"></button>
                   </div>
-                  <button className="deleteIcon"></button>
-                </div>
-                <button>+ Add Reference</button>
-              </div>
-            </div>
+                );
+              })}
+
+            <br></br>
+            <button>+ Add Links</button>
             <div className="separatingLine"></div>
-            <button>+ Add Exhibition</button>
           </div>
+          <h4>Socials</h4>
+          <p>Add your social medias to keep in touch with your fellow INTAC Members.</p>
+          <div className="socials">
+            {data.getAlumProfileByUserId.socialMedia.length > 0 &&
+              data.getAlumProfileByUserId.socialMedia.map((social) => {
+                return (
+                  <div className="socialItem" key={social.id}>
+                    <div className="socialInfo">
+                      <img src={`socials/${social.socialMediaPlatform.logo}`}></img>
+                      <p>{social.socialMediaPlatform.name}</p>
+                      <a href={social.urlLink}>
+                        <p>{social.urlLink}</p>
+                      </a>
+                    </div>
+
+                    <button className="deleteIcon"></button>
+                  </div>
+                );
+              })}
+
+            <br></br>
+            <button onClick={showModal}>+ Add Socials</button>
+            <div className="separatingLine"></div>
+          </div>
+        </div>
+        <div className="exhibitions">
+          <div className="separatingLine"></div>
+          <h4>Exhibitions & References</h4>
+          <p>
+            Showcase all the exhibitions you have partaken as an INTAC member, if you have
+            external links to your work or your peers work for a particular exhibition
+            please add the links as references.
+          </p>
+
+          {data.getAlumProfileByUserId.exhibitions.length > 0 &&
+            data.getAlumProfileByUserId.exhibitions.map((e) => {
+              return (
+                <div className="exhibitionItem" key={e.id}>
+                  <img src={`studentExhibition/${e.poster}`} alt={e.name}></img>
+                  <div className="references">
+                    {data.getAlumProfileByUserId.exhibitionsReferences
+                      .filter((ref) => ref.exhibition.id === e.id)
+                      .map((ref, index) => (
+                        <div className="referenceItem" key={ref.exhibition.id}>
+                          <div className="referenceInfo">
+                            <p>[{index + 1}]</p>
+                            <a
+                              href={ref.referenceLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {ref.referenceLink}
+                            </a>
+                          </div>
+                          <button className="deleteIcon"></button>
+                        </div>
+                      ))}
+
+                    <button>+ Add Reference</button>
+                  </div>
+                </div>
+              );
+            })}
+
+          <br></br>
+          <button>+ Add Exhibition</button>
+          <div className="separatingLine"></div>
         </div>
       </div>
     </>
