@@ -313,10 +313,27 @@ const resolvers = {
           referenceLink,
         });
 
-        await newExhibitionReference.save();
-        return (await newExhibitionReference.populate("exhibition")).populate(
-          "alumProfile"
+        const savedReferenced = await newExhibitionReference.save();
+
+        // Find the AlumProfile by ID and add the new exhibitionReference
+        const updatedAlumProfile = await AlumProfile.findByIdAndUpdate(
+          alumProfileId,
+          { $push: { exhibitionsReferences: savedReferenced._id } }, // Push the new Reference ID into the exhibitionReference array
+          { new: true } // Return the updated document
         );
+
+        if (!updatedAlumProfile) {
+          throw new Error("AlumProfile not found");
+        }
+
+        // Use findById with populate instead of calling populate directly
+        const populatedExhibitionReference = await ExhibitionReference.findById(
+          savedReferenced._id
+        )
+          .populate("exhibition")
+          .populate("alumProfile");
+
+        return populatedExhibitionReference;
       } catch (error) {
         throw new Error(`Error creating ExhibitionReference: ${error.message}`);
       }

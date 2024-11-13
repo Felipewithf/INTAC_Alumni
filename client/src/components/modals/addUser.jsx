@@ -132,7 +132,7 @@ const AddUserModal = ({ onClose }) => {
               ></textarea>
             </div>
             {success ? (
-              <p>Successfully added!</p> // Display success message
+              <p className="successMessage">Successfully added!</p> // Display success message
             ) : (
               <button type="submit">ADD USER(S)</button>
             )}

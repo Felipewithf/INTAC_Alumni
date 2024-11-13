@@ -6,21 +6,28 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_LOGGED_IN_USER, GET_ALUMPROFILE_BY_USER_ID } from "../utils/queries";
 
 import AddSocialMediaLink from "../components/modals/addSocialMediaLink";
+import AddExhibition from "../components/modals/addExhibition";
+import AddWebsiteLinks from "../components/modals/addWebsiteLinks";
+import AddExhibitionReference from "../components/modals/addExhibitionReference";
 
 const Alum = () => {
   const navigate = useNavigate();
   const { loading, error, data: userData } = useQuery(GET_LOGGED_IN_USER);
 
-  // State to control modal visibility
-  const [isModal_Socials_Visible, setModal_Socials_Visible] = useState(false);
+  // Single state to control which modal is visible
+  const [activeModal, setActiveModal] = useState(null);
+  const [currentExhibitionId, setCurrentExhibitionId] = useState(null); // New state to store exhibitionId
 
-  // Function to toggle modal visibility
-  const showModal = () => {
-    setModal_Socials_Visible(true);
+  // Function to show a specific modal
+  const showModal = (modalName, exhibitionId = null) => {
+    setActiveModal(modalName);
+    setCurrentExhibitionId(exhibitionId); // Store exhibitionId when opening reference modal
   };
 
+  // Function to hide the modal
   const hideModal = () => {
-    setModal_Socials_Visible(false);
+    setActiveModal(null);
+    setCurrentExhibitionId(null);
   };
 
   const handleLogout = (event) => {
@@ -51,8 +58,21 @@ const Alum = () => {
           <AlumProfile userId={userData.getLoggedInUser.id} showModal={showModal} />
         )}
       </div>
-      {isModal_Socials_Visible && (
+      {activeModal === "social" && (
         <AddSocialMediaLink userId={userData.getLoggedInUser.id} onClose={hideModal} />
+      )}
+      {activeModal === "exhibition" && (
+        <AddExhibition userId={userData.getLoggedInUser.id} onClose={hideModal} />
+      )}
+      {activeModal === "link" && (
+        <AddWebsiteLinks userId={userData.getLoggedInUser.id} onClose={hideModal} />
+      )}
+      {activeModal === "reference" && currentExhibitionId && (
+        <AddExhibitionReference
+          userId={userData.getLoggedInUser.id}
+          exhibitionId={currentExhibitionId}
+          onClose={hideModal}
+        />
       )}
     </div>
   );
@@ -110,7 +130,7 @@ const AlumProfile = ({ userId, showModal }) => {
               })}
 
             <br></br>
-            <button>+ Add Links</button>
+            <button onClick={() => showModal("link")}>+ Add Link</button>
             <div className="separatingLine"></div>
           </div>
           <h4>Socials</h4>
@@ -134,7 +154,7 @@ const AlumProfile = ({ userId, showModal }) => {
               })}
 
             <br></br>
-            <button onClick={showModal}>+ Add Socials</button>
+            <button onClick={() => showModal("social")}>+ Add Social</button>
             <div className="separatingLine"></div>
           </div>
         </div>
@@ -151,12 +171,12 @@ const AlumProfile = ({ userId, showModal }) => {
             data.getAlumProfileByUserId.exhibitions.map((e) => {
               return (
                 <div className="exhibitionItem" key={e.id}>
-                  <img src={`studentExhibition/${e.poster}`} alt={e.name}></img>
+                  <img src={`exhibition/${e.poster}`} alt={e.name}></img>
                   <div className="references">
                     {data.getAlumProfileByUserId.exhibitionsReferences
                       .filter((ref) => ref.exhibition.id === e.id)
                       .map((ref, index) => (
-                        <div className="referenceItem" key={ref.exhibition.id}>
+                        <div className="referenceItem" key={ref.id}>
                           <div className="referenceInfo">
                             <p>[{index + 1}]</p>
                             <a
@@ -171,14 +191,16 @@ const AlumProfile = ({ userId, showModal }) => {
                         </div>
                       ))}
 
-                    <button>+ Add Reference</button>
+                    <button onClick={() => showModal("reference", e.id)}>
+                      + Add Reference
+                    </button>
                   </div>
                 </div>
               );
             })}
 
           <br></br>
-          <button>+ Add Exhibition</button>
+          <button onClick={() => showModal("exhibition")}>+ Add Exhibition</button>
           <div className="separatingLine"></div>
         </div>
       </div>

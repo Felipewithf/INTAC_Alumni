@@ -117,7 +117,7 @@ const AddSocialMediaLink = ({ userId, onClose }) => {
             </table>
             <br></br>
             {success ? (
-              <p>Successfully added!</p> // Display success message
+              <p className="successMessage">Successfully added!</p> // Display success message
             ) : (
               <button type="submit" disabled={newMediaLinkLoading}>
                 {newMediaLinkLoading ? "Adding..." : "Add Social Media Link"}

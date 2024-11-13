@@ -115,6 +115,33 @@ export const CREATE_SOCIAL_MEDIA_LINK = gql`
   }
 `;
 
+export const CREATE_EXHIBITION_REFERENCE_LINK = gql`
+  mutation CreateExhibitionReference(
+    $exhibitionId: ID!
+    $alumProfileId: ID!
+    $referenceLink: String
+  ) {
+    createExhibitionReference(
+      exhibitionId: $exhibitionId
+      alumProfileId: $alumProfileId
+      referenceLink: $referenceLink
+    ) {
+      id
+      exhibition {
+        id
+        name
+      }
+      referenceLink
+      alumProfile {
+        id
+        public
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation UpdateUser(
     $updateUserId: ID!
@@ -142,6 +169,57 @@ export const UPDATE_USER = gql`
       isAdmin
       school {
         name
+      }
+    }
+  }
+`;
+
+export const UPDATE_ALUMPROFILE = gql`
+  mutation UpdateAlumProfile(
+    $updateAlumProfileId: ID!
+    $firstName: String
+    $lastName: String
+    $bio: String
+    $public: Boolean
+    $websiteLinks: [WebsiteLinkInput]
+    $exhibitions: [ID!]
+    $socialMedia: [ID!]
+    $exhibitionsReferences: [ID!]
+  ) {
+    updateAlumProfile(
+      id: $updateAlumProfileId
+      firstName: $firstName
+      lastName: $lastName
+      bio: $bio
+      public: $public
+      websiteLinks: $websiteLinks
+      exhibitions: $exhibitions
+      socialMedia: $socialMedia
+      exhibitionsReferences: $exhibitionsReferences
+    ) {
+      exhibitionsReferences {
+        id
+        referenceLink
+      }
+      id
+      firstName
+      lastName
+      bio
+      public
+      websiteLinks {
+        urlLink
+        description
+      }
+      exhibitions {
+        id
+        name
+      }
+      socialMedia {
+        id
+        urlLink
+      }
+      user {
+        id
       }
     }
   }

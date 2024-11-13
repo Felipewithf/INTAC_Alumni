@@ -10,7 +10,6 @@ const AlumniModal = ({
   exhibitionsReferences,
   user,
 }) => {
-  console.log(personalLinks);
   return (
     <>
       <div className="modal-overlay" onClick={onClose}>
@@ -65,14 +64,14 @@ const AlumniModal = ({
               exhibitions.map((e) => (
                 <>
                   <div className="exhibition-card" key={e.id}>
-                    <img src={`/studentExhibition/${e.poster}`} alt={e.name} />
+                    <img src={`/exhibition/${e.poster}`} alt={e.name} />
                     <div>Artist References</div>
                     <div className="referenceHolder">
                       {exhibitionsReferences
                         .filter((ref) => ref.exhibition.id === e.id)
                         .map((ref, index) => (
                           <a
-                            key={ref.exhibition.id}
+                            key={ref.id}
                             href={ref.referenceLink}
                             target="_blank"
                             rel="noopener noreferrer"
