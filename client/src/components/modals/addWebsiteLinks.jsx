@@ -76,17 +76,12 @@ const AddWebsiteLinks = ({ userId, onClose }) => {
     <>
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <h2>ADD EXHIBITION</h2>
-          <form id="addExhibitionForm" onSubmit={handleSubmit}>
+          <h2>ADD LINK</h2>
+          <form id="addLinkForm" onSubmit={handleSubmit}>
             <table className="user-table">
-              <thead>
-                <tr>
-                  <th>Display Text</th>
-                  <th>Link</th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
+                  <td>Display Text</td>
                   <td>
                     <input
                       type="text"
@@ -94,6 +89,9 @@ const AddWebsiteLinks = ({ userId, onClose }) => {
                       onChange={(e) => setDisplayValue(e.target.value)}
                     />
                   </td>
+                </tr>
+                <tr>
+                  <td>URL Link</td>
                   <td>
                     <input
                       type="text"
@@ -114,9 +112,6 @@ const AddWebsiteLinks = ({ userId, onClose }) => {
                 className={`button ${
                   displayValue === "" || linkValue === "" ? "disabled" : ""
                 }`}
-                onClick={() =>
-                  console.log("DisplayValue:", displayValue, "linkValue", linkValue)
-                }
               >
                 Add Link
               </button>

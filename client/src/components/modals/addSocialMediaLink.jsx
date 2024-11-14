@@ -88,14 +88,9 @@ const AddSocialMediaLink = ({ userId, onClose }) => {
           <h2>ADD SOCIAL MEDIA LINK</h2>
           <form id="addSocialMediaLinkForm" onSubmit={handleSubmit}>
             <table className="user-table">
-              <thead>
-                <tr>
-                  <th>Platform</th>
-                  <th>Link</th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
+                  <td>Social Media Platform</td>
                   <td>
                     <select onChange={(e) => setSelectedPlatformId(e.target.value)}>
                       {dataPlatforms.getSocialMediaPlatforms.map((platforms) => (
@@ -105,6 +100,9 @@ const AddSocialMediaLink = ({ userId, onClose }) => {
                       ))}
                     </select>
                   </td>
+                </tr>
+                <tr>
+                  <td>URL Link</td>
                   <td>
                     <input
                       type="text"
@@ -119,7 +117,13 @@ const AddSocialMediaLink = ({ userId, onClose }) => {
             {success ? (
               <p className="successMessage">Successfully added!</p> // Display success message
             ) : (
-              <button type="submit" disabled={newMediaLinkLoading}>
+              <button
+                type="submit"
+                disabled={newMediaLinkLoading || mediaLinkValue === ""}
+                className={`button ${
+                  newMediaLinkLoading || mediaLinkValue === "" ? "disabled" : ""
+                }`}
+              >
                 {newMediaLinkLoading ? "Adding..." : "Add Social Media Link"}
               </button>
             )}

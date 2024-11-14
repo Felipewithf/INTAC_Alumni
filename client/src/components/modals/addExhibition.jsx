@@ -113,36 +113,19 @@ const AddExhibition = ({ userId, onClose }) => {
     <>
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <h2>ADD EXHIBITION</h2>
+          <h2>ADD EXHIBITIONS</h2>
           <form id="addExhibitionForm" onSubmit={handleSubmit}>
-            <div
-              className="exhibition-list"
-              style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}
-            >
+            <div className="exhibition-list">
               {availableExhibitions?.map((exhibition) => (
                 <div
                   key={exhibition.id}
                   className={`exhibition-item ${
                     selectedExhibitions.includes(exhibition.id) ? "selected" : ""
                   }`}
-                  style={{
-                    border: "1px solid #ccc",
-                    padding: "10px",
-                    cursor: "pointer",
-                    width: "100px",
-                    textAlign: "center",
-                    backgroundColor: selectedExhibitions.includes(exhibition.id)
-                      ? "#d3f9d8"
-                      : "#fff",
-                  }}
                   onClick={() => handleToggleExhibition(exhibition.id)}
                 >
-                  <img
-                    src={`exhibition/${exhibition.poster}`}
-                    alt={exhibition.name}
-                    style={{ width: "100%" }}
-                  />
-                  <p>{exhibition.name}</p>
+                  <img src={`exhibition/${exhibition.poster}`} alt={exhibition.name} />
+                  <label>{exhibition.name}</label>
                 </div>
               ))}
             </div>

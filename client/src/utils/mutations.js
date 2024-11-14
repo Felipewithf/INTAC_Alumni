@@ -224,3 +224,15 @@ export const UPDATE_ALUMPROFILE = gql`
     }
   }
 `;
+
+export const DELETE_SOCIAL = gql`
+  mutation DeleteSocialMediaLink($deleteSocialMediaLinkId: ID!) {
+    deleteSocialMediaLink(id: $deleteSocialMediaLinkId)
+  }
+`;
+
+export const DELETE_REFERENCE = gql`
+  mutation DeleteExhibitionReference($deleteExhibitionReferenceId: ID!) {
+    deleteExhibitionReference(id: $deleteExhibitionReferenceId)
+  }
+`;

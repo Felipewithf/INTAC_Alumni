@@ -59,15 +59,11 @@ const AddExhibitionReference = ({ userId, exhibitionId, onClose }) => {
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h2>ADD REFERENCE LINK</h2>
-          <form id="addSocialMediaLinkForm" onSubmit={handleSubmit}>
+          <form id="addReferenceLinkForm" onSubmit={handleSubmit}>
             <table className="user-table">
-              <thead>
-                <tr>
-                  <th>Reference Link</th>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
+                  <td>URL Link</td>
                   <td>
                     <input
                       type="text"

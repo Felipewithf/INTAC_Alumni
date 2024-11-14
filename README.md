@@ -2,8 +2,8 @@
 
 - what happens if the collaborator does not belong a school? I need a "school" field to be allocated to the collaborator- maybe as indepent? - also a logo for the non-school field.
 
-- then update all mutations on client side and test
 - When user logs in, but is not register send them to a new page to register
-- Add Website links, Add exhibitions, add References
-- Delete Social Media, Delete References, Delete websiteLinks
-- Update the names, bio and if profile is privateor public
+- private profile appear blurred in the community page
+- create newAlum page to create name and bio, and rewrite user object as register
+- clean up the login page UI
+- load logos for schools

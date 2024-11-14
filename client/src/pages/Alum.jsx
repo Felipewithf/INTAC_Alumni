@@ -4,11 +4,13 @@ import Auth from "../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_LOGGED_IN_USER, GET_ALUMPROFILE_BY_USER_ID } from "../utils/queries";
+import { DELETE_REFERENCE, DELETE_SOCIAL, UPDATE_ALUMPROFILE } from "../utils/mutations";
 
 import AddSocialMediaLink from "../components/modals/addSocialMediaLink";
 import AddExhibition from "../components/modals/addExhibition";
 import AddWebsiteLinks from "../components/modals/addWebsiteLinks";
 import AddExhibitionReference from "../components/modals/addExhibitionReference";
+import EditProfile from "../components/modals/editProfile";
 
 const Alum = () => {
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ const Alum = () => {
     <div>
       <div className="alumPage">
         <div className="topNavigation">
-          <button>Edit</button>
+          <button onClick={() => showModal("editProfile")}>Edit Profile</button>
           <div className="rightGroup">
             {userData.getLoggedInUser.isAdmin && (
               <button onClick={handleAdminDashboard}>Admin Dashboard</button>
@@ -74,6 +76,9 @@ const Alum = () => {
           onClose={hideModal}
         />
       )}
+      {activeModal === "editProfile" && (
+        <EditProfile userId={userData.getLoggedInUser.id} onClose={hideModal} />
+      )}
     </div>
   );
 };
@@ -83,10 +88,81 @@ const AlumProfile = ({ userId, showModal }) => {
     variables: { getAlumProfileByUserIdId: userId },
     skip: !userId, // Don't run the query until we have a userId
   });
+  const [deleteSocialMediaLink] = useMutation(DELETE_SOCIAL);
+  const [deleteReferenceLink] = useMutation(DELETE_REFERENCE);
+  const [updateAlumProfile] = useMutation(UPDATE_ALUMPROFILE);
+
+  const deleteSocial = async (id) => {
+    try {
+      await deleteSocialMediaLink({
+        variables: {
+          deleteSocialMediaLinkId: id,
+        },
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 500); // Wait half a second before reloading
+    } catch (error) {
+      console.error("Error deleting social media link:", error);
+    }
+  };
+
+  const deleteReference = async (id) => {
+    console.log(id);
+    try {
+      await deleteReferenceLink({
+        variables: {
+          deleteExhibitionReferenceId: id,
+        },
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 500); // Wait half a second before reloading
+    } catch (error) {
+      console.error("Error deleting reference link:", error);
+    }
+  };
+
+  const deleteWebsitelink = async (urlLink, description) => {
+    try {
+      // Collect all existing data from alumProfileData
+      const {
+        firstName,
+        lastName,
+        bio,
+        public: isPublic,
+        websiteLinks,
+        exhibitions,
+        socialMedia,
+        exhibitionsReferences,
+      } = data.getAlumProfileByUserId;
+
+      // Filter out __typename from websiteLinks
+      const updatedWebsiteLinks = websiteLinks
+        .filter((link) => link.urlLink !== urlLink && link.description !== description)
+        .map(({ __typename, ...rest }) => rest); // Remove __typename field
+
+      // Call the update mutation
+      await updateAlumProfile({
+        variables: {
+          updateAlumProfileId: data.getAlumProfileByUserId.id,
+          firstName,
+          lastName,
+          bio,
+          public: isPublic,
+          websiteLinks: updatedWebsiteLinks,
+          exhibitions: exhibitions.map((ex) => ex.id),
+          socialMedia: socialMedia.map((sm) => sm.id),
+          exhibitionsReferences: exhibitionsReferences.map((ref) => ref.id),
+        },
+      });
+    } catch (error) {
+      console.error("Error updating alum profile:", error);
+    }
+  };
 
   if (loading) return <p>Loading alum profile...</p>;
   if (error) return <p>Error fetching alum profile: {error.message}</p>;
-  console.log(data);
 
   return (
     <>
@@ -109,7 +185,7 @@ const AlumProfile = ({ userId, showModal }) => {
           </div>
           <div className="separatingLine"></div>
           <h4>Links</h4>
-          <p>
+          <p className="description">
             Add any type of links you want to link to your profile like website,
             portfolios, awards, galleries, companies, etc.
           </p>
@@ -124,7 +200,10 @@ const AlumProfile = ({ userId, showModal }) => {
                         <p>{link.urlLink}</p>
                       </a>
                     </div>
-                    <button className="deleteIcon"></button>
+                    <button
+                      onClick={() => deleteWebsitelink(link.urlLink, link.description)}
+                      className="deleteIcon"
+                    ></button>
                   </div>
                 );
               })}
@@ -134,7 +213,9 @@ const AlumProfile = ({ userId, showModal }) => {
             <div className="separatingLine"></div>
           </div>
           <h4>Socials</h4>
-          <p>Add your social medias to keep in touch with your fellow INTAC Members.</p>
+          <p className="description">
+            Add your social medias to keep in touch with your fellow INTAC Members.
+          </p>
           <div className="socials">
             {data.getAlumProfileByUserId.socialMedia.length > 0 &&
               data.getAlumProfileByUserId.socialMedia.map((social) => {
@@ -148,7 +229,10 @@ const AlumProfile = ({ userId, showModal }) => {
                       </a>
                     </div>
 
-                    <button className="deleteIcon"></button>
+                    <button
+                      onClick={() => deleteSocial(social.id)}
+                      className="deleteIcon"
+                    ></button>
                   </div>
                 );
               })}
@@ -161,10 +245,9 @@ const AlumProfile = ({ userId, showModal }) => {
         <div className="exhibitions">
           <div className="separatingLine"></div>
           <h4>Exhibitions & References</h4>
-          <p>
-            Showcase all the exhibitions you have partaken as an INTAC member, if you have
-            external links to your work or your peers work for a particular exhibition
-            please add the links as references.
+          <p className="description">
+            Showcase your INTAC exhibitons, if you have external links for a particular
+            exhibition please add the links as references.
           </p>
 
           {data.getAlumProfileByUserId.exhibitions.length > 0 &&
@@ -173,6 +256,9 @@ const AlumProfile = ({ userId, showModal }) => {
                 <div className="exhibitionItem" key={e.id}>
                   <img src={`exhibition/${e.poster}`} alt={e.name}></img>
                   <div className="references">
+                    <button onClick={() => showModal("reference", e.id)}>
+                      + Add Reference
+                    </button>
                     {data.getAlumProfileByUserId.exhibitionsReferences
                       .filter((ref) => ref.exhibition.id === e.id)
                       .map((ref, index) => (
@@ -187,13 +273,12 @@ const AlumProfile = ({ userId, showModal }) => {
                               {ref.referenceLink}
                             </a>
                           </div>
-                          <button className="deleteIcon"></button>
+                          <button
+                            onClick={() => deleteReference(ref.id)}
+                            className="deleteIcon"
+                          ></button>
                         </div>
                       ))}
-
-                    <button onClick={() => showModal("reference", e.id)}>
-                      + Add Reference
-                    </button>
                   </div>
                 </div>
               );

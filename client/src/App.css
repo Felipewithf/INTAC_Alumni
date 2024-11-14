@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "balboa";
   line-height: 1.5;
   font-weight: 400;
 
@@ -107,6 +107,12 @@ header .alumInitials {
 .disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.successMessage {
+  font-size: 1.1rem;
+  color: darkgreen;
+  font-weight: bold;
 }
 
 /* -------------- COMMUNITY PAGE -------------- */
@@ -580,6 +586,12 @@ textarea {
   font-size: 1.2rem;
 }
 
+.alumPage .description{
+  line-height: 1.1rem;
+  font-weight: 400;
+  width: 80%;
+}
+
 .alumPage button:hover {
   background-color: black;
   color: white;
@@ -631,9 +643,28 @@ textarea {
   padding-right: 10px;
 }
 
+.alumData .exhibitions .exhibitionItem .referenceItem {
+  height: 30px;
+}
+.alumData .exhibitions .exhibitionItem .referenceItem:first-of-type {
+  padding-top: 10px;
+}
+
 .alumData .personal .socials .socialItem:hover,
-.alumData .personal .links .linkItem:hover {
+.alumData .personal .links .linkItem:hover,
+.alumData .exhibitions .exhibitionItem .referenceItem:hover {
   background-color: #ececec;
+}
+
+/* Hide the delete button by default */
+.alumData .deleteIcon {
+  visibility: hidden;
+}
+
+.alumData .personal .links .linkItem:hover .deleteIcon,
+.alumData .personal .socials .socialItem:hover .deleteIcon,
+.alumData .exhibitions .exhibitionItem .referenceItem:hover .deleteIcon {
+  visibility: visible;
 }
 
 .alumData .personal .socials .socialItem .socialInfo,
@@ -686,6 +717,7 @@ textarea {
 
 .alumData .exhibitions .exhibitionItem img {
   width: 200px;
+  height: fit-content;
 }
 
 .alumData .exhibitions .exhibitionItem .references {
@@ -702,4 +734,62 @@ textarea {
 
 .alumData .exhibitions .exhibitionItem .referenceItem {
   justify-content: space-between;
+}
+
+#updateProfileForm textarea {
+  opacity: 1;
+}
+
+#updateProfileForm .user-table input[type="text"],
+#addLinkForm .user-table input[type="text"],
+#addSocialMediaLinkForm input[type="text"],
+#addReferenceLinkForm .user-table input[type="text"] {
+  border: 1px solid #ccc;
+  max-width: 100%;
+}
+
+#updateProfileForm td {
+  position: relative;
+}
+#updateProfileForm label {
+  position: absolute;
+  bottom: -40px;
+  padding-left: 0;
+  line-height: 1rem;
+  font-weight: 400;
+}
+
+#addExhibitionForm .exhibition-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#addExhibitionForm .exhibition-list .exhibition-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: "pointer";
+  width: 100px;
+  background-color: #fff;
+}
+
+#addExhibitionForm .exhibition-list .exhibition-item img {
+  width: 100%;
+  height: fit-content;
+  height: fit-content;
+}
+
+#addExhibitionForm .exhibition-list .exhibition-item label {
+  font-family: "balboa";
+  font-weight: 400;
+  font-size: 0.9rem;
+  display: block;
+  text-align: left;
+  padding: 10px 0 0 0;
+  color: #888;
+}
+
+#addExhibitionForm .exhibition-list .exhibition-item.selected {
+  background-color: #d3f9d8;
+  border: 1px solid green;
 }
