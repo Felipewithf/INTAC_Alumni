@@ -6,6 +6,7 @@ import Default from "./pages/Default.jsx";
 import Community from "./pages/Community.jsx";
 import LoginUser from "./pages/LoginUser.jsx";
 import PrivateRoute from "./components/PrivateRoute/index.jsx";
+import CheckRegistration from "./components/PrivateRoute/checkRegistration.jsx";
 import MagicLogin from "./pages/MagicLogin.jsx";
 import Alum from "./pages/Alum.jsx";
 import NewAlum from "./pages/NewAlum.jsx";
@@ -39,13 +40,13 @@ const router = createBrowserRouter([
       {
         path: "/alum",
         element: (
-          <PrivateRoute>
+          <CheckRegistration>
             <Alum />
-          </PrivateRoute>
+          </CheckRegistration>
         ),
       },
       {
-        path: "/new",
+        path: "/newAlum",
         element: (
           <PrivateRoute>
             <NewAlum />

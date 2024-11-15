@@ -14,14 +14,15 @@ const MagicLogin = () => {
 
   useEffect(() => {
     const token = searchParams.get("token");
-    console.log("retrieve token from url");
-    console.log(token);
+    // console.log("retrieve token from url");
+    // console.log(token);
 
     if (token) {
       // Send the token to your backend for verification
       axios
         .get(`${backURL}magic-login-v?token=${token}`)
         .then((response) => {
+          console.log(response.data);
           const { token: jwtToken } = response.data;
 
           // Store the JWT token in localStorage (or cookie)

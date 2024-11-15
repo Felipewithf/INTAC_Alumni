@@ -1,33 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Auth from "../../utils/auth";
 
 const Header = () => {
-  const logout = (event) => {
-    event.preventDefault();
-    Auth.logout();
-  };
+  const location = useLocation(); // Get the current location
+
   return (
     <header className="">
       <div>logo</div>
       <div id="centerLinks">
         <div>
-          <Link to="/">Community</Link>
+          <Link className={location.pathname === "/" ? "underscore" : ""} to="/">
+            Community
+          </Link>
         </div>
         <div>
-          <Link to="/">Announcements</Link>
+          <Link className={location.pathname === "/a" ? "underscore" : ""} to="/">
+            Announcements
+          </Link>
         </div>
       </div>
       <div>
         {Auth.loggedIn() ? (
           <>
-            <Link className="alumInitials" to="/alum">
-              Fs
-              {/* Run the getProfile() method to get access to the unencrypted token value in order to retrieve the user's username  */}
-              {/* {Auth.getProfile().authenticatedPerson.username}'s profile */}
+            <Link
+              className={`alumInitials ${
+                location.pathname === "/alum" || location.pathname === "/newAlum"
+                  ? "active"
+                  : ""
+              }`}
+              to="/alum"
+            >
+              🛂
             </Link>
-            {/* <div className="" onClick={logout}>
-              Logout
-            </div> */}
           </>
         ) : (
           <>

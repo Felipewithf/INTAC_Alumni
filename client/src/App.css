@@ -87,7 +87,16 @@ header #centerLinks {
 
 header .alumInitials {
   text-transform: uppercase;
+  filter: grayscale(1);
+}
+
+header .underscore {
   text-decoration: underline;
+}
+
+header .alumInitials.active {
+  text-transform: uppercase;
+  filter: grayscale(0);
 }
 
 .separatingLine {
@@ -170,6 +179,20 @@ header .alumInitials {
   padding: 10px 25px 10px 10px;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
+}
+
+#community .cardHolder .alumniCardPrivate {
+  /* background-color: purple; */
+  background-image: url("/private.svg");
+  color: white;
+  width: 250px;
+  height: 350px;
+  display: flex;
+  margin: 10px;
+  padding: 10px 25px 10px 10px;
+  flex-direction: column;
+  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -564,11 +587,15 @@ textarea {
 
 .alumPage {
   margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .alumPage .topNavigation {
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 
 .alumPage .topNavigation .rightGroup {
@@ -586,7 +613,7 @@ textarea {
   font-size: 1.2rem;
 }
 
-.alumPage .description{
+.alumPage .description {
   line-height: 1.1rem;
   font-weight: 400;
   width: 80%;
@@ -603,6 +630,7 @@ textarea {
   display: flex;
   font-family: "balboa";
   font-weight: 400;
+  max-width: 1400px;
 }
 
 .alumData .personal {
@@ -792,4 +820,37 @@ textarea {
 #addExhibitionForm .exhibition-list .exhibition-item.selected {
   background-color: #d3f9d8;
   border: 1px solid green;
+}
+
+/* -------------- NEW ALUM PAGE -------------- */
+
+.alumPage #createProfileForm {
+  padding: 0 20%;
+}
+
+#createProfileForm .user-table input[type="text"] {
+  border: 1px solid #ccc;
+  max-width: 100%;
+}
+
+#createProfileForm textarea {
+  opacity: 1;
+  width: 100%;
+}
+
+#createProfileForm td {
+  position: relative;
+}
+#createProfileForm label {
+  position: absolute;
+  bottom: -30px;
+  padding-left: 0;
+  color: #888;
+  font-size: 1rem;
+  line-height: 1.1rem;
+  font-weight: 400;
+}
+
+#createProfileForm button {
+  font-size: 1.5rem;
 }

@@ -34,6 +34,7 @@ export const GET_LOGGED_IN_USER = gql`
       id
       email
       isAdmin
+      register
     }
   }
 `;

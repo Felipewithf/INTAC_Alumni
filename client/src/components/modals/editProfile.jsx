@@ -126,7 +126,7 @@ const EditProfile = ({ userId, onClose }) => {
                       <option value="false">Private</option>
                     </select>
                     <label>
-                      Private profile will be hiden to the public, but will be visible to
+                      Private profile will be hidden to the public, but will be visible to
                       INTAC users when they are logged in.
                     </label>
                   </td>

@@ -68,34 +68,43 @@ const Community = () => {
           </ol>
         </div>
         <div className="cardHolder">
-          {filteredAlumni.map((alumnus) => (
-            <div
-              className="alumniCard"
-              style={{ borderColor: schoolColors(alumnus.user.school.name) }}
-              key={alumnus.id}
-              onClick={() => showModal(alumnus)}
-            >
-              <div className="name">
-                <div className="truncate">{alumnus.firstName}</div>
-                <div className="truncate">{alumnus.lastName}</div>
-              </div>
-              <div className="bio">{truncate(alumnus.bio, 150)}</div>
-              <div className="footer">
-                <div className="left">
-                  <div className="designation">{alumnus.user.designationRole}</div>
-                  <div className="years">
-                    {" "}
-                    {truncate(alumnus.user.years.join(", "), 24)}
+          {filteredAlumni.map((alumnus) =>
+            alumnus?.public ? (
+              <div
+                className="alumniCard"
+                style={{ borderColor: schoolColors(alumnus.user.school.name) }}
+                key={alumnus.id}
+                onClick={() => showModal(alumnus)}
+              >
+                <div className="name">
+                  <div className="truncate">{alumnus.firstName}</div>
+                  <div className="truncate">{alumnus.lastName}</div>
+                </div>
+                <div className="bio">{truncate(alumnus.bio, 150)}</div>
+                <div className="footer">
+                  <div className="left">
+                    <div className="designation">{alumnus.user.designationRole}</div>
+                    <div className="years">
+                      {" "}
+                      {truncate(alumnus.user.years.join(", "), 24)}
+                    </div>
+                  </div>
+                  <div className="rigth">
+                    <div className="schoolLogo">
+                      <img src="vite.svg"></img>
+                    </div>
                   </div>
                 </div>
-                <div className="rigth">
-                  <div className="schoolLogo">
-                    <img src="vite.svg"></img>
-                  </div>
+              </div>
+            ) : (
+              <div key={alumnus.id} className="alumniCardPrivate">
+                <h3>LOGIN TO VIEW USER</h3>
+                <div className="schoolLogo">
+                  <img src="vite.svg"></img>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </div>
       {isModalVisible && (

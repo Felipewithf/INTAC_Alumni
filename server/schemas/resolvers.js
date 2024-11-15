@@ -156,10 +156,15 @@ const resolvers = {
       await user.save();
 
       const authToken = jwt.sign(
-        { id: user._id, email: user.email, isAdmin: user.isAdmin },
+        {
+          id: user._id,
+          email: user.email,
+          isAdmin: user.isAdmin,
+          register: user.register,
+        },
         process.env.JWT_SECRET,
         {
-          expiresIn: "2h",
+          expiresIn: "2m",
         }
       );
 
@@ -227,6 +232,10 @@ const resolvers = {
         });
 
         await newAlumProfile.save();
+
+        user.register = true;
+        await user.save();
+
         return newAlumProfile.populate("user");
       } catch (error) {
         throw new Error(`Error creating AlumProfile: ${error.message}`);
