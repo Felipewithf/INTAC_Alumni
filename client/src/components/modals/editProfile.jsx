@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_ALUMPROFILE_BY_USER_ID } from "../../utils/queries";
 import { UPDATE_ALUMPROFILE } from "../../utils/mutations";
@@ -153,8 +153,13 @@ const EditProfile = ({ userId, onClose }) => {
                   }`}
                   onClick={() => console.log("isPublicValue:", isPublicValue)}
                 >
-                  Update Profile
+                  Update
                 </button>
+                <div>
+                  <p style={{ textAlign: "start" }}>
+                    <a href="./changeemail">Change sign-in email</a>
+                  </p>
+                </div>
               </>
             )}
           </form>

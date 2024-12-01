@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 
@@ -84,6 +84,7 @@ const Alum = () => {
 };
 
 const AlumProfile = ({ userId, showModal }) => {
+  const navigate = useNavigate();
   const { loading, error, data } = useQuery(GET_ALUMPROFILE_BY_USER_ID, {
     variables: { getAlumProfileByUserIdId: userId },
     skip: !userId, // Don't run the query until we have a userId

@@ -5,3 +5,6 @@
 
 - clean up the login page UI
 - load logos for schools
+- users to change their email address
+- add longName to schools in database
+- logo for Intac Connect 

@@ -10,6 +10,7 @@ import CheckRegistration from "./components/PrivateRoute/checkRegistration.jsx";
 import MagicLogin from "./pages/MagicLogin.jsx";
 import Alum from "./pages/Alum.jsx";
 import NewAlum from "./pages/NewAlum.jsx";
+import ChangeEmail from "./pages/changeEmail.jsx";
 
 import App from "./App.jsx";
 
@@ -43,6 +44,14 @@ const router = createBrowserRouter([
           <CheckRegistration>
             <Alum />
           </CheckRegistration>
+        ),
+      },
+      {
+        path: "/changeemail",
+        element: (
+          <PrivateRoute>
+            <ChangeEmail />
+          </PrivateRoute>
         ),
       },
       {

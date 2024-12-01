@@ -47,6 +47,7 @@ export const GET_USER_BY_ID = gql`
       email
       school {
         name
+        id
       }
       years
       register

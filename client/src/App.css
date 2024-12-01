@@ -204,7 +204,8 @@ header .alumInitials.active {
   padding: 0;
   line-height: 2.6rem;
   text-align: start;
-  height: 200px;
+  overflow: visible;
+  height: 40%;
 }
 
 #community .cardHolder .alumniCard .bio {
@@ -215,7 +216,7 @@ header .alumInitials.active {
   padding: 0;
   line-height: 1.1rem;
   text-align: start;
-  height: 200px;
+  height: 40%;
 }
 
 #community .cardHolder .alumniCard .footer {
@@ -627,6 +628,7 @@ textarea {
 
 .alumData {
   padding-top: 60px;
+  padding-bottom: 60px;
   display: flex;
   font-family: "balboa";
   font-weight: 400;
@@ -826,6 +828,7 @@ textarea {
 
 .alumPage #createProfileForm {
   padding: 0 20%;
+  width: 50%;
 }
 
 #createProfileForm .user-table input[type="text"] {
