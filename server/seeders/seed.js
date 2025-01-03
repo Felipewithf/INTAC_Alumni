@@ -12,7 +12,7 @@ const schoolsSeeds = require("./schoolSeeds.json");
 const socialMediaSeeds = require("./socialMediaSeeds.json");
 const exhibitionSeeds = require("./exhibitionsSeeds.json");
 
-// const cleanDB = require("./cleanDB");
+//const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
   try {

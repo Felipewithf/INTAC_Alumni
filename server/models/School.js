@@ -5,6 +5,10 @@ const schoolsSchema = new Schema({
     type: String,
     required: true,
   },
+  acronym: {
+    type: String,
+    required: true,
+  },
   url: {
     type: String,
     required: true,
@@ -13,6 +17,14 @@ const schoolsSchema = new Schema({
     type: String,
   },
   country: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  status: {
     type: String,
     required: true,
   },

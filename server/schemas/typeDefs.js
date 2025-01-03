@@ -12,9 +12,12 @@ type User {
   type School {
     id: ID!
     name: String!
+    acronym: String
     url: String!
     logo: String!
     country: String!
+    location: String
+    status: String
   }
   
   type AlumProfile {
@@ -100,7 +103,7 @@ type User {
 
     # Mutations: Create
     createUser(email: String!, schoolId: ID!, years: [Int], register: Boolean!, designationRole: String, isAdmin: Boolean!): User!
-    createSchool(name: String!, url: String!, logo: String!, country: String!): School!
+    createSchool(name: String!, acronym: String, url: String!, logo: String!, country: String!, location: String, status: String): School!
     createAlumProfile( firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], exhibitions: [ID!], socialMedia: [ID!], exhibitionsReferences: [CreateExhibitionReferenceInput], userId: ID!): AlumProfile!
     createExhibition( name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!, alumniExhibition: Boolean! ): Exhibition!
     createSocialMediaLink( socialMediaPlatformId: ID!, urlLink: String!, alumProfileId: ID! ): SocialMediaLink!

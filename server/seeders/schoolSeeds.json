@@ -1,14 +1,29 @@
 [
   {
     "name": "Intac Academy",
+    "acronym": "INT",
     "url": "https://www.intacacademy.edu",
     "logo": "intac_logo.png",
-    "country": "Canada"
+    "country": "Canada",
+    "location": "Toronto",
+    "status": "partner"
   },
   {
     "name": "Artisan University",
+    "acronym": "AR",
     "url": "https://www.artisanuniversity.edu",
     "logo": "artisan_logo.png",
-    "country": "USA"
+    "country": "USA",
+    "location": "New York",
+    "status": "past partner"
+  },
+  {
+    "name": "bvEERLING unI",
+    "acronym": "br",
+    "url": "https://www.VERLINersity.edu",
+    "logo": "velringlogo.png",
+    "country": "Germany",
+    "location": "Berlin",
+    "status": "partner"
   }
 ]

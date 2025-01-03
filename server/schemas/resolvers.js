@@ -25,7 +25,14 @@ const resolvers = {
       return User.findById(context.user.id);
     },
     getSchools: async () => {
-      return await School.find();
+      try {
+        const schools = await School.find(); // Ensure all fields are being retrieved
+        console.log(schools);
+        return schools;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Error fetching schools");
+      }
     },
     getSchoolById: async (_, { id }) => {
       return await School.findById(id);
@@ -194,8 +201,8 @@ const resolvers = {
       return await user.save();
     },
     // Create School
-    createSchool: async (_, { name, url, logo, country }) => {
-      const school = new School({ name, url, logo, country });
+    createSchool: async (_, { name, acronym, url, logo, country, location, status }) => {
+      const school = new School({ name, acronym, url, logo, country, location, status });
       return await school.save();
     },
     // Create AlumProfile
