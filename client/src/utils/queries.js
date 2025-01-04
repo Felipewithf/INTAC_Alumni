@@ -70,7 +70,9 @@ export const GET_ALUMPROFILES = gql`
         email
         school {
           name
+          acronym
           logo
+          color
         }
         years
         designationRole
@@ -193,9 +195,13 @@ export const GET_SCHOOLS = gql`
     getSchools {
       id
       name
+      acronym
       url
       logo
       country
+      location
+      status
+      color
     }
   }
 `;
@@ -204,10 +210,15 @@ export const GET_SCHOOLS = gql`
 export const GET_SCHOOL = gql`
   query GetSchoolById($getSchoolByIdId: ID!) {
     getSchoolById(id: $getSchoolByIdId) {
+      id
       name
-      logo
+      acronym
       url
+      logo
       country
+      location
+      status
+      color
     }
   }
 `;

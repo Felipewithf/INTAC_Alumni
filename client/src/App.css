@@ -222,6 +222,7 @@ header .alumInitials.active {
 #community .cardHolder .alumniCard .footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-family: "balboa";
   color: #888;
   font-weight: 200;
@@ -230,6 +231,11 @@ header .alumInitials.active {
 
 #community .cardHolder .alumniCard .footer .left {
   text-align: start;
+}
+
+#community .cardHolder .alumniCard .footer img {
+  width: 45px;
+  height: 45px;
 }
 /* #community .cardHolder .alumniCard .footer .years{
   white-space: nowrap;

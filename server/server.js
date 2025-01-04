@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { ApolloServer } = require("@apollo/server");
-const { ApolloServerPluginCacheControl } = require("@apollo/server/plugin/cacheControl");
 
 const { User } = require("./models");
 const { expressMiddleware } = require("@apollo/server/express4");
@@ -70,9 +69,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context,
-  plugins: [
-    ApolloServerPluginCacheControl({ defaultMaxAge: 0 }), // Disables caching by default
-  ],
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
@@ -88,11 +84,6 @@ const startApolloServer = async () => {
       context: async ({ req }) => context({ req }),
     })
   );
-
-  app.use("/graphql", (req, res, next) => {
-    res.set("Cache-Control", "no-store"); // Disable caching for all responses
-    next();
-  });
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));

@@ -28,6 +28,10 @@ const schoolsSchema = new Schema({
     type: String,
     required: true,
   },
+  color: {
+    type: String,
+    required: true,
+  },
 });
 
 const School = model("School", schoolsSchema);

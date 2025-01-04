@@ -26,7 +26,7 @@ const resolvers = {
     },
     getSchools: async () => {
       try {
-        const schools = await School.find(); // Ensure all fields are being retrieved
+        const schools = await School.find();
         console.log(schools);
         return schools;
       } catch (error) {
@@ -201,8 +201,8 @@ const resolvers = {
       return await user.save();
     },
     // Create School
-    createSchool: async (_, { name, acronym, url, logo, country, location, status }) => {
-      const school = new School({ name, acronym, url, logo, country, location, status });
+    createSchool: async (_, { name, acronym, url, logo, country, location, status, color }) => {
+      const school = new School({ name, acronym, url, logo, country, location, status, color });
       return await school.save();
     },
     // Create AlumProfile

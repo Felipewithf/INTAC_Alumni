@@ -1,29 +1,152 @@
 [
   {
-    "name": "Intac Academy",
-    "acronym": "INT",
-    "url": "https://www.intacacademy.edu",
-    "logo": "intac_logo.png",
+    "name": "OCAD University",
+    "acronym": "OCADU",
+    "url": "www.ocadu.ca",
+    "logo": "ocadu.png",
     "country": "Canada",
     "location": "Toronto",
-    "status": "partner"
+    "status": "partner",
+    "color": "#000000"
   },
   {
-    "name": "Artisan University",
-    "acronym": "AR",
-    "url": "https://www.artisanuniversity.edu",
-    "logo": "artisan_logo.png",
-    "country": "USA",
-    "location": "New York",
-    "status": "past partner"
+    "name": "Chung Ang University",
+    "acronym": "CAU",
+    "url": "neweng.cau.ac.kr/",
+    "logo": "cau.png",
+    "country": "South Korea",
+    "location": "Anseong",
+    "status": "partner",
+    "color": "#1E71C1"
   },
   {
-    "name": "bvEERLING unI",
-    "acronym": "br",
-    "url": "https://www.VERLINersity.edu",
-    "logo": "velringlogo.png",
+    "name": "Tampere University of Applied Sciences",
+    "acronym": "TAMK",
+    "url": "www.tamk.fi",
+    "logo": "tamk.png",
+    "country": "Finland",
+    "location": "Tampere",
+    "status": "partner",
+    "color": "#4E008E"
+  },
+  {
+    "name": "University of Europe for Applied Sciences",
+    "acronym": "UE",
+    "url": "www.ue-germany.com",
+    "logo": "ue.png",
     "country": "Germany",
     "location": "Berlin",
-    "status": "partner"
+    "status": "partner",
+    "color": "#F9423A"
+  },
+  {
+    "name": "Universidad Autonoma del Estado de México",
+    "acronym": "UAEM",
+    "url": "artes.uaemex.mx",
+    "logo": "uaem.png",
+    "country": "Mexico",
+    "location": "Toluca",
+    "status": "partner",
+    "color": "#385F27"
+  },
+  {
+    "name": "Universidad Autonoma Metropolitana",
+    "acronym": "UAM",
+    "url": "www.uam.mx",
+    "logo": "uam.png",
+    "country": "Mexico",
+    "location": "Mexico City",
+    "status": "partner",
+    "color": "#777777"
+  },
+  {
+    "name": "Kyushu University",
+    "acronym": "KU",
+    "url": "www.design.kyushu-u.ac.jp/en/",
+    "logo": "ku.png",
+    "country": "Japan",
+    "location": "Fukuoka",
+    "status": "partner",
+    "color": "#83003C"
+  },
+  {
+    "name": "Indiana University Northwest",
+    "acronym": "IU",
+    "url": "northwest.iu.edu/fine-arts",
+    "logo": "iu.png",
+    "country": "USA",
+    "location": "Gary, Indiana",
+    "status": "partner",
+    "color": "#990000"
+  },
+  {
+    "name": "Wuhan Textile University",
+    "acronym": "WTU",
+    "url": "www.wtu.edu.cn",
+    "logo": "wtu.png",
+    "country": "China",
+    "location": "Wuhan",
+    "status": "past partner",
+    "color": "#0B2F63"
+  },
+  {
+    "name": "Osaka University of Arts",
+    "acronym": "OUA",
+    "url": "www.osaka-geidai.ac.jp",
+    "logo": "oua.png",
+    "country": "Japan",
+    "location": "Osaka",
+    "status": "past partner",
+    "color": "#ecff00"
+  },
+  {
+    "name": "National Institute of Design",
+    "acronym": "NID",
+    "url": "www.nid.edu",
+    "logo": "nid.png",
+    "country": "India",
+    "location": "Gandhinagar",
+    "status": "past partner",
+    "color": "#DADADA"
+  },
+  {
+    "name": "School of the Art Institute of Chicago",
+    "acronym": "SAIC",
+    "url": "www.saic.edu",
+    "logo": "saic.png",
+    "country": "USA",
+    "location": "Chicago",
+    "status": "collaborator",
+    "color": "#F99D1E"
+  },
+  {
+    "name": "Nottingham Trent University",
+    "acronym": "NTU",
+    "url": "www.ntu.ac.uk",
+    "logo": "ntu.png",
+    "country": "UK",
+    "location": "Nottingham",
+    "status": "collaborator",
+    "color": "#EC0B62"
+  },
+  {
+    "name": "Academy of Fine Arts and Design",
+    "acronym": "VSVU",
+    "url": "www.vsvu.sk/en/",
+    "logo": "vsvu.png",
+    "country": "Slovakia",
+    "location": "Bratislava",
+    "status": "collaborator",
+    "color": "#F65DC5"
+  },
+  {
+    "name": "University for the Creative Arts: Farnham",
+    "acronym": "UCA",
+    "url": "www.uca.ac.uk/campuses/farnham/",
+    "logo": "uca.png",
+    "country": "UK",
+    "location": "Farnham",
+    "status": "collaborator",
+    "color": "#6cabda"
   }
 ]

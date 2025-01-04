@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALUMPROFILES } from "../utils/queries";
-import { intacYears, schoolColors, truncate } from "../utils/staticSettings";
+import { intacYears, truncate } from "../utils/staticSettings";
 
 import AlumniModal from "../components/modals/detailedAlumni";
 
@@ -72,7 +72,7 @@ const Community = () => {
             alumnus?.public ? (
               <div
                 className="alumniCard"
-                style={{ borderColor: schoolColors(alumnus.user.school.name) }}
+                style={{ borderColor: alumnus.user.school.color }}
                 key={alumnus.id}
                 onClick={() => showModal(alumnus)}
               >
@@ -91,7 +91,7 @@ const Community = () => {
                   </div>
                   <div className="rigth">
                     <div className="schoolLogo">
-                      <img src="vite.svg"></img>
+                      <img src={`/schools/${alumnus.user.school.logo}`}></img>
                     </div>
                   </div>
                 </div>
