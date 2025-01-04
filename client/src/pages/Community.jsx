@@ -119,6 +119,7 @@ const Community = () => {
           exhibitions={selectedAlumnus.exhibitions}
           exhibitionsReferences={selectedAlumnus.exhibitionsReferences}
           user={selectedAlumnus.user}
+          color={selectedAlumnus.user.school.color}
         />
       )}
     </>

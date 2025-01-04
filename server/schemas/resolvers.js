@@ -25,14 +25,7 @@ const resolvers = {
       return User.findById(context.user.id);
     },
     getSchools: async () => {
-      try {
-        const schools = await School.find();
-        console.log(schools);
-        return schools;
-      } catch (error) {
-        console.error(error);
-        throw new Error("Error fetching schools");
-      }
+      return await School.find();
     },
     getSchoolById: async (_, { id }) => {
       return await School.findById(id);
@@ -201,8 +194,20 @@ const resolvers = {
       return await user.save();
     },
     // Create School
-    createSchool: async (_, { name, acronym, url, logo, country, location, status, color }) => {
-      const school = new School({ name, acronym, url, logo, country, location, status, color });
+    createSchool: async (
+      _,
+      { name, acronym, url, logo, country, location, status, color }
+    ) => {
+      const school = new School({
+        name,
+        acronym,
+        url,
+        logo,
+        country,
+        location,
+        status,
+        color,
+      });
       return await school.save();
     },
     // Create AlumProfile
@@ -269,6 +274,14 @@ const resolvers = {
       } catch (error) {
         throw new Error(`Error creating Exhibition: ${error.message}`);
       }
+    },
+    // Create Social Media Platform
+    createSocialMediaPlatform: async (_, { name, logo }) => {
+      const socialMediaPlatform = new SocialMediaPlatform({
+        name,
+        logo,
+      });
+      return await socialMediaPlatform.save();
     },
     // Create SocialMediaLink
     createSocialMediaLink: async (

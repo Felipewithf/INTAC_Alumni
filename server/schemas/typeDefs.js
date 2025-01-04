@@ -107,6 +107,7 @@ type User {
     createSchool(name: String!, acronym: String, url: String!, logo: String!, country: String!, location: String, status: String, color: String): School!
     createAlumProfile( firstName: String!, lastName: String!, bio: String!, public: Boolean!, websiteLinks: [WebsiteLinkInput], exhibitions: [ID!], socialMedia: [ID!], exhibitionsReferences: [CreateExhibitionReferenceInput], userId: ID!): AlumProfile!
     createExhibition( name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!, alumniExhibition: Boolean! ): Exhibition!
+    createSocialMediaPlatform( name: String!, logo: String ): SocialMediaPlatform!
     createSocialMediaLink( socialMediaPlatformId: ID!, urlLink: String!, alumProfileId: ID! ): SocialMediaLink!
     createExhibitionReference( exhibitionId: ID!, alumProfileId: ID!, referenceLink: String ): ExhibitionReference!
 

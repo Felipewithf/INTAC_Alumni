@@ -30,7 +30,7 @@ const Header = () => {
               }`}
               to="/alum"
             >
-              🛂
+            👤
             </Link>
           </>
         ) : (

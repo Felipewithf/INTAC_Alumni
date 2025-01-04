@@ -162,8 +162,21 @@ const AlumProfile = ({ userId, showModal }) => {
     }
   };
 
+  // Convert the bio value to HTML with line breaks
+  const renderBioWithLineBreaks = (text) => {
+    return text.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
+
+
   if (loading) return <p>Loading alum profile...</p>;
   if (error) return <p>Error fetching alum profile: {error.message}</p>;
+
+
 
   return (
     <>
@@ -173,7 +186,8 @@ const AlumProfile = ({ userId, showModal }) => {
             <div>{data.getAlumProfileByUserId.firstName}</div>
             <div>{data.getAlumProfileByUserId.lastName}</div>
           </div>
-          <p className="bio">{data.getAlumProfileByUserId.bio}</p>
+          <p className="bio">{renderBioWithLineBreaks(data.getAlumProfileByUserId.bio)}</p>
+          
           <div className="permission">
             <p>
               Your profile is:{" "}

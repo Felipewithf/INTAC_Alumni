@@ -9,11 +9,26 @@ const AlumniModal = ({
   exhibitions,
   exhibitionsReferences,
   user,
+  color,
 }) => {
+  // Convert the bio value to HTML with line breaks
+  const renderBioWithLineBreaks = (text) => {
+    return text.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
+
   return (
     <>
       <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-alumni-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="modal-alumni-content"
+          onClick={(e) => e.stopPropagation()}
+          style={{ borderColor: color }}
+        >
           <div className="info-holder">
             <div className="detailsHolder">
               <div className="name">
@@ -40,7 +55,7 @@ const AlumniModal = ({
             </div>
 
             <div className="about">
-              <div className="bio">{bio}</div>
+              <div className="bio">{renderBioWithLineBreaks(bio)}</div>
               <div className="personalLinks">
                 {personalLinks &&
                   personalLinks.length > 0 &&
@@ -57,7 +72,10 @@ const AlumniModal = ({
               </div>
             </div>
           </div>
-          <h3 className="pastExTitle">Exhibitions</h3>
+
+          {exhibitions && exhibitions.length > 0 && (
+            <h3 className="pastExTitle">Exhibitions</h3>
+          )}
           <div className="exhibition-holder">
             {exhibitions &&
               exhibitions.length > 0 &&

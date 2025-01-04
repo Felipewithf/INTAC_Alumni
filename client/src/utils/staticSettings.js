@@ -5,15 +5,6 @@ export const intacYears = [
   2024,
 ];
 
-export const schoolColors = (school) => {
-  if (school == "OCADU") {
-    return "#F7931E";
-  }
-  if (school == "BTK") {
-    return "#0071BC";
-  }
-  return "#ED1C24";
-};
 
 export const truncate = (str, maxLength) => {
   if (str.length > maxLength) {
