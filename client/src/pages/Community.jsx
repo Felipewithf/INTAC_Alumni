@@ -8,8 +8,8 @@ import AlumniModal from "../components/modals/detailedAlumni";
 const Community = () => {
   const { loading, error, data } = useQuery(GET_ALUMPROFILES);
 
-  const [filterValue, setFilterValue] = useState(2019);
-  const [activeYear, setActiveYear] = useState(2019);
+  const [filterValue, setFilterValue] = useState(2018);
+  const [activeYear, setActiveYear] = useState(2018);
   const [selectedAlumnus, setSelectedAlumnus] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(false);
