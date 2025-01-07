@@ -16,7 +16,7 @@ const Header = () => {
           </Link>
         </div>
         <div>
-          <Link className={location.pathname === "/a" ? "underscore" : ""} to="a">
+          <Link className={location.pathname === "/a" ? "underscore" : ""} to="/a">
             Announcements
           </Link>
         </div>

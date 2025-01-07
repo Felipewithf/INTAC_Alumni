@@ -11,11 +11,11 @@ import MagicLogin from "./pages/MagicLogin.jsx";
 import Alum from "./pages/Alum.jsx";
 import NewAlum from "./pages/NewAlum.jsx";
 import ChangeEmail from "./pages/changeEmail.jsx";
+import Announcements from "./pages/announcements.jsx";
 
 import App from "./App.jsx";
 
 import "./index.css";
-import Announcements from "./pages/announcements.jsx";
 
 const router = createBrowserRouter([
   {
