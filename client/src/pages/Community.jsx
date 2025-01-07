@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALUMPROFILES } from "../utils/queries";
 import { intacYears, truncate } from "../utils/staticSettings";
+import Auth from "../../utils/auth";
 
 import AlumniModal from "../components/modals/detailedAlumni";
 
@@ -82,7 +83,7 @@ const Community = () => {
         </div>
         <div className="cardHolder">
           {filteredAlumni.map((alumnus) =>
-            alumnus?.public ? (
+            alumnus?.public || Auth.loggedIn() ? (
               <div
                 className="alumniCard"
                 style={{ borderColor: alumnus.user.school.color }}
