@@ -6,7 +6,9 @@ const Header = () => {
 
   return (
     <header className="">
-      <div>logo</div>
+      <div>
+        <img src="/logo.png" alt="logo of intac connect" />
+      </div>
       <div id="centerLinks">
         <div>
           <Link className={location.pathname === "/" ? "underscore" : ""} to="/">
@@ -14,7 +16,7 @@ const Header = () => {
           </Link>
         </div>
         <div>
-          <Link className={location.pathname === "/a" ? "underscore" : ""} to="/">
+          <Link className={location.pathname === "/a" ? "underscore" : ""} to="a">
             Announcements
           </Link>
         </div>
@@ -30,7 +32,7 @@ const Header = () => {
               }`}
               to="/alum"
             >
-            👤
+              👤
             </Link>
           </>
         ) : (

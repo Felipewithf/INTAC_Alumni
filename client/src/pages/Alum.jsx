@@ -41,6 +41,19 @@ const Alum = () => {
     navigate("/admin");
   };
 
+  // Prevent body scroll when modal is active
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = "hidden"; // Disable body scroll
+    } else {
+      document.body.style.overflow = "auto"; // Re-enable body scroll
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Cleanup when the modal is removed
+    };
+  }, [activeModal]);
+
   if (loading) return <p>Loading user data...</p>;
   if (error) return <p>Error fetching user data: {error.message}</p>;
 
@@ -172,11 +185,8 @@ const AlumProfile = ({ userId, showModal }) => {
     ));
   };
 
-
   if (loading) return <p>Loading alum profile...</p>;
   if (error) return <p>Error fetching alum profile: {error.message}</p>;
-
-
 
   return (
     <>
@@ -186,8 +196,10 @@ const AlumProfile = ({ userId, showModal }) => {
             <div>{data.getAlumProfileByUserId.firstName}</div>
             <div>{data.getAlumProfileByUserId.lastName}</div>
           </div>
-          <p className="bio">{renderBioWithLineBreaks(data.getAlumProfileByUserId.bio)}</p>
-          
+          <p className="bio">
+            {renderBioWithLineBreaks(data.getAlumProfileByUserId.bio)}
+          </p>
+
           <div className="permission">
             <p>
               Your profile is:{" "}
@@ -269,8 +281,16 @@ const AlumProfile = ({ userId, showModal }) => {
             data.getAlumProfileByUserId.exhibitions.map((e) => {
               return (
                 <div className="exhibitionItem" key={e.id}>
-                  <img src={`exhibition/${e.poster}`} alt={e.name}></img>
+                  <img
+                    src={`exhibition/${e.poster}`}
+                    alt={e.name}
+                    onError={(e) => (e.target.src = "exhibition/missing.webp")}
+                  ></img>
                   <div className="references">
+                    <h4 className="exhibitionName">{e.name}</h4>
+                    <p>
+                      {e.location} / {e.country}
+                    </p>
                     <button onClick={() => showModal("reference", e.id)}>
                       + Add Reference
                     </button>

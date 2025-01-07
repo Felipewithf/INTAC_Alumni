@@ -82,8 +82,16 @@ const AlumniModal = ({
               exhibitions.map((e) => (
                 <>
                   <div className="exhibition-card" key={e.id}>
-                    <img src={`/exhibition/${e.poster}`} alt={e.name} />
-                    <div>Artist References</div>
+                    <img
+                      src={`/exhibition/${e.poster}`}
+                      alt={e.name}
+                      onError={(e) => (e.target.src = "exhibition/missing.webp")}
+                    />
+
+                    {exhibitionsReferences && exhibitionsReferences.length > 0 && (
+                      <div>Artist References</div>
+                    )}
+                    {exhibitionsReferences && exhibitionsReferences.length > 0 && (
                     <div className="referenceHolder">
                       {exhibitionsReferences
                         .filter((ref) => ref.exhibition.id === e.id)
@@ -98,6 +106,7 @@ const AlumniModal = ({
                           </a>
                         ))}
                     </div>
+                    )}
                   </div>
                 </>
               ))}

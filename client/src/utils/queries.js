@@ -165,6 +165,8 @@ export const GET_ALUMPROFILE_BY_USER_ID = gql`
         poster
         id
         alumniExhibition
+        location
+        country
       }
       socialMedia {
         id

@@ -111,7 +111,7 @@ const AddExhibition = ({ userId, onClose }) => {
 
   return (
     <>
-      <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-overlay" onClick={onClose} id="exhibitionModal">
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h2>ADD EXHIBITIONS</h2>
           <form id="addExhibitionForm" onSubmit={handleSubmit}>
@@ -124,7 +124,11 @@ const AddExhibition = ({ userId, onClose }) => {
                   }`}
                   onClick={() => handleToggleExhibition(exhibition.id)}
                 >
-                  <img src={`exhibition/${exhibition.poster}`} alt={exhibition.name} />
+                  <img
+                    src={`exhibition/${exhibition.poster}`}
+                    alt={exhibition.name}
+                    onError={(e) => (e.target.src = "exhibition/missing.webp")}
+                  />
                   <label>{exhibition.name}</label>
                 </div>
               ))}

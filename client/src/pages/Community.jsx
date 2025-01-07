@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_ALUMPROFILES } from "../utils/queries";
 import { intacYears, truncate } from "../utils/staticSettings";
@@ -34,6 +34,19 @@ const Community = () => {
     setFilterValue(year);
     setActiveYear(year); // Set the clicked year as active
   };
+
+  // Prevent body scroll when modal is active
+  useEffect(() => {
+    if (isModalVisible) {
+      document.body.style.overflow = "hidden"; // Disable body scroll
+    } else {
+      document.body.style.overflow = "auto"; // Re-enable body scroll
+    }
+
+    return () => {
+      document.body.style.overflow = "auto"; // Cleanup when the modal is removed
+    };
+  }, [isModalVisible]);
 
   return (
     <>

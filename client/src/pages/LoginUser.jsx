@@ -45,7 +45,7 @@ const LoginUser = () => {
     }
   };
   return (
-    <>
+    <div className="login">
       <h3> User your email to access the INTAC network</h3>
       <form onSubmit={handleFormSubmit}>
         <input
@@ -65,19 +65,24 @@ const LoginUser = () => {
           {sending ? "Sending..." : "Send Login Link"}
         </button>
       </form>
+      <p>
+        {" "}
+        If your are having trouble login in please contact your Intac School professor or
+        student point of contact
+      </p>
 
       {sendError && <p>Error sending magic link: {sendError.message}</p>}
       {sendData && <p>{sendData.sendMagicLink}</p>}
 
-      <div>
+      {/* <div>
         <h4>Whitelist Emails:</h4>
         <ol>
           {data.getUsers.map((user, index) => (
             <li key={index}>{user.email}</li>
           ))}
         </ol>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 };
 export default LoginUser;

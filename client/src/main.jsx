@@ -15,6 +15,7 @@ import ChangeEmail from "./pages/changeEmail.jsx";
 import App from "./App.jsx";
 
 import "./index.css";
+import Announcements from "./pages/announcements.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/default",
         element: <Default />,
+      },
+      {
+        path: "/a",
+        element: <Announcements />,
       },
       {
         path: "/admin",
