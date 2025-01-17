@@ -1,10 +1,5 @@
 # INTAC Alumni Platform - Questions
 
-- what happens if the collaborator does not belong a school? I need a "school" field to be allocated to the collaborator- maybe as indepent? - also a logo for the non-school field.
+- 
 
-
-- clean up the login page UI
-- load logos for schools
-- users to change their email address
-- add longName to schools in database
-- logo for Intac Connect 
+- add exhbitions name, location and country to exhibition selection in Alum page, AND exhbitions in community > detailedAlumni

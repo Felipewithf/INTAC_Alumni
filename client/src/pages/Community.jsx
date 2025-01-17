@@ -9,15 +9,24 @@ import AlumniModal from "../components/modals/detailedAlumni";
 const Community = () => {
   const { loading, error, data } = useQuery(GET_ALUMPROFILES);
 
-  const [filterValue, setFilterValue] = useState(2018);
-  const [activeYear, setActiveYear] = useState(2018);
+  const [filterValue, setFilterValue] = useState(null);
+  const [activeYear, setActiveYear] = useState(null);
   const [selectedAlumnus, setSelectedAlumnus] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(false);
 
   const alumni = data?.getAlumProfiles || [];
 
-  const filteredAlumni = alumni.filter((person) =>
+    // Create a shallow copy of the alumni array before sorting
+  const sortedAlumni = [...alumni].sort((a, b) => {
+    const nameA = a.firstName.toLowerCase();
+    const nameB = b.firstName.toLowerCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0; // If names are the same, return 0
+  });
+
+  const filteredAlumni = sortedAlumni.filter((person) =>
     filterValue ? person.user.years.includes(filterValue) : true
   );
 
@@ -112,9 +121,9 @@ const Community = () => {
               </div>
             ) : (
               <div key={alumnus.id} className="alumniCardPrivate">
-                <h3>LOGIN TO VIEW USER</h3>
+                <h3>LOGIN TO VIEW MEMBER</h3>
                 <div className="schoolLogo">
-                  <img src="vite.svg"></img>
+                  <img src={`/schools/${alumnus.user.school.logo}`}></img>
                 </div>
               </div>
             )

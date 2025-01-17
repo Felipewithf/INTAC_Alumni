@@ -92,6 +92,8 @@ export const GET_ALUMPROFILES = gql`
       }
       exhibitions {
         name
+        country
+        location
         poster
         id
         alumniExhibition

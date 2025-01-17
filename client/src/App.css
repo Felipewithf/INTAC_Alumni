@@ -188,6 +188,25 @@ footer h4 {
 
 /* -------------- COMMUNITY PAGE -------------- */
 
+/* Add shake animation */
+@keyframes shake {
+  0% {
+    transform: translateX(0) rotateX(0);
+  }
+  25% {
+    transform: translateX(-2px) rotateX(25deg);
+  }
+  50% {
+    transform: translateX(0) rotateX(0);
+  }
+  75% {
+    transform: translateX(2px) rotateX(-25deg);
+  }
+  100% {
+    transform: translateX(0) rotateX(0);
+  }
+}
+
 #community {
   padding-top: 50px;
 }
@@ -244,6 +263,13 @@ footer h4 {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#community .cardHolder .alumniCard:hover{
+  scale: 102%;
+  cursor: pointer;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #community .cardHolder .alumniCardPrivate {
@@ -258,7 +284,21 @@ footer h4 {
   flex-direction: column;
   justify-content: center;
   box-sizing: border-box;
+  align-items: center;
 }
+
+#community .cardHolder .alumniCardPrivate .schoolLogo{
+  width: 55px;
+  background-color: white;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+
+#community .cardHolder .alumniCardPrivate img{
+  width: 45px;
+}
+
 
 #community .cardHolder .alumniCard .name {
   font-family: "balboa-condensed";
@@ -343,6 +383,13 @@ footer h4 {
 
 .modal-alumni-content .info-holder .socials img {
   width: 30px;
+  transform-origin: center bottom;
+  transition: transform 0.2s ease;
+}
+
+.modal-alumni-content .info-holder .socials img:hover {
+  animation: shake 0.5s ease;
+  animation-iteration-count: infinite;
 }
 
 .modal-alumni-content .info-holder .about {
@@ -399,6 +446,17 @@ footer h4 {
   width: 100%;
 }
 
+.modal-alumni-content .exhibition-holder .exhibition-card h4{
+  margin-top: 0;
+  font-size: 1.2rem;
+  line-height: 1.3rem;
+}
+
+.modal-alumni-content .exhibition-holder .exhibition-card p{
+margin-top: 2px;
+}
+
+
 .modal-alumni-content .exhibition-holder .exhibition-card .referenceHolder {
   display: flex;
   gap: 10px;
@@ -419,7 +477,7 @@ footer h4 {
   opacity: 0.35;
   font-weight: 200;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 1rem;
 }
 
 /* -------------- ADMIN DASHBOARD PAGE -------------- */
@@ -554,7 +612,7 @@ footer h4 {
 }
 
 .user-table td .yearGroup button.savebtn {
-  background-image: url("saveicon.svg");
+  background-image: url("/public/saveicon.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -591,7 +649,7 @@ footer h4 {
 
 .register-circle.check {
   background-color: green;
-  background-image: url("check.svg");
+  background-image: url("/public/check.svg");
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
@@ -820,7 +878,7 @@ textarea {
 }
 
 .alumData .deleteIcon {
-  background-image: url("delete.svg");
+  background-image: url("/public/delete.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

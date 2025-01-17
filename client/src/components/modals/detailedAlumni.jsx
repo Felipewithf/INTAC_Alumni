@@ -87,10 +87,13 @@ const AlumniModal = ({
                       alt={e.name}
                       onError={(e) => (e.target.src = "exhibition/missing.webp")}
                     />
-
-                    {exhibitionsReferences && exhibitionsReferences.length > 0 && (
-                      <div>Artist References</div>
-                    )}
+<h4 className="exhibitionName">{e.name}</h4>
+                    <p>
+                      {e.location} / {e.country}
+                    </p>
+                    {/* {exhibitionsReferences && exhibitionsReferences.length > 0 && (
+                      <div className="refTitle">Artist References</div>
+                    )} */}
                     {exhibitionsReferences && exhibitionsReferences.length > 0 && (
                     <div className="referenceHolder">
                       {exhibitionsReferences

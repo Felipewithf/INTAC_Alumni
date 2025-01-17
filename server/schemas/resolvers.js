@@ -53,7 +53,8 @@ const resolvers = {
             path: "socialMediaPlatform", // Specify the field to populate within `socialMedia`
             model: "SocialMediaPlatform", // Ensure the model name matches the one registered in Mongoose
           },
-        });
+        })
+        .sort({ "user.firstName": 1 });
     },
     getAlumProfileById: async (_, { id }) => {
       return await AlumProfile.findById(id)
