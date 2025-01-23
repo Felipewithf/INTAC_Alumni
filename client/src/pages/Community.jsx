@@ -41,8 +41,8 @@ const Community = () => {
   };
 
   const handleYearClick = (year) => {
-    setFilterValue(year);
-    setActiveYear(year); // Set the clicked year as active
+    setFilterValue(year === activeYear ? null : year); // Set to null if the same year is clicked
+    setActiveYear(year === activeYear ? null : year); // Set to null if the same year is clicked
   };
 
   // Prevent body scroll when modal is active

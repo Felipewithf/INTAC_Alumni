@@ -64,6 +64,13 @@ const AddSocialMediaLink = ({ userId, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+     // Check if the URL starts with https://
+  if (!mediaLinkValue.startsWith("https://")) {
+    alert("Please enter a URL that starts with 'https://'");
+    return; // Prevent form submission if the URL is invalid
+  }
+
     try {
       await createSocialMediaLink({
         variables: {

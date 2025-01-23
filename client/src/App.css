@@ -251,6 +251,7 @@ footer h4 {
 #community .cardHolder {
   display: flex;
   margin-top: 30px;
+  flex-wrap: wrap;
 }
 
 #community .cardHolder .alumniCard {
@@ -264,6 +265,7 @@ footer h4 {
   justify-content: space-between;
   box-sizing: border-box;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 #community .cardHolder .alumniCard:hover{
@@ -478,6 +480,7 @@ margin-top: 2px;
   font-weight: 200;
   text-align: left;
   font-size: 1rem;
+  line-height: 1.1rem;
 }
 
 /* -------------- ADMIN DASHBOARD PAGE -------------- */
@@ -923,6 +926,10 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.alumData .exhibitions .exhibitionItem .referenceInfo p {
+margin:0;
 }
 
 .alumData .exhibitions .exhibitionItem .referenceItem {

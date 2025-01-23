@@ -1,5 +1,5 @@
-# INTAC Alumni Platform - Questions
+# INTAC Alumni Platform - TODO
 
-- 
+- Get all the buttons to behave the same (hover black, selected black, etc)
 
-- add exhbitions name, location and country to exhibition selection in Alum page, AND exhbitions in community > detailedAlumni
+- If the users toggle and already exiting filter it will make the filters null and display all alumnis.

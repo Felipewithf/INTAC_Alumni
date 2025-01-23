@@ -30,7 +30,16 @@ const AddWebsiteLinks = ({ userId, onClose }) => {
   if (alumProfileError) return <div>Error loading data: {alumProfileError?.message}</div>;
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
+      // Check if the URL starts with https://
+  if (!linkValue.startsWith("https://")) {
+    alert("Please enter a URL that starts with 'https://'");
+    return; // Prevent form submission if the URL is invalid
+  }
+
+
     try {
       // Collect all existing data from alumProfileData
       const {
@@ -49,6 +58,7 @@ const AddWebsiteLinks = ({ userId, onClose }) => {
         ...websiteLinks.map(({ __typename, ...rest }) => rest),
         { urlLink: linkValue, description: displayValue },
       ];
+      
       // Call the update mutation
       await updateAlumProfile({
         variables: {
