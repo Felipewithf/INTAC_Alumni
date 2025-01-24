@@ -7,7 +7,7 @@ const {
   SocialMediaPlatform,
   ExhibitionReference,
 } = require("../models");
-const sendMagicLinkEmail = require("../utils/sendEmail");
+const { sendMagicLinkEmail, sendEmail } = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 
 const resolvers = {
@@ -183,16 +183,42 @@ const resolvers = {
       _,
       { email, schoolId, years, register, designationRole, isAdmin }
     ) => {
-      const school = await School.findById(schoolId);
-      const user = new User({
-        email,
-        school,
-        years,
-        register,
-        designationRole,
-        isAdmin,
-      });
-      return await user.save();
+      try {
+        // Find the school using the provided schoolId
+        const school = await School.findById(schoolId);
+
+        // Create a new user instance with provided data
+        const user = new User({
+          email,
+          school,
+          years,
+          register,
+          designationRole,
+          isAdmin,
+        });
+
+        // Save the user to the database
+        const savedUser = await user.save();
+
+        // After saving the user, send the invitation email
+        const mailOptions = {
+          from: "Intac Connect",
+          to: email,
+          subject: "You have been invited to join Intac Connect!",
+          text: `Hello ${savedUser.email},\n\nYou have been invited to join the Intac Connect network.\n\n When you are ready to join, go to connect.intactnet.org and login using ${savedUser.email} address to get started.\n\n\nBest regards,\nIntac Connect`,
+          html: `<h3>Hello ${savedUser.email},</h3><p>You have been invited to join the Intac Connect network.</p><p>When you are ready to join, go to <a href="https://connect.intacnet.org/login">connect.intacnet.org</a> and login using ${savedUser.email} address to get started.</p><p>Best regards,<br>Intac Connect</p>`,
+        };
+
+        sendEmail(mailOptions);
+
+        console.log(`Invitation email sent to ${email}`);
+
+        // Return the saved user
+        return savedUser;
+      } catch (error) {
+        console.error("Error creating user:", error);
+        throw new Error("Failed to create user or send invitation email.");
+      }
     },
     // Create School
     createSchool: async (
@@ -492,6 +518,34 @@ const resolvers = {
     // ------- Delete -------
     // ******* ******* *******
 
+    deleteUser: async (_, { id }) => {
+      try {
+        // Find the user by their ID to check if they are registered
+        const user = await User.findById(id);
+
+        // If the user does not exist, throw an error
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        // Check if the user is registered
+        if (user.register) {
+          throw new Error("User is already registered and cannot be deleted");
+        }
+        // If the user is not registered, delete the user
+        const deletedUser = await User.findByIdAndDelete(id);
+
+        // If the user was not deleted, throw an error
+        if (!deletedUser) {
+          throw new Error("Failed to delete the user");
+        }
+
+        return !!deletedUser;
+      } catch (error) {
+        throw new Error(`Failed to delete user: ${error.message}`);
+      }
+    },
+
     // Delete SocialMediaLink
     deleteSocialMediaLink: async (_, { id }) => {
       try {
@@ -539,42 +593,6 @@ const resolvers = {
         );
       }
     },
-
-    // Additional async model requests
-    // User: {
-    //   school: async (user) => {
-    //     return await School.findById(user.school);
-    //   },
-    // },
-
-    // Alumni: {
-    //   studentExhibitions: async (alumni) => {
-    //     return await Promise.all(
-    //       alumni.studentExhibitions.map(async (exhibitionRef) => {
-    //         const exhibition = await StudentExhibition.findById(exhibitionRef.exhibition);
-    //         return {
-    //           exhibition,
-    //           references: exhibitionRef.references,
-    //         };
-    //       })
-    //     );
-    //   },
-    //   socialMedia: async (alumni) => {
-    //     return await Promise.all(
-    //       alumni.socialMedia.map(async (smRef) => {
-    //         const socialMedia = await SocialMedia.findById(smRef.platform);
-    //         return {
-    //           platform: socialMedia.platform,
-    //           logo: socialMedia.logo,
-    //           url: smRef.url,
-    //         };
-    //       })
-    //     );
-    //   },
-    //   user: async (alumni) => {
-    //     const user = await User.findById(alumni.user);
-    //     return user;
-    //   },
   },
 };
 

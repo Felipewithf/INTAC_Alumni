@@ -32,4 +32,33 @@ const sendMagicLinkEmail = async (email, magicLink) => {
   }
 };
 
-module.exports = sendMagicLinkEmail;
+// send normal emails
+const sendEmail = (mailOptions) => {
+  let transporter = nodemailer.createTransport({
+    service: "gmail", // You can change to another email service
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  // let mailOptions = {
+  //   from: "Intact Connect",
+  //   to: email,
+  //   subject: subject,
+  //   text: body,
+  // };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log("Email sent: " + info.response);
+  });
+};
+
+// Export both functions as part of an object
+module.exports = {
+  sendEmail,
+  sendMagicLinkEmail,
+};

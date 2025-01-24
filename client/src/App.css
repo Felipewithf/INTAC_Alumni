@@ -264,11 +264,13 @@ footer h4 {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-#community .cardHolder .alumniCard:hover{
+#community .cardHolder .alumniCard:hover {
   scale: 102%;
   cursor: pointer;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
@@ -289,18 +291,16 @@ footer h4 {
   align-items: center;
 }
 
-#community .cardHolder .alumniCardPrivate .schoolLogo{
+#community .cardHolder .alumniCardPrivate .schoolLogo {
   width: 55px;
   background-color: white;
   border-radius: 50%;
   padding: 10px;
 }
 
-
-#community .cardHolder .alumniCardPrivate img{
+#community .cardHolder .alumniCardPrivate img {
   width: 45px;
 }
-
 
 #community .cardHolder .alumniCard .name {
   font-family: "balboa-condensed";
@@ -448,16 +448,15 @@ footer h4 {
   width: 100%;
 }
 
-.modal-alumni-content .exhibition-holder .exhibition-card h4{
+.modal-alumni-content .exhibition-holder .exhibition-card h4 {
   margin-top: 0;
   font-size: 1.2rem;
   line-height: 1.3rem;
 }
 
-.modal-alumni-content .exhibition-holder .exhibition-card p{
-margin-top: 2px;
+.modal-alumni-content .exhibition-holder .exhibition-card p {
+  margin-top: 2px;
 }
-
 
 .modal-alumni-content .exhibition-holder .exhibition-card .referenceHolder {
   display: flex;
@@ -656,6 +655,39 @@ margin-top: 2px;
   background-size: 20px;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.user-table tr[data-deletable="true"]:hover {
+  background-color: #ececec;
+}
+
+/* Hide the delete button by default */
+.user-table .deleteIcon {
+  visibility: hidden;
+}
+
+.user-table tr:hover .deleteIcon {
+  visibility: visible;
+}
+
+.user-table .deleteIcon {
+  background-image: url("/public/delete.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background-color: #ececec;
+  padding-top: 10px;
+  margin-top: 5px;
+  margin-left: 5px;
+  /* display: none; */
+}
+
+.user-table .deleteIcon:hover {
+  background-color: #ececec;
+  rotate: -10deg;
 }
 
 .modal-overlay {
@@ -929,7 +961,7 @@ textarea {
 }
 
 .alumData .exhibitions .exhibitionItem .referenceInfo p {
-margin:0;
+  margin: 0;
 }
 
 .alumData .exhibitions .exhibitionItem .referenceItem {

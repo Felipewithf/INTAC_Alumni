@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USERS, GET_LOGGED_IN_USER, GET_SCHOOLS } from "../utils/queries";
-import { UPDATE_USER } from "../utils/mutations";
+import { DELETE_USER, UPDATE_USER } from "../utils/mutations";
 
 import AddUserModal from "../components/modals/addUser";
 import { designationRoles } from "../utils/staticSettings";
@@ -10,6 +10,7 @@ const UserAdmin = () => {
   const [yearInput, setYearInput] = useState();
   const [yearIsChanged, setYearIsChanged] = useState(false);
   const [userIdYearChanged, setUserIdYearChanged] = useState();
+  const [deleteUser] = useMutation(DELETE_USER);
 
   const { loading, error, data } = useQuery(GET_USERS);
 
@@ -26,6 +27,22 @@ const UserAdmin = () => {
   } = useQuery(GET_LOGGED_IN_USER);
 
   const [updateUser] = useMutation(UPDATE_USER); // Mutation hook to update user
+
+  const deleteUserById = async (id) => {
+    console.log(id);
+    try {
+      await deleteUser({
+        variables: {
+          deleteUserId: id,
+        },
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 500); // Wait half a second before reloading
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
 
   // State to control modal visibility
   const [isModalVisible, setModalVisible] = useState(false);
@@ -44,7 +61,8 @@ const UserAdmin = () => {
     );
   }
 
-  const schools = schoolData && schoolData.getSchools ? schoolData.getSchools : [];
+  const schools =
+    schoolData && schoolData.getSchools ? schoolData.getSchools : [];
   const users = data?.getUsers || [];
   const loggedInUser = userData?.getLoggedInUser || null;
 
@@ -124,7 +142,9 @@ const UserAdmin = () => {
   };
 
   const handleSaveYears = async (userId, field, schoolId) => {
-    const yearsArray = yearInput.split(",").map((year) => parseInt(year.trim()));
+    const yearsArray = yearInput
+      .split(",")
+      .map((year) => parseInt(year.trim()));
 
     const user = users.find((u) => u.id === userId); // Find the specific user
     const updatedUser = { ...user, [field]: yearsArray }; // Update the specific field
@@ -173,7 +193,9 @@ const UserAdmin = () => {
                     user.isAdmin && (
                       <tr
                         className={
-                          user.email === loggedInUser.email ? "highlightUser" : ""
+                          user.email === loggedInUser.email
+                            ? "highlightUser"
+                            : ""
                         }
                         key={user.id}
                       >
@@ -182,7 +204,12 @@ const UserAdmin = () => {
                           <select
                             defaultValue={user.designationRole}
                             onChange={(e) =>
-                              handleChange(user.id, "designationRole", e, user.school.id)
+                              handleChange(
+                                user.id,
+                                "designationRole",
+                                e,
+                                user.school.id
+                              )
                             }
                           >
                             {designationRoles.map((role) => (
@@ -203,7 +230,11 @@ const UserAdmin = () => {
                               <button
                                 className="savebtn"
                                 onClick={(e) =>
-                                  handleSaveYears(user.id, "years", user.school.id)
+                                  handleSaveYears(
+                                    user.id,
+                                    "years",
+                                    user.school.id
+                                  )
                                 }
                               ></button>
                             )}
@@ -213,7 +244,12 @@ const UserAdmin = () => {
                           <select
                             defaultValue={user.isAdmin ? "true" : "false"}
                             onChange={(e) =>
-                              handleChange(user.id, "isAdmin", e, user.school.id)
+                              handleChange(
+                                user.id,
+                                "isAdmin",
+                                e,
+                                user.school.id
+                              )
                             }
                           >
                             <option value="true">Admin</option>
@@ -223,7 +259,9 @@ const UserAdmin = () => {
                         <td>
                           <select
                             defaultValue={user.school.id}
-                            onChange={(e) => handleSchoolChange(user.id, "school", e)}
+                            onChange={(e) =>
+                              handleSchoolChange(user.id, "school", e)
+                            }
                           >
                             {schools.map((s) => (
                               <option key={s.id} value={s.id}>
@@ -258,13 +296,18 @@ const UserAdmin = () => {
                 {users.map(
                   (user) =>
                     !user.isAdmin && (
-                      <tr key={user.id}>
+                      <tr key={user.id} data-deletable={!user.register}>
                         <td>{user.email}</td>
                         <td>
                           <select
                             defaultValue={user.designationRole}
                             onChange={(e) =>
-                              handleChange(user.id, "designationRole", e, user.school.id)
+                              handleChange(
+                                user.id,
+                                "designationRole",
+                                e,
+                                user.school.id
+                              )
                             }
                           >
                             {designationRoles.map((role) => (
@@ -285,7 +328,11 @@ const UserAdmin = () => {
                               <button
                                 className="savebtn"
                                 onClick={(e) =>
-                                  handleSaveYears(user.id, "years", user.school.id)
+                                  handleSaveYears(
+                                    user.id,
+                                    "years",
+                                    user.school.id
+                                  )
                                 }
                               ></button>
                             )}
@@ -295,7 +342,12 @@ const UserAdmin = () => {
                           <select
                             defaultValue={user.isAdmin ? "true" : "false"}
                             onChange={(e) =>
-                              handleChange(user.id, "isAdmin", e, user.school.id)
+                              handleChange(
+                                user.id,
+                                "isAdmin",
+                                e,
+                                user.school.id
+                              )
                             }
                           >
                             <option value="true">Admin</option>
@@ -305,7 +357,9 @@ const UserAdmin = () => {
                         <td>
                           <select
                             defaultValue={user.school.id}
-                            onChange={(e) => handleSchoolChange(user.id, "school", e)}
+                            onChange={(e) =>
+                              handleSchoolChange(user.id, "school", e)
+                            }
                           >
                             {schools.map((s) => (
                               <option key={s.id} value={s.id}>
@@ -318,6 +372,12 @@ const UserAdmin = () => {
                           <div
                             className={`register-circle ${user.register ? "check" : ""}`}
                           ></div>
+                          {!user.register && (
+                            <button
+                              onClick={() => deleteUserById(user.id)}
+                              className="deleteIcon"
+                            ></button>
+                          )}
                         </td>
                       </tr>
                     )

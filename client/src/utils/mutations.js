@@ -225,6 +225,12 @@ export const UPDATE_ALUMPROFILE = gql`
   }
 `;
 
+export const DELETE_USER = gql`
+  mutation DeleteUser($deleteUserId: ID!) {
+    deleteUser(id: $deleteUserId)
+  }
+`;
+
 export const DELETE_SOCIAL = gql`
   mutation DeleteSocialMediaLink($deleteSocialMediaLinkId: ID!) {
     deleteSocialMediaLink(id: $deleteSocialMediaLinkId)

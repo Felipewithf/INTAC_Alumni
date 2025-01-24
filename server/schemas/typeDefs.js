@@ -118,6 +118,7 @@ type User {
     updateExhibitionReference(id: ID!, referenceLink: String): ExhibitionReference!
 
     # Mutations: Delete
+    deleteUser(id: ID!): Boolean!
     deleteSocialMediaLink(id: ID!): Boolean!
     deleteExhibitionReference(id: ID!): Boolean!
 
