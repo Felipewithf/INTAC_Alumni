@@ -29,6 +29,11 @@ const AlumniModal = ({
           onClick={(e) => e.stopPropagation()}
           style={{ borderColor: color }}
         >
+          <div className="school">
+            <div className="schoolName">{user.school.name}</div>
+            <div className="designation">{user.designationRole}</div>
+            <div className="years">{user.years.join(", ")}</div>
+          </div>
           <div className="info-holder">
             <div className="detailsHolder">
               <div className="name">
@@ -85,39 +90,37 @@ const AlumniModal = ({
                     <img
                       src={`/exhibition/${e.poster}`}
                       alt={e.name}
-                      onError={(e) => (e.target.src = "exhibition/missing.webp")}
+                      onError={(e) =>
+                        (e.target.src = "exhibition/missing.webp")
+                      }
                     />
-<h4 className="exhibitionName">{e.name}</h4>
+                    <h4 className="exhibitionName">{e.name}</h4>
                     <p>
                       {e.location} / {e.country}
                     </p>
                     {/* {exhibitionsReferences && exhibitionsReferences.length > 0 && (
                       <div className="refTitle">Artist References</div>
                     )} */}
-                    {exhibitionsReferences && exhibitionsReferences.length > 0 && (
-                    <div className="referenceHolder">
-                      {exhibitionsReferences
-                        .filter((ref) => ref.exhibition.id === e.id)
-                        .map((ref, index) => (
-                          <a
-                            key={ref.id}
-                            href={ref.referenceLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            [{index + 1}]
-                          </a>
-                        ))}
-                    </div>
-                    )}
+                    {exhibitionsReferences &&
+                      exhibitionsReferences.length > 0 && (
+                        <div className="referenceHolder">
+                          {exhibitionsReferences
+                            .filter((ref) => ref.exhibition.id === e.id)
+                            .map((ref, index) => (
+                              <a
+                                key={ref.id}
+                                href={ref.referenceLink}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                [{index + 1}]
+                              </a>
+                            ))}
+                        </div>
+                      )}
                   </div>
                 </>
               ))}
-          </div>
-          <div className="school">
-            <div className="schoolName">{user.school.name}</div>
-            <div className="designation">{user.designationRole}</div>
-            <div className="years">{user.years.join(", ")}</div>
           </div>
         </div>
       </div>

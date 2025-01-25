@@ -270,7 +270,6 @@ const UserAdmin = () => {
                             ))}
                           </select>
                         </td>
-                        <td></td>
                       </tr>
                     )
                 )}

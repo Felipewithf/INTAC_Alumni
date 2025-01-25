@@ -352,11 +352,11 @@ footer h4 {
 
 .modal-alumni-content {
   background: white;
-  padding: 40px;
+  padding: 20px 40px 40px;
   border-radius: 0px;
-  width: 680px;
-  max-width: 80%;
-  height: 80%;
+  width: 70%;
+  max-width: 600px;
+  height: 70%;
   border: 6px solid black;
   position: relative;
   overflow: auto;
@@ -464,15 +464,13 @@ footer h4 {
 }
 
 .modal-alumni-content .school {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  width: 40%;
+  width: 100%;
   transform: rotate(0deg);
   transform-origin: bottom left;
   /* transform: translateX(50%); */
   /* transform: translateY(-50%); */
   display: flex;
+  justify-content: space-between;
   gap: 10px;
   font-family: "balboa";
   opacity: 0.35;
@@ -480,6 +478,16 @@ footer h4 {
   text-align: left;
   font-size: 1rem;
   line-height: 1.1rem;
+  padding-bottom: 5px;
+  border-bottom: 1px solid gray;
+}
+
+.modal-alumni-content .school .schoolName {
+  max-width: 50%;
+}
+
+.modal-alumni-content .school .years {
+  text-align: right;
 }
 
 /* -------------- ADMIN DASHBOARD PAGE -------------- */
@@ -819,7 +827,9 @@ textarea {
   display: flex;
   font-family: "balboa";
   font-weight: 400;
-  max-width: 1400px;
+  max-width: 1200px;
+  width: 100%;
+  flex-direction: row;
 }
 
 .alumData .personal {
@@ -1059,4 +1069,88 @@ textarea {
 
 #createProfileForm button {
   font-size: 1.5rem;
+}
+
+/* -------------- 888888888888888888888 -------------- */
+/* -------------- 888888888888888888888 -------------- */
+/* -------------- RESPONSIVE FOR MOBILE -------------- */
+/* -------------- 888888888888888888888 -------------- */
+/* -------------- 888888888888888888888 -------------- */
+
+@media (max-width: 575.98px) {
+  h1 {
+    font-size: 2.2rem;
+  }
+  h4 {
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+  }
+  header #centerLinks {
+    flex-direction: column;
+  }
+  #community .filterByYear {
+    flex-direction: column;
+  }
+  #community .cardHolder {
+    justify-content: center;
+  }
+  #community .filterByYear ol {
+    padding: 0;
+  }
+  #community .filterByYear ol li {
+    margin: 3px 3px;
+  }
+  #community .cardHolder .alumniCard .name {
+    font-size: 2rem;
+    line-height: 2.2rem;
+    height: 20%;
+  }
+  #community .cardHolder .alumniCard {
+    height: 150px;
+  }
+
+  #community .cardHolder .alumniCard .bio {
+    display: none;
+  }
+
+  .modal-alumni-content {
+    padding: 15px;
+    width: 280px;
+    height: 65%;
+  }
+  .modal-alumni-content .info-holder {
+    flex-direction: column;
+  }
+  .modal-alumni-content .info-holder .socials {
+    padding-top: 20px;
+  }
+  .modal-alumni-content .info-holder .about {
+    width: 100%;
+  }
+  .modal-alumni-content .exhibition-holder .exhibition-card {
+    width: 120px;
+  }
+  .alumData {
+    flex-direction: column;
+  }
+  .alumData .personal {
+    width: 100%;
+    text-align: left;
+    padding-right: 0px;
+  }
+  .alumData .exhibitions {
+    width: 100%;
+    text-align: left;
+    padding-left: 0px;
+  }
+  .alumData .exhibitions .exhibitionItem img {
+    width: 100px;
+    height: fit-content;
+  }
+  .user-table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }
