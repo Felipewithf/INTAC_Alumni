@@ -10,6 +10,8 @@ const {
 const { sendMagicLinkEmail, sendEmail } = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 
+const { welcomeRegistration } = require("../utils/contentForEmails");
+
 const resolvers = {
   Query: {
     getUsers: async () => {
@@ -200,13 +202,16 @@ const resolvers = {
         // Save the user to the database
         const savedUser = await user.save();
 
+        // Call the welcomeRegistration function to get the content with the dynamic email
+        const emailContent = welcomeRegistration(savedUser.email);
+
         // After saving the user, send the invitation email
         const mailOptions = {
           from: "Intac Connect",
           to: email,
-          subject: "You have been invited to join Intac Connect!",
-          text: `Hello ${savedUser.email},\n\nYou have been invited to join the Intac Connect network.\n\n When you are ready to join, go to connect.intactnet.org and login using ${savedUser.email} address to get started.\n\n\nBest regards,\nIntac Connect`,
-          html: `<h3>Hello ${savedUser.email},</h3><p>You have been invited to join the Intac Connect network.</p><p>When you are ready to join, go to <a href="https://connect.intacnet.org/login">connect.intacnet.org</a> and login using ${savedUser.email} address to get started.</p><p>Best regards,<br>Intac Connect</p>`,
+          subject: emailContent.subject,
+          text: emailContent.text,
+          html: emailContent.html,
         };
 
         sendEmail(mailOptions);
