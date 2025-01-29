@@ -2,7 +2,6 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import UserAdmin from "./pages/UserAdmin.jsx";
-import Default from "./pages/Default.jsx";
 import Community from "./pages/Community.jsx";
 import LoginUser from "./pages/LoginUser.jsx";
 import PrivateRoute from "./components/PrivateRoute/index.jsx";
@@ -26,10 +25,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Community />,
-      },
-      {
-        path: "/default",
-        element: <Default />,
       },
       {
         path: "/a",
