@@ -76,14 +76,14 @@ const LoginUser = () => {
       {sendError && <p>Error sending magic link: {sendError.message}</p>}
       {sendData && <p>{sendData.sendMagicLink}</p>}
 
-      <div>
+      {/* <div>
         <h4>Whitelist Emails:</h4>
         <ol>
           {data.getUsers.map((user, index) => (
             <li key={index}>{user.email}</li>
           ))}
         </ol>
-      </div>
+      </div> */}
     </div>
   );
 };
