@@ -8,8 +8,10 @@ const LoginUser = () => {
 
   const [formState, setFormState] = useState({ email: "" });
   const { loading, error, data } = useQuery(GET_WHITELIST);
-  const [sendMagicLink, { loading: sending, error: sendError, data: sendData }] =
-    useMutation(SEND_MAGIC_LINK);
+  const [
+    sendMagicLink,
+    { loading: sending, error: sendError, data: sendData },
+  ] = useMutation(SEND_MAGIC_LINK);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -67,21 +69,21 @@ const LoginUser = () => {
       </form>
       <p>
         {" "}
-        If your are having trouble login in please contact your Intac School professor or
-        student point of contact
+        If your are having trouble login in please contact your Intac School
+        professor or student point of contact
       </p>
 
       {sendError && <p>Error sending magic link: {sendError.message}</p>}
       {sendData && <p>{sendData.sendMagicLink}</p>}
 
-      {/* <div>
+      <div>
         <h4>Whitelist Emails:</h4>
         <ol>
           {data.getUsers.map((user, index) => (
             <li key={index}>{user.email}</li>
           ))}
         </ol>
-      </div> */}
+      </div>
     </div>
   );
 };

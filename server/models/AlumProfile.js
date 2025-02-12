@@ -13,8 +13,15 @@ const alumProfileSchema = new Schema({
   websiteLinks: [websiteLinkSchema],
   exhibitions: [{ type: Schema.Types.ObjectId, ref: "Exhibition" }],
   socialMedia: [{ type: Schema.Types.ObjectId, ref: "SocialMediaLink" }],
-  exhibitionsReferences: [{ type: Schema.Types.ObjectId, ref: "ExhibitionReference" }],
-  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  exhibitionsReferences: [
+    { type: Schema.Types.ObjectId, ref: "ExhibitionReference" },
+  ],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    unique: true,
+  },
 });
 
 const AlumProfile = model("AlumProfile", alumProfileSchema);

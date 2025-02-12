@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 
@@ -16,6 +16,12 @@ const NewAlum = () => {
     refetch,
   } = useQuery(GET_LOGGED_IN_USER);
 
+  useEffect(() => {
+    if (userData?.getLoggedInUser?.register) {
+      navigate("/");
+    }
+  }, [userData, navigate]);
+
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
   const [bioValue, setBioValue] = useState("");
@@ -23,6 +29,7 @@ const NewAlum = () => {
 
   const [success, setSuccess] = useState(false); // Success state for showing message
   const [error, setError] = useState(""); // State to hold error message
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [createAlumProfile] = useMutation(CREATE_ALUMPROFILE);
 
@@ -53,7 +60,8 @@ const NewAlum = () => {
     setError(""); // Clear any previous error if input is not empty
 
     try {
-      // Call the update mutation
+      setIsSubmitting(true);
+
       await createAlumProfile({
         variables: {
           firstName: firstNameValue,
@@ -70,15 +78,19 @@ const NewAlum = () => {
 
       // Handle success (e.g., show a success message or close modal)
       setSuccess(true);
-      const checkRegistration = setInterval(async () => {
+
+      // Single check after a delay instead of polling
+      setTimeout(async () => {
         const { data: updatedData } = await refetch();
         if (updatedData.getLoggedInUser.register) {
-          clearInterval(checkRegistration);
           navigate("/alum");
         }
-      }, 500); // Poll every 500ms
+      }, 1000);
     } catch (error) {
       console.error("Error creating Alum profile:", error);
+      setError("Failed to create profile. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -131,14 +143,16 @@ const NewAlum = () => {
                 <td>
                   <select
                     value={isPublicValue}
-                    onChange={(e) => setIsPublicValue(e.target.value === "true")}
+                    onChange={(e) =>
+                      setIsPublicValue(e.target.value === "true")
+                    }
                   >
                     <option value="true">Public</option>
                     <option value="false">Private</option>
                   </select>
                   <label>
-                    Private profile will be hidden to the public, but will be visible to
-                    INTAC users when they are logged in.
+                    Private profile will be hidden to the public, but will be
+                    visible to INTAC users when they are logged in.
                   </label>
                 </td>
               </tr>
@@ -156,16 +170,22 @@ const NewAlum = () => {
               <button
                 type="submit"
                 disabled={
-                  firstNameValue === "" || lastNameValue === "" || bioValue === ""
+                  isSubmitting ||
+                  firstNameValue === "" ||
+                  lastNameValue === "" ||
+                  bioValue === ""
                 }
                 className={`button ${
-                  firstNameValue === "" || lastNameValue === "" || bioValue === ""
+                  isSubmitting ||
+                  firstNameValue === "" ||
+                  lastNameValue === "" ||
+                  bioValue === ""
                     ? "disabled"
                     : ""
                 }`}
                 onClick={() => console.log("isPublicValue:", isPublicValue)}
               >
-                Save Profile
+                {isSubmitting ? "Saving..." : "Save Profile"}
               </button>
             </>
           )}

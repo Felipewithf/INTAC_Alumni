@@ -263,6 +263,12 @@ const resolvers = {
           throw new Error("User not found");
         }
 
+        // Check for existing profile
+        const existingProfile = await AlumProfile.findOne({ user: userId });
+        if (existingProfile) {
+          throw new Error("Profile already exists for this user");
+        }
+
         const newAlumProfile = new AlumProfile({
           firstName,
           lastName,
@@ -276,7 +282,6 @@ const resolvers = {
         });
 
         await newAlumProfile.save();
-
         user.register = true;
         await user.save();
 
