@@ -13,11 +13,7 @@ export const getEmailTemplate = (content) => {
         text-align: center;
       }
       .container {
-        background: linear-gradient(
-          180deg,
-          #ffffff 0%,
-          #ffffff 50%,
-          #d9e4f8 100%
+        background-color: white;
         );
         color: black;
         width: 100%;
@@ -40,8 +36,8 @@ export const getEmailTemplate = (content) => {
         margin-bottom: 20px;
         line-height: 1.5;
       }
-        a .cta-button{
-        color: white;
+        a.cta-button{
+        color: white !important;
         }
       .cta-button{
         background-color: #1b1719;
