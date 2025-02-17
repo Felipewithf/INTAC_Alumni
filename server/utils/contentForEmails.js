@@ -14,7 +14,6 @@ export const getEmailTemplate = (content) => {
       }
       .container {
         background-color: white;
-        );
         color: black;
         width: 100%;
         max-width: 600px;
