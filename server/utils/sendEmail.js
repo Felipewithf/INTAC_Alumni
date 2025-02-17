@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { getEmailTemplate } = require("./contentForEmails");
 
 // Create a reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport({
@@ -16,15 +17,29 @@ const transporter = nodemailer.createTransport({
  */
 const sendMagicLinkEmail = async (email, magicLink) => {
   try {
+    const emailContent = `
+      <div class="title">Login to Intac Connect</div>
+      
+      <div class="message">
+        Click the button below to securely log in to your account.
+      </div>
+      
+      <a href="${magicLink}" class="cta-button">LOG IN NOW</a>
+      
+      <div class="message">
+        This login link will expire in 15 minutes for security purposes.
+        If you didn't request this login link, you can safely ignore this email.
+      </div>
+    `;
+
     const mailOptions = {
-      from: '"Intac Connect" <your-email@example.com>', // sender address
-      to: email, // recipient's email
-      subject: "Your Magic Link", // Subject line
-      text: `Click the following link to log in: ${magicLink}`, // plain text body
-      html: `<p>Click the following link to log in:</p><a href="${magicLink}">Log in with Magic Link</a>`, // HTML body
+      from: '"Intac Connect" <your-email@example.com>',
+      to: email,
+      subject: "Your Magic Link",
+      text: `Click the following link to log in: ${magicLink}`,
+      html: getEmailTemplate(emailContent),
     };
 
-    // Send the email
     const info = await transporter.sendMail(mailOptions);
     console.log(`Email sent: ${email}`, info.messageId);
   } catch (error) {
