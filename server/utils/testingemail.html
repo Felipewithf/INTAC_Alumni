@@ -1,41 +1,74 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <style>
+      .body-container {
+        font-family: Arial, sans-serif;
+        margin: 0 0;
+        padding: 80px 0;
+        background-color: #e8e8e8;
+        display: flex;
+        justify-content: center;
+      }
+      .container {
+        background: linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #ffffff 50%,
+          #d9e4f8 100%
+        );
+        color: black;
+        width: fit-content;
+        max-width: 600px;
+        padding: 50px 30px;
+        text-align: center;
+      }
+      .logo {
+        max-width: 100px;
+        margin-bottom: 40px;
+      }
+      .title {
+        font-size: 32px;
+        margin-bottom: 30px;
+      }
+      .message {
+        font-size: 20px;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+      a .cta-button {
+        color: white;
+      }
+      .cta-button {
+        background-color: #1b1719;
+        color: white;
+        padding: 15px 40px;
+        text-decoration: none;
+        border-radius: 30px;
+        display: inline-block;
+        margin: 30px 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      .footer {
+        font-size: 14px;
+        margin-top: 40px;
+      }
+    </style>
   </head>
   <body>
-    <h3>Hello felipe.sarmiento@gmail.com,</h3>
-    <p>
-      We are excited to invite you to join the INTAC Connect community platform,
-      a networking space for INTAC alumni and friends.
-    </p>
-    <p>
-      Here you can create your profile, add contact information and links to
-      your ongoing projects. You can find other alumni, stay in touch and hear
-      about, or create, new opportunities to collaborate. There will eventually
-      be a notice board for announcements where we can share updates,
-      international calls for submission, opportunities to collaborate and other
-      networking activities.
-    </p>
-    <p>
-      When you are ready to join, go to
-      <a href="https://connect.intacnet.org/login">connect.intacnet.org</a> and
-      login using ${email} address to get started. Fill-in your profile, check
-      the years you were active in INTAC and the shows you were in. Add contact
-      links and sites for sharing your work. You can update your preferred email
-      address, which is both your registration ID and login link.
-    </p>
-    <p>
-      The INTAC Connect platform is a volunteer effort and we hope that you will
-      join to help build a vibrant community that supports all of us.
-    </p>
-    <p>
-      Best regards,<br />Intac Connect<br />
-      <em
-        >Volunteers are always welcome to help with INTAC and INTAC Connect.</em
-      >
-    </p>
+    <div class="body-container">
+      <div class="container">
+        <img
+          src="https://connect.intacnet.org/logo.png"
+          alt="INTACT Logo"
+          class="logo"
+        />
+        ${content}
+        <div class="footer">
+          Volunteers are always welcome to help with INTAC and INTAC Connect.
+        </div>
+      </div>
+    </div>
   </body>
 </html>

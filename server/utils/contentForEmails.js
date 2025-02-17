@@ -4,7 +4,7 @@ export const getEmailTemplate = (content) => {
 <html>
   <head>
     <style>
-      body {
+      .body-container {
         font-family: Arial, sans-serif;
         margin: 0 0;
         padding: 80px 0;
@@ -38,7 +38,10 @@ export const getEmailTemplate = (content) => {
         margin-bottom: 20px;
         line-height: 1.5;
       }
-      .cta-button {
+        a .cta-button{
+        color: white;
+        }
+      .cta-button{
         background-color: #1b1719;
         color: white;
         padding: 15px 40px;
@@ -56,6 +59,7 @@ export const getEmailTemplate = (content) => {
     </style>
   </head>
   <body>
+  <div class="body-container">
     <div class="container">
       <img
         src="https://connect.intacnet.org/logo.png"
@@ -65,6 +69,7 @@ export const getEmailTemplate = (content) => {
       ${content}
       <div class="footer">
         Volunteers are always welcome to help with INTAC and INTAC Connect.
+      </div>
       </div>
     </div>
   </body>
