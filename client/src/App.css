@@ -356,7 +356,8 @@ footer h4 {
   border-radius: 0px;
   width: 70%;
   max-width: 680px;
-  height: 70%;
+  height: fit-content;
+  max-height: 70%;
   border: 6px solid black;
   position: relative;
   overflow: auto;
@@ -572,6 +573,18 @@ footer h4 {
 
 .user-table th {
   width: 100px;
+}
+
+.search-container {
+  margin: 20px 0;
+  text-align: start;
+}
+
+.search-container input {
+  padding: 8px;
+  width: 30%;
+  max-width: 300px;
+  border: 1px solid #ccc;
 }
 
 #adminUserTable.user-table th:last-child {
@@ -1113,10 +1126,29 @@ textarea {
     display: none;
   }
 
+  #community .cardHolder .alumniCardPrivate {
+    /* background-color: purple; */
+    background-image: url("/private_mobile.svg");
+    height: 150px;
+  }
+
+  #community .cardHolder .alumniCardPrivate .schoolLogo {
+    width: 35px;
+    height: 35px;
+    background-color: white;
+    border-radius: 50%;
+    padding: 10px;
+  }
+
+  #community .cardHolder .alumniCardPrivate img {
+    width: 35px;
+  }
+
   .modal-alumni-content {
     padding: 15px;
     width: 280px;
-    height: 65%;
+    height: fit-content;
+    max-height: 65%;
   }
   .modal-alumni-content .info-holder {
     flex-direction: column;

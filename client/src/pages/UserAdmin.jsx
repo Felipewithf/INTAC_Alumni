@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_USERS, GET_LOGGED_IN_USER, GET_SCHOOLS } from "../utils/queries";
 import { DELETE_USER, UPDATE_USER } from "../utils/mutations";
@@ -10,6 +10,7 @@ const UserAdmin = () => {
   const [yearInput, setYearInput] = useState();
   const [yearIsChanged, setYearIsChanged] = useState(false);
   const [userIdYearChanged, setUserIdYearChanged] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
   const [deleteUser] = useMutation(DELETE_USER);
 
   const { loading, error, data } = useQuery(GET_USERS);
@@ -63,8 +64,15 @@ const UserAdmin = () => {
 
   const schools =
     schoolData && schoolData.getSchools ? schoolData.getSchools : [];
-  const users = data?.getUsers || [];
+  let users = data?.getUsers || [];
   const loggedInUser = userData?.getLoggedInUser || null;
+
+  const filteredUsers =
+    searchTerm.trim() === ""
+      ? users // Show all users when no search term
+      : users.filter((user) =>
+          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
   // Function to toggle modal visibility
   const showModal = () => {
@@ -172,6 +180,7 @@ const UserAdmin = () => {
         <div className="constructionBanner">
           <h3>Admin Dashboard</h3>
         </div>
+
         {users.length > 0 ? (
           <>
             <h2>ADMINS</h2>
@@ -277,7 +286,16 @@ const UserAdmin = () => {
             </table>
             <div className="addUsers">
               <h2>USERS</h2>
+
               <button onClick={showModal}>ADD</button>
+            </div>
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search users by email..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
 
             <table className="user-table" id="usersTable">
@@ -292,7 +310,7 @@ const UserAdmin = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map(
+                {filteredUsers.map(
                   (user) =>
                     !user.isAdmin && (
                       <tr key={user.id} data-deletable={!user.register}>
