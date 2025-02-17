@@ -9,8 +9,8 @@ export const getEmailTemplate = (content) => {
         margin: 0 0;
         padding: 80px 0;
         background-color: #e8e8e8;
-        display: flex;
-        justify-content: center;
+        width: 100%;
+        text-align: center;
       }
       .container {
         background: linear-gradient(
@@ -20,10 +20,12 @@ export const getEmailTemplate = (content) => {
           #d9e4f8 100%
         );
         color: black;
-        width: fit-content;
+        width: 100%;
         max-width: 600px;
         padding: 50px 30px;
+        margin: 0 auto;
         text-align: center;
+        box-sizing: border-box;
       }
       .logo {
         max-width: 100px;
