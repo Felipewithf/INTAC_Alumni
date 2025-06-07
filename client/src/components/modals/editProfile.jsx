@@ -35,7 +35,8 @@ const EditProfile = ({ userId, onClose }) => {
 
   if (alumProfileLoading) return <div>Loading Platforms...</div>;
 
-  if (alumProfileError) return <div>Error loading data: {alumProfileError?.message}</div>;
+  if (alumProfileError)
+    return <div>Error loading data: {alumProfileError?.message}</div>;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +54,9 @@ const EditProfile = ({ userId, onClose }) => {
         alumProfileData.getAlumProfileByUserId;
 
       // Filter out __typename from websiteLinks
-      const cleanWebsiteLinks = [...websiteLinks.map(({ __typename, ...rest }) => rest)];
+      const cleanWebsiteLinks = [
+        ...websiteLinks.map(({ __typename, ...rest }) => rest),
+      ];
       // Call the update mutation
       await updateAlumProfile({
         variables: {
@@ -120,14 +123,16 @@ const EditProfile = ({ userId, onClose }) => {
                   <td>
                     <select
                       value={isPublicValue}
-                      onChange={(e) => setIsPublicValue(e.target.value === "true")}
+                      onChange={(e) =>
+                        setIsPublicValue(e.target.value === "true")
+                      }
                     >
                       <option value="true">Public</option>
                       <option value="false">Private</option>
                     </select>
                     <label>
-                      Private profile will be hidden to the public, but will be visible to
-                      INTAC users when they are logged in.
+                      Private profile will be hidden to the public, but will be
+                      visible to INTAC users when they are logged in.
                     </label>
                   </td>
                 </tr>
@@ -144,10 +149,14 @@ const EditProfile = ({ userId, onClose }) => {
                 <button
                   type="submit"
                   disabled={
-                    firstNameValue === "" || lastNameValue === "" || bioValue === ""
+                    firstNameValue === "" ||
+                    lastNameValue === "" ||
+                    bioValue === ""
                   }
                   className={`button ${
-                    firstNameValue === "" || lastNameValue === "" || bioValue === ""
+                    firstNameValue === "" ||
+                    lastNameValue === "" ||
+                    bioValue === ""
                       ? "disabled"
                       : ""
                   }`}
@@ -158,6 +167,9 @@ const EditProfile = ({ userId, onClose }) => {
                 <div>
                   <p style={{ textAlign: "start" }}>
                     <a href="./changeemail">Change sign-in email</a>
+                  </p>
+                  <p style={{ textAlign: "start" }}>
+                    <a href="./changeyears">Change years</a>
                   </p>
                 </div>
               </>

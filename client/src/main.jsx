@@ -10,6 +10,7 @@ import MagicLogin from "./pages/MagicLogin.jsx";
 import Alum from "./pages/Alum.jsx";
 import NewAlum from "./pages/NewAlum.jsx";
 import ChangeEmail from "./pages/changeEmail.jsx";
+import ChangeYears from "./pages/changeYears.jsx";
 import Announcements from "./pages/news.jsx";
 
 import App from "./App.jsx";
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ChangeEmail />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/changeyears",
+        element: (
+          <PrivateRoute>
+            <ChangeYears />
           </PrivateRoute>
         ),
       },
