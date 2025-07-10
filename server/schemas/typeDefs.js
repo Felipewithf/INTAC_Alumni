@@ -70,6 +70,19 @@ type User {
     alumniExhibition: Boolean!
   }
 
+  type Announcement {
+    id: ID!
+    title: String!
+    subtitle: String!
+    alumProfile: AlumProfile!
+    expiryDate: String!
+    isOnGoing: Boolean!
+    ctaLink: String!
+    ctaText: String!
+    style: String!
+    isActive: Boolean!
+  }
+
   type Auth {
     token: ID!
     user: User!
@@ -92,6 +105,8 @@ type User {
     getSocialMediaLinkById(id: ID!): SocialMediaLink
     getExhibitionReferences: [ExhibitionReference!]!
     getExhibitionReferenceById(id: ID!): ExhibitionReference
+    getAnnouncements: [Announcement!]!
+    getAnnouncementById(id: ID!): Announcement
   }
   
   # Mutations
@@ -109,8 +124,9 @@ type User {
     createExhibition( name: String!, location: String!, country: String!, poster: String, startDate: String!, endDate: String!, alumniExhibition: Boolean! ): Exhibition!
     createSocialMediaPlatform( name: String!, logo: String ): SocialMediaPlatform!
     createSocialMediaLink( socialMediaPlatformId: ID!, urlLink: String!, alumProfileId: ID! ): SocialMediaLink!
-    createExhibitionReference( exhibitionId: ID!, alumProfileId: ID!, referenceLink: String ): ExhibitionReference!
-
+    createExhibitionReference( exhibitionId: ID!, alumProfileId: ID!, referenceLink: String ): ExhibitionReference! 
+    createAnnouncement( title: String!, subtitle: String!, alumProfileId: ID!, expiryDate: String!, isOnGoing: Boolean!, ctaLink: String!, ctaText: String!, style: String! ): Announcement!
+    
     # Mutations: Update
     updateUser(id: ID!, email: String, schoolId: ID, years: [Int], register: Boolean, designationRole: String, isAdmin: Boolean): User!
     updateAlumProfile( id: ID!, firstName: String, lastName: String, bio: String, public: Boolean, websiteLinks: [WebsiteLinkInput], exhibitions: [ID!], socialMedia: [ID!], exhibitionsReferences: [ID!] ): AlumProfile!
@@ -121,7 +137,7 @@ type User {
     deleteUser(id: ID!): Boolean!
     deleteSocialMediaLink(id: ID!): Boolean!
     deleteExhibitionReference(id: ID!): Boolean!
-
+    deleteAnnouncement(id: ID!): Boolean!
   }
 
   input WebsiteLinkInput {

@@ -5,6 +5,7 @@ const SocialMediaLink = require("./SocialMediaLink");
 const ExhibitionReference = require("./ExhibitionReference");
 const Exhibition = require("./Exhibition");
 const User = require("./User");
+const Announcement = require("./Announcement");
 
 module.exports = {
   User,
@@ -14,4 +15,5 @@ module.exports = {
   SocialMediaLink,
   School,
   AlumProfile,
+  Announcement,
 };

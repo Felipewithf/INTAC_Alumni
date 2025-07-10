@@ -242,3 +242,42 @@ export const DELETE_REFERENCE = gql`
     deleteExhibitionReference(id: $deleteExhibitionReferenceId)
   }
 `;
+
+export const CREATE_ANNOUNCEMENT = gql`
+  mutation CreateAnnouncement(
+    $title: String!
+    $subtitle: String!
+    $alumProfileId: ID!
+    $expiryDate: String!
+    $isOnGoing: Boolean!
+    $ctaLink: String!
+    $ctaText: String!
+    $style: String!
+  ) {
+    createAnnouncement(
+      title: $title
+      subtitle: $subtitle
+      alumProfileId: $alumProfileId
+      expiryDate: $expiryDate
+      isOnGoing: $isOnGoing
+      ctaLink: $ctaLink
+      ctaText: $ctaText
+      style: $style
+    ) {
+      title
+      style
+      isOnGoing
+      isActive
+      id
+      expiryDate
+      ctaText
+      ctaLink
+    }
+  }
+`;
+
+export const DELETE_ANNOUNCEMENT = gql`
+  mutation DeleteAnnouncement($deleteAnnouncementId: ID!) {
+    deleteAnnouncement(id: $deleteAnnouncementId)
+  }
+`;

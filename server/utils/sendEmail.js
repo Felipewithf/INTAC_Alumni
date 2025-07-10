@@ -33,7 +33,7 @@ const sendMagicLinkEmail = async (email, magicLink) => {
     `;
 
     const mailOptions = {
-      from: '"Intac Connect" <your-email@example.com>',
+      from: "Intac Connect",
       to: email,
       subject: "Your Magic Link",
       text: `Click the following link to log in: ${magicLink}`,

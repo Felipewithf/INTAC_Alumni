@@ -30,6 +30,10 @@ export const getEmailTemplate = (content) => {
         font-size: 32px;
         margin-bottom: 30px;
       }
+      .block {
+        border: 1px solid #1b1719;
+        padding-top: 30px;
+      }
       .message {
         font-size: 20px;
         margin-bottom: 20px;
@@ -112,6 +116,36 @@ export const welcomeRegistration = (email) => {
   return {
     subject: "You have been invited to join Intac Connect!",
     text: `Hello ${email},\n\nWe are excited to invite you to join the INTAC Connect community platform, a networking space for INTAC alumni and friends.\n\nWhen you are ready to join, go to connect.intacnet.org and login using ${email} address to get started.\n\nBest regards,\nIntac Connect`,
+    html: getEmailTemplate(emailContent),
+  };
+};
+
+export const announcementEmail = (announcement) => {
+  const emailContent = `
+     <div class="title">New Announcement</div>
+
+      <div class="message">
+        A member of the INTAC community has posted a new announcement.
+      </div>
+
+      <div class="block">
+        <div class="message">${announcement.title}</div>
+        <div class="message">${announcement.subtitle}</div> 
+        <a href="${announcement.ctaLink}" class="cta-button"
+          >${announcement.ctaText}</a
+        >
+      </div>
+
+      <div class="footer">
+          <a href="https://connect.intacnet.org/a"
+            >Browse all announcements</a
+          >
+      </div>
+  `;
+
+  return {
+    subject: "Intac Connect Announcement",
+    text: `New Announcement,\n\nA member of the INTAC community has posted a new announcement.\n\n${announcement.title}\n\n${announcement.subtitle}\n\n, to interact with the announcement, click here: ${announcement.ctaLink}`,
     html: getEmailTemplate(emailContent),
   };
 };

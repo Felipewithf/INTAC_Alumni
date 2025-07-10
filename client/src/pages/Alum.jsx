@@ -3,8 +3,15 @@ import { useNavigate } from "react-router-dom";
 import Auth from "../utils/auth";
 
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_LOGGED_IN_USER, GET_ALUMPROFILE_BY_USER_ID } from "../utils/queries";
-import { DELETE_REFERENCE, DELETE_SOCIAL, UPDATE_ALUMPROFILE } from "../utils/mutations";
+import {
+  GET_LOGGED_IN_USER,
+  GET_ALUMPROFILE_BY_USER_ID,
+} from "../utils/queries";
+import {
+  DELETE_REFERENCE,
+  DELETE_SOCIAL,
+  UPDATE_ALUMPROFILE,
+} from "../utils/mutations";
 
 import AddSocialMediaLink from "../components/modals/addSocialMediaLink";
 import AddExhibition from "../components/modals/addExhibition";
@@ -70,17 +77,29 @@ const Alum = () => {
           </div>
         </div>
         {userData?.getLoggedInUser?.id && (
-          <AlumProfile userId={userData.getLoggedInUser.id} showModal={showModal} />
+          <AlumProfile
+            userId={userData.getLoggedInUser.id}
+            showModal={showModal}
+          />
         )}
       </div>
       {activeModal === "social" && (
-        <AddSocialMediaLink userId={userData.getLoggedInUser.id} onClose={hideModal} />
+        <AddSocialMediaLink
+          userId={userData.getLoggedInUser.id}
+          onClose={hideModal}
+        />
       )}
       {activeModal === "exhibition" && (
-        <AddExhibition userId={userData.getLoggedInUser.id} onClose={hideModal} />
+        <AddExhibition
+          userId={userData.getLoggedInUser.id}
+          onClose={hideModal}
+        />
       )}
       {activeModal === "link" && (
-        <AddWebsiteLinks userId={userData.getLoggedInUser.id} onClose={hideModal} />
+        <AddWebsiteLinks
+          userId={userData.getLoggedInUser.id}
+          onClose={hideModal}
+        />
       )}
       {activeModal === "reference" && currentExhibitionId && (
         <AddExhibitionReference
@@ -153,7 +172,9 @@ const AlumProfile = ({ userId, showModal }) => {
 
       // Filter out __typename from websiteLinks
       const updatedWebsiteLinks = websiteLinks
-        .filter((link) => link.urlLink !== urlLink && link.description !== description)
+        .filter(
+          (link) => link.urlLink !== urlLink && link.description !== description
+        )
         .map(({ __typename, ...rest }) => rest); // Remove __typename field
 
       // Call the update mutation
@@ -228,7 +249,9 @@ const AlumProfile = ({ userId, showModal }) => {
                       </a>
                     </div>
                     <button
-                      onClick={() => deleteWebsitelink(link.urlLink, link.description)}
+                      onClick={() =>
+                        deleteWebsitelink(link.urlLink, link.description)
+                      }
                       className="deleteIcon"
                     ></button>
                   </div>
@@ -241,7 +264,8 @@ const AlumProfile = ({ userId, showModal }) => {
           </div>
           <h4>Socials</h4>
           <p className="description">
-            Add your social medias to keep in touch with your fellow INTAC Members.
+            Add your social medias to keep in touch with your fellow INTAC
+            Members.
           </p>
           <div className="socials">
             {data.getAlumProfileByUserId.socialMedia.length > 0 &&
@@ -249,7 +273,9 @@ const AlumProfile = ({ userId, showModal }) => {
                 return (
                   <div className="socialItem" key={social.id}>
                     <div className="socialInfo">
-                      <img src={`socials/${social.socialMediaPlatform.logo}`}></img>
+                      <img
+                        src={`socials/${social.socialMediaPlatform.logo}`}
+                      ></img>
                       <p>{social.socialMediaPlatform.name}</p>
                       <a href={social.urlLink}>
                         <p>{social.urlLink}</p>
@@ -273,8 +299,8 @@ const AlumProfile = ({ userId, showModal }) => {
           <div className="separatingLine"></div>
           <h4>Exhibitions & References</h4>
           <p className="description">
-            Showcase your INTAC exhibitons, if you have external links for a particular
-            exhibition please add the links as references.
+            Showcase your INTAC exhibitons, if you have external links for a
+            particular exhibition please add the links as references.
           </p>
 
           {data.getAlumProfileByUserId.exhibitions.length > 0 &&
@@ -320,7 +346,9 @@ const AlumProfile = ({ userId, showModal }) => {
             })}
 
           <br></br>
-          <button onClick={() => showModal("exhibition")}>+ Add Exhibition</button>
+          <button onClick={() => showModal("exhibition")}>
+            + Add Exhibition
+          </button>
           <div className="separatingLine"></div>
         </div>
       </div>

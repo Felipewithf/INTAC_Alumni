@@ -11,11 +11,12 @@ import Alum from "./pages/Alum.jsx";
 import NewAlum from "./pages/NewAlum.jsx";
 import ChangeEmail from "./pages/changeEmail.jsx";
 import ChangeYears from "./pages/changeYears.jsx";
-import Announcements from "./pages/news.jsx";
-
+import Announcements from "./pages/Announcements.jsx";
+import CreateAnnouncement from "./pages/CreateAnnouncement.jsx";
+import EmailAnnouncement from "./pages/EmailAnnouncement.jsx";
 import App from "./App.jsx";
 
-import "./index.css";
+import "./stylecards.css";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ChangeYears />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/newannouncement",
+        element: (
+          <PrivateRoute>
+            <CreateAnnouncement />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/ea/:aid",
+        element: (
+          <PrivateRoute>
+            <EmailAnnouncement />
           </PrivateRoute>
         ),
       },

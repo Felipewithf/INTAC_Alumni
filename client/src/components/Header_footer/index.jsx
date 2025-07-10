@@ -11,12 +11,18 @@ const Header = () => {
       </div>
       <div id="centerLinks">
         <div>
-          <Link className={location.pathname === "/" ? "underscore" : ""} to="/">
+          <Link
+            className={location.pathname === "/" ? "underscore" : ""}
+            to="/"
+          >
             Community
           </Link>
         </div>
         <div>
-          <Link className={location.pathname === "/a" ? "underscore" : ""} to="/a">
+          <Link
+            className={location.pathname === "/a" ? "underscore" : ""}
+            to="/a"
+          >
             Announcements
           </Link>
         </div>
@@ -26,8 +32,9 @@ const Header = () => {
           <>
             <Link
               className={`alumInitials ${
-                location.pathname === "/alum" || location.pathname === "/newAlum"
-                  ? "active"
+                location.pathname === "/alum" ||
+                location.pathname === "/newAlum"
+                  ? "underscore"
                   : ""
               }`}
               to="/alum"

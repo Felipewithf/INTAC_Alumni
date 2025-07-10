@@ -350,3 +350,50 @@ export const GET_EXHIBITION_REFERENCE_BY_ID = gql`
     }
   }
 `;
+
+// Fetch all announcements
+export const GET_ANNOUNCEMENTS = gql`
+  query GetAnnouncements {
+    getAnnouncements {
+      id
+      title
+      subtitle
+      alumProfile {
+        lastName
+        id
+        firstName
+        user {
+          id
+        }
+      }
+      expiryDate
+      isOnGoing
+      ctaLink
+      ctaText
+      style
+      isActive
+    }
+  }
+`;
+
+// Fetch a single announcement by ID
+export const GET_ANNOUNCEMENT_BY_ID = gql`
+  query GetAnnouncementById($getAnnouncementByIdId: ID!) {
+    getAnnouncementById(id: $getAnnouncementByIdId) {
+      id
+      title
+      subtitle
+      alumProfile {
+        firstName
+        id
+        lastName
+      }
+      expiryDate
+      isOnGoing
+      ctaLink
+      ctaText
+      style
+      isActive
+    }
+  }
+`;

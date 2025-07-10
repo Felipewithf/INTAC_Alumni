@@ -6,11 +6,15 @@ const {
   SocialMediaLink,
   SocialMediaPlatform,
   ExhibitionReference,
+  Announcement,
 } = require("../models");
 const { sendMagicLinkEmail, sendEmail } = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 
-const { welcomeRegistration } = require("../utils/contentForEmails");
+const {
+  welcomeRegistration,
+  announcementEmail,
+} = require("../utils/contentForEmails");
 
 const resolvers = {
   Query: {
@@ -123,6 +127,52 @@ const resolvers = {
       return await ExhibitionReference.findById(id)
         .populate("alumProfile")
         .populate("exhibition");
+    },
+    getAnnouncements: async () => {
+      try {
+        return await Announcement.find().populate({
+          path: "alumProfile",
+          select: "firstName lastName id",
+          populate: {
+            path: "user",
+            select: "id",
+          },
+        });
+      } catch (error) {
+        console.error("Error fetching announcements:", error);
+        throw new Error("Failed to fetch announcements");
+      }
+    },
+    getAnnouncementById: async (_, { id }) => {
+      try {
+        const announcement = await Announcement.findById(id).populate({
+          path: "alumProfile",
+          select: "firstName lastName",
+        });
+
+        const users = await User.find();
+
+        const usersEmails = users.map((user) => user.email);
+
+        // Call the announcementEmail function to get the content with the dynamic email
+        const emailContent = announcementEmail(announcement);
+
+        // After saving the mailOptions, send the announcement email to the whole community
+        const mailOptions = {
+          from: "Intac Connect",
+          bcc: usersEmails,
+          subject: emailContent.subject,
+          text: emailContent.text,
+          html: emailContent.html,
+        };
+
+        sendEmail(mailOptions);
+
+        return announcement;
+      } catch (error) {
+        console.error("Error fetching announcement:", error);
+        throw new Error("Failed to fetch announcement");
+      }
     },
   },
 
@@ -404,6 +454,43 @@ const resolvers = {
         throw new Error(`Error creating ExhibitionReference: ${error.message}`);
       }
     },
+    // Create Announcement
+    createAnnouncement: async (
+      _,
+      {
+        title,
+        subtitle,
+        alumProfileId,
+        expiryDate,
+        isOnGoing,
+        ctaLink,
+        ctaText,
+        style,
+      }
+    ) => {
+      try {
+        const alumProfile = await AlumProfile.findById(alumProfileId);
+        if (!alumProfile) {
+          throw new Error("AlumProfile not found");
+        }
+        const newAnnouncement = new Announcement({
+          title,
+          subtitle,
+          alumProfile: alumProfileId,
+          expiryDate,
+          isOnGoing,
+          ctaLink,
+          ctaText,
+          style,
+          isActive: true,
+        });
+
+        const savedAnnouncement = await newAnnouncement.save();
+        return savedAnnouncement;
+      } catch (error) {
+        throw new Error(`Error creating Announcement: ${error.message}`);
+      }
+    },
 
     // ******* ******* *******
     // ------- Update -------
@@ -601,6 +688,20 @@ const resolvers = {
         throw new Error(
           `Failed to delete ExhibitionReference and update AlumProfile: ${error.message}`
         );
+      }
+    },
+    // Delete Announcement
+    deleteAnnouncement: async (_, { id }) => {
+      try {
+        const deleted = await Announcement.findByIdAndUpdate(id, {
+          isActive: false,
+        });
+        if (!deleted) {
+          throw new Error("Announcement not found");
+        }
+        return !!deleted;
+      } catch (error) {
+        throw new Error(`Error deleting Announcement: ${error.message}`);
       }
     },
   },

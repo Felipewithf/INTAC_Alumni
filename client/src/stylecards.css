@@ -1,0 +1,183 @@
+/* -------------- ANNOUNCEMENTS PAGE -------------- */
+
+.event-card {
+  background: white;
+  padding: 1rem 1.5rem;
+  border: 2px solid black;
+  margin: 2rem 0;
+  width: 90%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.event-card-header h1 {
+  font-family: "balboa";
+  font-size: 2.2em;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: black;
+  margin: 0;
+}
+
+.event-card-subtitle {
+  color: black;
+  font-size: 1.3rem;
+  margin: 0.8rem 0 1rem 0;
+  font-family: "balboa";
+  font-weight: 400;
+  text-align: start;
+}
+
+.event-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+
+.event-card-expiry {
+  font-size: 1rem;
+  color: black;
+  font-family: "balboa";
+}
+
+.event-card-author {
+  font-size: 1rem;
+  color: black;
+  font-family: "balboa";
+}
+.delete-btn {
+  background: #c62828;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-left: 2rem;
+  margin-top: 0.2rem;
+  letter-spacing: 1px;
+  transition: background 0.2s;
+}
+.delete-btn:hover {
+  background: #a31515;
+}
+.cta-btn {
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  width: fit-content;
+  min-width: 150px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-family: "balboa";
+  transition: background 0.2s;
+  text-transform: uppercase;
+}
+.cta-btn:hover {
+  background: #333;
+}
+
+.login-required {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  /* background: darkgray;
+  padding: 1rem; */
+}
+
+/* -------------- NEWSPRINT PAGE -------------- */
+
+.newsprint.event-card {
+  background: #f3e5b1;
+  padding: 1rem 1.5rem;
+  border: 2px solid #3e220b;
+  border-radius: 2px;
+}
+
+.newsprint .event-card-header h1 {
+  color: #3d220b;
+  font-family: "georgia", serif;
+  font-size: 2em;
+}
+
+.newsprint .event-card-subtitle {
+  color: #3d220b;
+  font-family: "georgia", serif;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.newsprint .event-card-expiry,
+.newsprint .event-card-author {
+  font-size: 0.8rem;
+  color: #3d220b;
+  font-weight: 600;
+  font-family: "georgia", serif;
+}
+
+.newsprint .cta-btn,
+.newsprint .delete-btn {
+  color: #f3e5b1;
+}
+
+@media (max-width: 575.98px) {
+  .event-card {
+    padding: 0.5rem 1rem !important;
+    text-align: start !important;
+  }
+
+  .event-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column-reverse;
+  }
+
+  .event-card-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .newsprint .event-card-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .event-card-subtitle {
+    font-size: 1rem;
+    margin: 1rem 0 0 0;
+  }
+
+  .newsprint .event-card-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .event-card-footer {
+    flex-direction: column;
+    margin-top: 2rem;
+  }
+
+  .delete-btn {
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.6rem !important;
+    padding: 0.2rem 0.5rem !important;
+  }
+
+  .cta-btn {
+    font-size: 1rem !important;
+    width: 100%;
+    margin: 1rem 0 0.5rem 0;
+  }
+}

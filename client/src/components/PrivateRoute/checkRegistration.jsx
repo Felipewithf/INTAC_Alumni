@@ -11,7 +11,13 @@ const CheckRegistration = ({ children }) => {
   }
 
   if (loading) return <p>Loading user data...</p>;
-  if (error) return <p>Error fetching user data: {error.message}</p>;
+  if (error)
+    return (
+      <p>
+        Error fetching user data: {error.message} - this is coming from
+        checkRegistration
+      </p>
+    );
 
   if (!userData.getLoggedInUser.register) {
     return <Navigate to="/newAlum" replace />;
