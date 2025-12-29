@@ -63,17 +63,21 @@ const Announcements = () => {
           </div>
         )}
         <div className="announcement-container">
-          {data?.getAnnouncements.map(
-            (announcement) =>
-              announcement.isActive && (
-                <AnnouncementCard
-                  key={announcement.id}
-                  announcement={announcement}
-                  userId={user.id}
-                  onDelete={handleDelete}
-                />
-              )
-          )}
+          {data?.getAnnouncements
+            .filter((announcement) => announcement.isActive)
+            .sort((a, b) => {
+              const dateA = parseInt(a.expiryDate) || 0;
+              const dateB = parseInt(b.expiryDate) || 0;
+              return dateB - dateA; // Descending order (newest expiry dates first)
+            })
+            .map((announcement) => (
+              <AnnouncementCard
+                key={announcement.id}
+                announcement={announcement}
+                userId={user.id}
+                onDelete={handleDelete}
+              />
+            ))}
         </div>
       </div>
     </>

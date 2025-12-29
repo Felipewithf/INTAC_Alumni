@@ -192,7 +192,7 @@ const resolvers = {
 
       await sendMagicLinkEmail(email, magicLink);
 
-      return "Magic link sent!";
+      return "Magic link sent to your email, please check your inbox!";
     },
     verifyMagicLink: async (_, { token }) => {
       const user = await User.findOne({

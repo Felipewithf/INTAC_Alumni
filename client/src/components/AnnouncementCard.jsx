@@ -48,8 +48,8 @@ const AnnouncementCard = ({ announcement, onDelete, userId }) => {
             <i>
               {new Date(parseInt(announcement.expiryDate)).getFullYear() ===
               2099
-                ? "Post expires on: Ongoing"
-                : `Post expires on: ${new Date(parseInt(announcement.expiryDate)).toLocaleDateString()}`}
+                ? "Relevant Until: Ongoing"
+                : `Relevant Until: ${new Date(parseInt(announcement.expiryDate)).toLocaleDateString()}`}
             </i>
           </span>
           <span className="event-card-author">

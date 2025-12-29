@@ -41,40 +41,44 @@ const LoginUser = () => {
       await sendMagicLink({
         variables: { email: formState.email },
       });
-      alert("Magic link sent!");
+      alert("Magic link sent to your email!");
     } catch (e) {
       console.error("Error sending magic link:", e);
     }
   };
   return (
     <div className="login">
-      <h3> User your email to access the INTAC network</h3>
-      <form onSubmit={handleFormSubmit}>
-        <input
-          className="form-input"
-          placeholder="Your email"
-          name="email"
-          type="email"
-          value={formState.email}
-          onChange={handleChange}
-        />
-        <button
-          className="btn btn-block btn-primary"
-          style={{ cursor: "pointer" }}
-          type="submit"
-          disabled={sending}
-        >
-          {sending ? "Sending..." : "Send Login Link"}
-        </button>
-      </form>
-      <p>
-        {" "}
-        If your are having trouble login in please contact your Intac School
-        professor or student point of contact
-      </p>
-
-      {sendError && <p>Error sending magic link: {sendError.message}</p>}
-      {sendData && <p>{sendData.sendMagicLink}</p>}
+      {sendData ? (
+        <p>{sendData.sendMagicLink}</p>
+      ) : (
+        <>
+          <h3> User your email to access the INTAC network</h3>
+          <form onSubmit={handleFormSubmit}>
+            <input
+              className="form-input"
+              placeholder="Your email"
+              name="email"
+              type="email"
+              value={formState.email}
+              onChange={handleChange}
+            />
+            <button
+              className="btn btn-block btn-primary"
+              style={{ cursor: "pointer" }}
+              type="submit"
+              disabled={sending}
+            >
+              {sending ? "Sending..." : "Send Login Link"}
+            </button>
+          </form>
+          <p>
+            {" "}
+            If your are having trouble login in please contact your Intac School
+            professor or student point of contact
+          </p>
+          {sendError && <p>Error sending magic link: {sendError.message}</p>}
+        </>
+      )}
 
       {/* <div>
         <h4>Whitelist Emails:</h4>

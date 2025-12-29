@@ -145,12 +145,14 @@ const NewAnnouncement = ({ userData }) => {
                 <h5>Subtitle</h5>
               </td>
               <td>
-                <input
+                <textarea
                   type="text"
+                  rows={3}
+                  cols={40}
                   value={subtitle}
                   onChange={(e) => setSubtitle(e.target.value)}
                   placeholder="e.g. Paid - In Monterrey Mexico City - Flexible Schedule"
-                />
+                ></textarea>
               </td>
             </tr>
             <tr>

@@ -1196,6 +1196,7 @@ Has its own CSS file called stylecards.css
 }
 
 #newAnnouncementForm input,
+#newAnnouncementForm textarea,
 #newAnnouncementForm select {
   overflow: hidden;
   width: 100%;
@@ -1206,7 +1207,9 @@ Has its own CSS file called stylecards.css
   box-sizing: border-box;
   background-color: #fff;
 }
-
+#newAnnouncementForm textarea {
+  opacity: 1;
+}
 #newAnnouncementForm h5 {
   padding: 10px;
   font-size: 1.1rem;
