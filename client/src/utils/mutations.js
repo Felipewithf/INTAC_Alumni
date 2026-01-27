@@ -281,3 +281,53 @@ export const DELETE_ANNOUNCEMENT = gql`
     deleteAnnouncement(id: $deleteAnnouncementId)
   }
 `;
+
+export const SEND_ANNOUNCEMENT_EMAIL = gql`
+  mutation SendAnnouncementEmail(
+    $title: String!
+    $subtitle: String!
+    $ctaLink: String!
+    $ctaText: String!
+  ) {
+    sendAnnouncementEmail(
+      title: $title
+      subtitle: $subtitle
+      ctaLink: $ctaLink
+      ctaText: $ctaText
+    )
+  }
+`;
+
+export const CREATE_SCHOOL = gql`
+  mutation CreateSchool(
+    $name: String!
+    $acronym: String
+    $url: String!
+    $logo: String!
+    $country: String!
+    $location: String
+    $status: String
+    $color: String
+  ) {
+    createSchool(
+      name: $name
+      acronym: $acronym
+      url: $url
+      logo: $logo
+      country: $country
+      location: $location
+      status: $status
+      color: $color
+    ) {
+      id
+      name
+      acronym
+      url
+      logo
+      country
+      location
+      status
+      color
+    }
+  }
+`;

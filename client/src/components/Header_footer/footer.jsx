@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <footer className="">
       <div>
-        <h4>Intac Connect</h4>
+        <h4>Intac Connect -  powered by 1920Digital</h4>
       </div>
     </footer>
   );

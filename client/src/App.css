@@ -90,7 +90,9 @@ header a {
   opacity: 0.3;
   text-decoration: none;
 }
-
+header .logolink {
+opacity: 1;
+}
 header a:hover {
   text-decoration: underline;
   cursor: pointer;
@@ -196,6 +198,190 @@ footer h4 {
   font-size: 1.5rem;
   font-family: "balboa";
   font-weight: 400;
+}
+
+/* -------------- HOME PAGE -------------- */
+/* Home Page Styles */
+#home {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* YouTube Video Container */
+.home-video-container {
+  width: 100%;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  background-color: #000;
+  margin-bottom: 3rem;
+}
+
+.home-youtube-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Title Container */
+.home-title-container {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.home-main-title {
+  font-family: "balboa";
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+/* Artists Container */
+.home-artists-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Artist Card */
+.home-artist-card {
+  background-color: white;
+  border: 1px solid #000;
+  padding: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 500px;
+}
+
+/* Artist Card Header */
+.home-artist-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.home-artist-icon {
+  width: 24px;
+  height: 24px;
+  background-color: #000;
+  flex-shrink: 0;
+}
+
+.home-artist-name {
+  font-family: "balboa";
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin: 0;
+  text-transform: none;
+}
+
+/* Artist Image */
+.home-artist-image-container {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-artist-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Artist Content */
+.home-artist-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-artist-piece-name {
+  font-family: "balboa";
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 0.75rem 0;
+  text-transform: none;
+}
+
+.home-artist-description {
+  font-family: "balboa";
+  font-weight: 400;
+  margin: 0 0 1.5rem 0;
+  flex: 1;
+  opacity: 0.8;
+}
+
+/* Artist Footnotes */
+.home-artist-footnotes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.home-artist-medium {
+  font-family: "balboa";
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.6;
+}
+
+.home-artist-medium strong {
+  font-weight: 700;
+}
+
+.home-artist-video-link {
+  font-family: "balboa";
+  font-weight: 400;
+  color: black;
+  opacity: 0.6;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.home-artist-video-link:hover {
+  opacity: 0.6;
+}
+
+/* Expand Icon */
+.home-artist-expand-icon {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  background-color: #ff0000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.home-artist-expand-icon:hover {
+  background-color: #cc0000;
+}
+
+.home-plus-icon {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
 }
 
 /* -------------- COMMUNITY PAGE -------------- */
@@ -551,6 +737,31 @@ footer h4 {
   background-image: url("/constructionlines.svg"); /* Replace with your right image path */
 }
 
+.admin-actions {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.admin-action-btn {
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 0;
+  min-width: 150px;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  font-family: "balboa";
+  font-weight: 400;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.admin-action-btn:hover {
+  background-color: #f5f5f5;
+}
+
 .addUsers {
   width: 100%;
   display: flex;
@@ -630,8 +841,11 @@ footer h4 {
 }
 
 .user-table input[type="text"],
-.user-table select {
-  max-width: 100px;
+.user-table input[type="url"],
+.user-table input[type="date"],
+.user-table textarea {
+  max-width: 300px;
+  min-width: 200px;
   overflow: hidden;
   width: 100%;
   padding: 5px;
@@ -641,6 +855,16 @@ footer h4 {
   box-sizing: border-box;
   background-color: #fff;
   /* appearance: none; Removes the default dropdown styling */
+}
+
+.user-table select {
+  width: 100px;
+  padding: 5px;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  background-color: #fff;
 }
 
 .user-table td .yearGroup {
@@ -1262,6 +1486,23 @@ Has its own CSS file called stylecards.css
   header #centerLinks {
     flex-direction: column;
   }
+  #home {
+    padding: 1rem;
+  }
+
+  .home-main-title {
+    font-size: 1.8rem;
+  }
+
+  .home-artists-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .home-artist-card {
+    min-height: auto;
+  }
+
   #community .filterByYear {
     flex-direction: column;
   }

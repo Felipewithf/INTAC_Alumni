@@ -7,13 +7,15 @@ const Header = () => {
   return (
     <header className="">
       <div>
-        <img src="/logo.png" alt="logo of intac connect" />
+        <Link to="/" className="logolink">
+          <img src="/logo.png" alt="logo of intac connect" />
+        </Link>
       </div>
       <div id="centerLinks">
         <div>
           <Link
-            className={location.pathname === "/" ? "underscore" : ""}
-            to="/"
+            className={location.pathname === "/community" ? "underscore" : ""}
+            to="/community"
           >
             Community
           </Link>

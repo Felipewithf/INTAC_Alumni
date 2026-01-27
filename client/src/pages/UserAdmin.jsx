@@ -4,6 +4,8 @@ import { GET_USERS, GET_LOGGED_IN_USER, GET_SCHOOLS } from "../utils/queries";
 import { DELETE_USER, UPDATE_USER } from "../utils/mutations";
 
 import AddUserModal from "../components/modals/addUser";
+import AddInstitutionModal from "../components/modals/addInstitution";
+import SendCommunityEmailModal from "../components/modals/sendCommunityEmail";
 import { designationRoles } from "../utils/staticSettings";
 
 const UserAdmin = () => {
@@ -47,6 +49,8 @@ const UserAdmin = () => {
 
   // State to control modal visibility
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isInstitutionModalVisible, setInstitutionModalVisible] = useState(false);
+  const [isCommunityEmailModalVisible, setCommunityEmailModalVisible] = useState(false);
 
   if (loading || loadingUser || loadingSchools) {
     return <p>Loading users...</p>;
@@ -81,6 +85,22 @@ const UserAdmin = () => {
 
   const hideModal = () => {
     setModalVisible(false);
+  };
+
+  const showInstitutionModal = () => {
+    setInstitutionModalVisible(true);
+  };
+
+  const hideInstitutionModal = () => {
+    setInstitutionModalVisible(false);
+  };
+
+  const showCommunityEmailModal = () => {
+    setCommunityEmailModalVisible(true);
+  };
+
+  const hideCommunityEmailModal = () => {
+    setCommunityEmailModalVisible(false);
   };
 
   const handleChange = async (userId, field, e, schoolId) => {
@@ -179,6 +199,18 @@ const UserAdmin = () => {
       <div>
         <div className="constructionBanner">
           <h3>Admin Dashboard</h3>
+        </div>
+
+        {/* Admin Action Buttons */}
+        <div className="admin-actions">
+          <button onClick={showInstitutionModal} className="admin-action-btn">
+            Add Institution
+          </button>
+          <button onClick={showCommunityEmailModal} className="admin-action-btn">
+            Send Community Email
+          </button>
+          {/* Placeholder for future buttons */}
+          {/* <button className="admin-action-btn">Add Exhibition</button> */}
         </div>
 
         {users.length > 0 ? (
@@ -287,7 +319,7 @@ const UserAdmin = () => {
             <div className="addUsers">
               <h2>USERS</h2>
 
-              <button onClick={showModal}>ADD</button>
+              <button onClick={showModal}>ADD USER(S)</button>
             </div>
             <div className="search-container">
               <input
@@ -413,6 +445,12 @@ const UserAdmin = () => {
         )}
       </div>
       {isModalVisible && <AddUserModal onClose={hideModal} />}
+      {isInstitutionModalVisible && (
+        <AddInstitutionModal onClose={hideInstitutionModal} />
+      )}
+      {isCommunityEmailModalVisible && (
+        <SendCommunityEmailModal onClose={hideCommunityEmailModal} />
+      )}
     </>
   );
 };

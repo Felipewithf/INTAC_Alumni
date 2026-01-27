@@ -3,9 +3,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import UserAdmin from "./pages/UserAdmin.jsx";
 import Community from "./pages/Community.jsx";
+import Home from "./pages/home.jsx";
 import LoginUser from "./pages/LoginUser.jsx";
 import PrivateRoute from "./components/PrivateRoute/index.jsx";
 import CheckRegistration from "./components/PrivateRoute/checkRegistration.jsx";
+import AdminRoute from "./components/PrivateRoute/AdminRoute.jsx";
 import MagicLogin from "./pages/MagicLogin.jsx";
 import Alum from "./pages/Alum.jsx";
 import NewAlum from "./pages/NewAlum.jsx";
@@ -26,6 +28,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <Home />,
+      },
+      {
+        path: "/community",
         element: <Community />,
       },
       {
@@ -35,9 +41,9 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: (
-          <PrivateRoute>
+          <AdminRoute>
             <UserAdmin />
-          </PrivateRoute>
+          </AdminRoute>
         ),
       },
       {

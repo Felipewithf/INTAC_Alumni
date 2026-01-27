@@ -704,6 +704,41 @@ const resolvers = {
         throw new Error(`Error deleting Announcement: ${error.message}`);
       }
     },
+    // Send announcement email to community
+    sendAnnouncementEmail: async (_, { title, subtitle, ctaLink, ctaText }) => {
+      try {
+        // Get all users
+        const users = await User.find();
+        const usersEmails = users.map((user) => user.email);
+
+        // Create announcement object for email template (not saved to DB)
+        const announcementData = {
+          title,
+          subtitle,
+          ctaLink,
+          ctaText,
+        };
+
+        // Generate email content
+        const emailContent = announcementEmail(announcementData);
+
+        // Send email to all users
+        const mailOptions = {
+          from: "Intac Connect",
+          bcc: usersEmails,
+          subject: emailContent.subject,
+          text: emailContent.text,
+          html: emailContent.html,
+        };
+
+        sendEmail(mailOptions);
+
+        return `Announcement email sent to ${usersEmails.length} users successfully`;
+      } catch (error) {
+        console.error("Error sending announcement email:", error);
+        throw new Error(`Failed to send announcement email: ${error.message}`);
+      }
+    },
   },
 };
 

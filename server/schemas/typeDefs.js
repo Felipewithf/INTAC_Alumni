@@ -138,6 +138,9 @@ type User {
     deleteSocialMediaLink(id: ID!): Boolean!
     deleteExhibitionReference(id: ID!): Boolean!
     deleteAnnouncement(id: ID!): Boolean!
+    
+    # Mutations: Email
+    sendAnnouncementEmail(title: String!, subtitle: String!, ctaLink: String!, ctaText: String!): String!
   }
 
   input WebsiteLinkInput {
